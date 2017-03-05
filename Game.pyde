@@ -18,19 +18,24 @@ def phoneMove(finalX, finalY):
 # function to build buttons
 class button(object):  # class defenition
 
-    def __init__(self, xPos, yPos, buttonWidth, buttonHeight, strokeColour):  # object instructor
+    def __init__(self, xPos, yPos, buttonWidth, buttonHeight, strokeColour, buttonLabel):  # object instructor
         self.yPos = yPos
         self.xPos = xPos
         self.buttonWidth = buttonWidth
         self.buttonHeight = buttonHeight
         self.strokeColour = strokeColour
+        self.buttonLabel = buttonLabel
 
     def display(self):  # display method
         #noFill()
         rectMode(CENTER)
         stroke(self.strokeColour)
-        fill(255, 255, 255)
+        fill(self.strokeColour)
         rect(self.xPos, self.yPos, self.buttonWidth, self.buttonHeight, 7)
+        fill(0, 0, 0)
+        textSize(30)
+        textAlign(CENTER, CENTER)
+        text(self.buttonLabel, self.xPos, self.yPos, self.buttonWidth - 10, self.buttonHeight - 10)
 
 introMenu = 0
 intoGameTransition = 1
@@ -44,9 +49,12 @@ def gameStateControl(stateValue):
         phoneY = height / 2
         phoneDraw(phoneX, phoneY)
         
+        #set up and display buttons
         buttonColour = color(255, 255, 255)
-        playButton = button(phoneX, phoneY - 100, 200, 75, buttonColour)
-        helpButton = button(phoneX, phoneY + 50, 200, 75, buttonColour)
+        playLabel = "PLAY"
+        helpLabel = "HELP"
+        playButton = button(phoneX, phoneY - 100, 200, 75, buttonColour, playLabel)
+        helpButton = button(phoneX, phoneY + 50, 200, 75, buttonColour, helpLabel)
         playButton.display()
         helpButton.display()
     elif stateValue == 1:

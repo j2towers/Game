@@ -4,13 +4,9 @@ def phoneLoad():  # loads the phone png
 
 def phoneDraw(xPos, yPos):  # draw player phone
     global phone
-    phoneWidth = 417
-    phoneHeight = 872
     imageMode(CENTER)
-    # pushMatrix()
-    # scale(2)
     image(phone, xPos, yPos)
-    # popMatrix()
+
 """
 def phoneMove(finalX, finalY):
     if gameState == 0:
@@ -22,15 +18,19 @@ def phoneMove(finalX, finalY):
 # function to build buttons
 class button(object):  # class defenition
 
-    def __init__(self, xPos, yPos, strokeColour):  # object instructor
+    def __init__(self, xPos, yPos, buttonWidth, buttonHeight, strokeColour):  # object instructor
         self.yPos = yPos
         self.xPos = xPos
+        self.buttonWidth = buttonWidth
+        self.buttonHeight = buttonHeight
         self.strokeColour = strokeColour
 
     def display(self):  # display method
-        noFill()
+        #noFill()
         rectMode(CENTER)
         stroke(self.strokeColour)
+        fill(255, 255, 255)
+        rect(self.xPos, self.yPos, self.buttonWidth, self.buttonHeight, 7)
 
 introMenu = 0
 intoGameTransition = 1
@@ -41,10 +41,15 @@ gameState = 0
 def gameStateControl(stateValue):
     if stateValue == 0:
         phoneX = width / 2
-        phoneY = height/ 2
+        phoneY = height / 2
         phoneDraw(phoneX, phoneY)
+        
+        buttonColour = color(255, 255, 255)
+        playButton = button(phoneX, phoneY - 100, 200, 75, buttonColour)
+        helpButton = button(phoneX, phoneY + 50, 200, 75, buttonColour)
+        playButton.display()
+        helpButton.display()
     elif stateValue == 1:
-
         gameState = 0
     elif stateValue == 2:
         gameState = 0

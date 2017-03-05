@@ -17,7 +17,7 @@ def phoneMove(finalX, finalY):
 #make buttons iterable
 class buttonRegistry(type):
     def __iter__(cls):
-        return iter(cls.registry)
+        return iter(cls._registry)
 
 # function to build buttons
 class button(object):  # class defenition
@@ -25,7 +25,7 @@ class button(object):  # class defenition
     _registry = []
 
     def __init__(self, xPos, yPos, buttonWidth, buttonHeight, strokeColour, buttonLabel):  # object instructor
-        self.registry.append(self)
+        self._registry.append(self)
         #self.name = 
         self.yPos = yPos
         self.xPos = xPos
@@ -35,6 +35,8 @@ class button(object):  # class defenition
         self.buttonLabel = buttonLabel
 
     def display(self):  # display method
+        buttonAlpha = 100
+        alpha(buttonAlpha)
         rectMode(CENTER)
         stroke(self.strokeColour)
         fill(self.strokeColour)
@@ -44,6 +46,10 @@ class button(object):  # class defenition
         textAlign(CENTER, CENTER)
         text(self.buttonLabel, self.xPos, self.yPos, self.buttonWidth - 10, self.buttonHeight - 10)
 
+def buttonHover():
+    for buttonobject in button:
+        if mouseX < self.xPos + self.buttonWidth/2 and mouseX > self.xPos - self.buttonWidth/2 and mouseY < self.yPos - self.buttonHeight/2 and mouseY > self.yPos + self.buttonHeight/2:
+             buttonAlpha = 50
     
 introMenu = 0
 intoGameTransition = 1
@@ -74,7 +80,7 @@ def gameStateControl(stateValue):
 
 
 def setup():
-    size(1280, 850)
+    size(800, 600)
     phoneLoad()
 
 def draw():

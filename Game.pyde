@@ -54,12 +54,13 @@ class button(object):  # class defenition
         textAlign(CENTER, CENTER)
         text(self.buttonLabel, self.xPos, self.yPos,
              self.buttonWidth - 10, self.buttonHeight - 10)
-"""
-def buttonHover():
-    for i in range(len(_registry)):
-        if mouseX < self.xPos + self.buttonWidth/2 and mouseX > self.xPos - self.buttonWidth/2 and mouseY < self.yPos - self.buttonHeight/2 and mouseY > self.yPos + self.buttonHeight/2:
-             buttonAlpha = 50
-"""
+
+foodArray = ["Coffee", "Bagel", "Croissant", "Sandwich", "Ice Cream", "Pizza", "Burger"]
+locationArray = ["Cafe", "Art Gallery", "Bedroom", "Nature", "City Scape", "Studio"]
+outfitArray = ["T-Shirt", "Casual", "Dressed Up", "Workout", "Sneakers", "Heels", "Hand"]
+itemArray = ["Mac", "Camera", "Stationary", "Manicure", "Sunglass", "Bag", "Car"]
+
+#gamestates
 introMenu = 0
 introHelp = 1
 introGameTransition = 2

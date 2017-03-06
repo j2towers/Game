@@ -20,19 +20,58 @@ def phoneMove(finalX, finalY):
             yPos--
 """
 
-class buttonRegistry(type): # make buttons iterable
+sponsorArray = ["Adidas", "Smile Tiger Coffee", "The Art Gallery of Ontario", "Hilton Hotels", "Allan Gardens", "Mildred’s Temple Kitchen", "Studio"]
+class sponsor(object): #sponsor class
+    #object constructor
+    def __init__(self, name, moodThreshold, bonusAmounts, goodThings, badThings):
+        self.sponsored = false
+        self.name = name
+        self.mood = 0
+        self.moodThreshold = moodThreshold
+        self.bonusAmounts = bonusAmounts
+        self.goodThings = goodThings
+        self.badThings = badThings
 
-    def __iter__(cls):
-        return iter(cls._registry)
+audienceArray = ["Sporty", "Hipster", "Lifestyle", "Fashion"]                
+class audience(object): #audience class
+    #object constructor
+    def __init__(self, name, goodThings, badThings):
+        self.name = name
+        self.amount = 0
+        self.goodThings = goodThings
+        self.badThings = badThings
+        
+locationArray = ["Cafe", "Art Gallery", "Bedroom", "Nature", "City Scape", "Studio"]
+class location(object): #location class
+    def __init__(self, name, locationImage):
+        self.name = name
+        self.locationImage = locationImage
+        self.locationOn = false 
+        self.tiredLocation = 0 #number of times in a row location has been used
+        self.turnsSinceLocation = 0 #number of turns since location was used
+        #todo build some kind of if statement that assigns the location to category or categories
+        
+    #def display(self): #location display 
+        #todo draw stuff here
+        
+foodArray = ["Coffee", "Bagel", "Croissant", "Sandwich", "Ice Cream", "Pizza", "Burger"]
+outfitArray = ["T-Shirt", "Casual", "Dressed Up", "Workout", "Sneakers", "Heels", "Hand"]
+itemArray = ["Mac", "Camera", "Stationary", "Manicure", "Sunglass", "Bag", "Car"]
+class inventory(object): #inventory class
+    def __init__(self, name, inventoryImage):
+        self.name = name
+        self.inventoryImage = inventoryImage
+        self.tiredImage = 0 #number of times in a row item has been used
+        self.turnsSinceItem = 0 #number of times in a row item has been used
+        #todo build some kind of if statement that assigns the item to category or categories
+        
+    #def display(self): #item display
+        #todo draw stuff here
 
 # function to build buttons
 class button(object):  # class defenition
-    __metaclass__ = buttonRegistry
-    _registry = []
-
-    # object instructor
+    # object constructor
     def __init__(self, xPos, yPos, buttonWidth, buttonHeight, strokeColour, buttonLabel):
-        self._registry.append(self)
         # self.name =
         self.yPos = yPos
         self.xPos = xPos
@@ -54,11 +93,6 @@ class button(object):  # class defenition
         textAlign(CENTER, CENTER)
         text(self.buttonLabel, self.xPos, self.yPos,
              self.buttonWidth - 10, self.buttonHeight - 10)
-
-foodArray = ["Coffee", "Bagel", "Croissant", "Sandwich", "Ice Cream", "Pizza", "Burger"]
-locationArray = ["Cafe", "Art Gallery", "Bedroom", "Nature", "City Scape", "Studio"]
-outfitArray = ["T-Shirt", "Casual", "Dressed Up", "Workout", "Sneakers", "Heels", "Hand"]
-itemArray = ["Mac", "Camera", "Stationary", "Manicure", "Sunglass", "Bag", "Car"]
 
 #gamestates
 introMenu = 0

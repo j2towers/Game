@@ -1,11 +1,16 @@
-def phoneLoad():  # loads the phone png
+def pngLoad():  # loads the phone png
     global phone
     phone = loadImage("Phone.png")
+    global helpBox
+    helpBox = loadImage("Helpbox.png")
 
 def phoneDraw(xPos, yPos):  # draw player phone
     global phone
-    # imageMode(CENTER)
     image(phone, xPos, yPos)
+
+def helpBoxDraw(xPos, yPos): # draw help screen box
+    global helpBox
+    image(helpBox, xPos, yPos)
 
 """
 def phoneMove(finalX, finalY):
@@ -14,8 +19,8 @@ def phoneMove(finalX, finalY):
         while yPos > finalY:
             yPos--
 """
-# make buttons iterable
-class buttonRegistry(type):
+
+class buttonRegistry(type): # make buttons iterable
 
     def __iter__(cls):
         return iter(cls._registry)
@@ -80,7 +85,7 @@ def gameStateControl(stateValue):
             phoneX + phone.width / 2, phoneY + 250, 190, 75, buttonColour, helpLabel)
         playButton.display()
         helpButton.display()
-        
+
         # button results
         if mousePressed:
             if mouseX > playButton.xPos - playButton.buttonWidth / 2 and mouseX < playButton.xPos + playButton.buttonWidth / 2 and mouseY > playButton.yPos - playButton.buttonHeight / 2 and mouseY < playButton.yPos + playButton.buttonHeight / 2:
@@ -91,7 +96,25 @@ def gameStateControl(stateValue):
                 gameState = introHelp
 
     elif stateValue == 1:
-        gameState = 0
+        phoneX = 242
+        phoneY = 48
+        phoneDraw(phoneX, phoneY)
+
+        helpBoxDraw(phoneX + phone.width / 2 - helpBox.width / 2,
+                    phoneY + phone.height / 2 - helpBox.height / 2)
+
+        buttonColour = color(255, 255, 255)
+        playLabel = "PLAY"
+
+        playButton = button(
+            phoneX + phone.width / 2, phoneY + 330, 140, 50, buttonColour, playLabel)
+        playButton.display()
+        
+        if mousePressed:
+            if mouseX > playButton.xPos - playButton.buttonWidth / 2 and mouseX < playButton.xPos + playButton.buttonWidth / 2 and mouseY > playButton.yPos - playButton.buttonHeight / 2 and mouseY < playButton.yPos + playButton.buttonHeight / 2:
+                global gameState
+                gameState = introGameTransition
+    
     elif stateValue == 2:
         gameState = 3
 
@@ -99,15 +122,15 @@ def gameStateControl(stateValue):
         phoneX = 10
         phoneY = 48
         phoneDraw(phoneX, phoneY)
-        
+        """
         row = 0
         while row < 4:
-            
-        
+        """
+
 
 def setup():
     size(800, 600)
-    phoneLoad()
+    pngLoad()
 
 def draw():
     background(255, 255, 255)

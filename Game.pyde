@@ -1,3 +1,13 @@
+#constants to avoid magic numbers
+moodThresholdMax = 500 #max mood for a sponsor to bring you on
+bonusMax = 1000 #max sponsor bonus
+
+def randomNormal(maxNum): #random number maker with a normal distribution from 0 to max
+    i = int(map(round(randomGaussian() * 100), -200, 200, 0, maxNum))
+    if i < 0:
+        i = abs(i)
+    return(i)
+
 def pngLoad():  # loads the phone png
     global phone
     phone = loadImage("Phone.png")
@@ -20,7 +30,7 @@ def phoneMove(finalX, finalY):
             yPos--
 """
 
-sponsorArray = ["Adidas", "Smile Tiger Coffee", "The Art Gallery of Ontario", "Hilton Hotels", "Allan Gardens", "Mildred’s Temple Kitchen", "Studio"]
+sponsorArray = ["Sportsco", "Kate's Coffee", "Tourism Board", "Nate's Kitchen", "Fashion Haus"]
 class sponsor(object): #sponsor class
     #object constructor
     def __init__(self, name, moodThreshold, bonusAmounts, goodThings, badThings):
@@ -31,8 +41,35 @@ class sponsor(object): #sponsor class
         self.bonusAmounts = bonusAmounts
         self.goodThings = goodThings
         self.badThings = badThings
+        
+    def sponsorUpdate(self):
+        #update sponsor moods and things here from array of items that are turned on and locations used
+        
+def sponsorBuild():
+    sportscoGood = ["City Scape", "Nature", "Sneakers", "Shirts", "Workout", "Sunglasses"]
+    sportscoBad = ["Art Gallery", "Studio", "Casual", "Heels", "Mac", "Camera", "Stationary", "Manicure", "Bag", "Car"]
+    coffeeGood = ["Cafe", "Coffee", "Bagel", "Croissant"]
+    coffeeBad = ["Sandwich", "Ice Cream", "Pizza", "Burger"]
+    tourismGood = ["Art Gallery", "Nature", "City Scape", "Camera"]
+    tourismBad = ["Car", "Bedroom"]
+    restaurantGood = ["Sandwich", "Ice Cream", "Pizza", "Burger"]
+    restaurantBad = ["Cafe", "Coffee", "Bagel", "Croissant"]
+    fashionGood = ["T-Shirt", "Casual", "Dressed Up", "Heels"]
+    fashionBad = ["Workout", "Sneakers"]
+    for i in sponsorArray:
+        if i == "Sportsco":
+            i = sponsor(i, randomNormal(moodThresholdMax), randomNormal(bonusMax), sportscoGood, sportscoBad)
+        elif i == "Kate's Coffee":
+            i = sponsor(i, randomNormal(moodThresholdMax), randomNormal(bonusMax), coffeeGood, coffeeBad)
+        elif i == "Tourism Board":
+            i = sponsor(i, randomNormal(moodThresholdMax), randomNormal(bonusMax), tourismGood, tourismBad)
+        elif i == "Nate's Kitchen":
+            i = sponsor(i, randomNormal(moodThresholdMax), randomNormal(bonusMax), restaurantGood, restaurantBad)
+        elif i == "Fashion Haus":
+            i = sponsor(i, randomNormal(moodThresholdMax), randomNormal(bonusMax), fashionGood, fashionBad)
+        
 
-audienceArray = ["Sporty", "Hipster", "Lifestyle", "Fashion"]                
+audienceArray = ["Fitness", "Hipster", "Lifestyle", "Fashion"]                
 class audience(object): #audience class
     #object constructor
     def __init__(self, name, goodThings, badThings):
@@ -43,7 +80,7 @@ class audience(object): #audience class
         
 locationArray = ["Cafe", "Art Gallery", "Bedroom", "Nature", "City Scape", "Studio"]
 class location(object): #location class
-    def __init__(self, name, locationImage):
+    def __init__(self, name, cost, locationImage):
         self.name = name
         self.locationImage = locationImage
         self.locationOn = false 
@@ -58,8 +95,9 @@ foodArray = ["Coffee", "Bagel", "Croissant", "Sandwich", "Ice Cream", "Pizza", "
 outfitArray = ["T-Shirt", "Casual", "Dressed Up", "Workout", "Sneakers", "Heels", "Hand"]
 itemArray = ["Mac", "Camera", "Stationary", "Manicure", "Sunglass", "Bag", "Car"]
 class inventory(object): #inventory class
-    def __init__(self, name, inventoryImage):
+    def __init__(self, name, cost, inventoryImage):
         self.name = name
+        self.cost = cost
         self.inventoryImage = inventoryImage
         self.tiredImage = 0 #number of times in a row item has been used
         self.turnsSinceItem = 0 #number of times in a row item has been used
@@ -109,15 +147,15 @@ def gameStateControl(stateValue):
         phoneDraw(phoneX, phoneY)
 
         # set up and display play and help buttons buttons
-        buttonColour = color(255, 255, 255)
+        buttonColour = color(200, 200, 200)
         #buttonWidth = 190
         #buttonHeight = 75
         playLabel = "PLAY"
         helpLabel = "HELP"
         playButton = button(
-            phoneX + phone.width / 2, phoneY + 150, 190, 75, buttonColour, playLabel)
+            phoneX + phone.width / 2, phoneY + 150, 160, 75, buttonColour, playLabel)
         helpButton = button(
-            phoneX + phone.width / 2, phoneY + 250, 190, 75, buttonColour, helpLabel)
+            phoneX + phone.width / 2, phoneY + 250, 160, 75, buttonColour, helpLabel)
         playButton.display()
         helpButton.display()
 
@@ -161,6 +199,9 @@ def gameStateControl(stateValue):
         row = 0
         while row < 4:
         """
+    
+    elif stateValue == 4:
+        gameState = 0
 
 
 def setup():

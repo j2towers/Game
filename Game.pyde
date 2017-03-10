@@ -1,5 +1,5 @@
 # constants to avoid magic numbers
-moodThresholdMax = 500  # max mood for a sponsor to bring you on
+
 bonusMax = 1000  # max sponsor bonus
 # gamestates
 introMenu = 0
@@ -10,8 +10,8 @@ gameOver = 4
 gameState = 0
 
 # random number maker with a normal distribution from 0 to max
-def randomNormal(maxNum):
-    i = int(map(round(randomGaussian() * 100), -200, 200, 0, maxNum))
+def randomNormal(floorNum, maxNum):
+    i = int(map(round(randomGaussian() * 100), -200, 200, floorNum, maxNum))
     if i < 0:
         i = abs(i)
     return(i)
@@ -38,22 +38,45 @@ def phoneMove(finalX, finalY):
             yPos--
 """
 
+class player(object):
+    #constructor
+    def __init__(self):
+        self.fitFollower = 0
+        self.hipFollower = 0
+        self.lifeFollower = 0
+        self.fashFollower = 0
+        self.followerTotal = 0
+        self.moneyTotal = 0
+        
+    def playerUpdate(fitAdd, hipAdd, lifeAdd, fashAdd):
+        self.fitFollower += fitAdd
+        self.hipFollower += hipAdd
+        self.lifeFollower += lifeAdd
+        self.fashFollower += fashAdd
+        self.followerTotal += (fitFollower + hipFollower + lifeFollower + fashFollower)
+        
+
+    
 sponsorArray = ["Sportsco", "Kate's Coffee",
                 "Tourism Board", "Nate's Kitchen", "Fashion Haus"]
 class sponsor(object):  # sponsor class
     # object constructor
 
-    def __init__(self, name, moodThreshold, bonusAmounts, goodThings, badThings):
+    def __init__(self, name, moodThreshold, goodThings, badThings):
         self.sponsored = False
         self.name = name
-        self.mood = 0
+        self.mood = -(randomNormal(0, 100))
         self.moodThreshold = moodThreshold
-        self.bonusAmounts = bonusAmounts
+        self.bonusAmounts = rondomNormal(10, 500)
+        self.bonusFreq = randomNormal(1, 5)
+        self.turnsSinceBonus = 0
         self.goodThings = goodThings
         self.badThings = badThings
 
     def sponsorUpdate(self):
         if self.sponsored == True:
+            if self.turnsSinceBonus >= self.bonusFreq:
+                
 
         # update sponsor moods and things here from array of items that are
         # turned on and locations used
@@ -71,6 +94,7 @@ def sponsorBuild():
     restaurantBad = ["Cafe", "Coffee", "Bagel", "Croissant"]
     fashionGood = ["T-Shirt", "Casual", "Dressed Up", "Heels"]
     fashionBad = ["Workout", "Sneakers"]
+    moodThresholdMax = 500  # max mood for a sponsor to bring you on
     for i in sponsorArray:
         if i == "Sportsco":
             i = sponsor(i, randomNormal(moodThresholdMax), randomNormal(

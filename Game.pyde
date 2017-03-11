@@ -1,6 +1,6 @@
 # constants to avoid magic numbers
+from Settings import * 
 
-bonusMax = 1000  # max sponsor bonus
 # gamestates
 introMenu = 0
 introHelp = 1
@@ -48,35 +48,39 @@ class player(object):
         self.followerTotal = 0
         self.moneyTotal = 0
         
-    def playerUpdate(fitAdd, hipAdd, lifeAdd, fashAdd):
+    def playerUpdate(fitAdd, hipAdd, lifeAdd, fashAdd, moneyAdd):
         self.fitFollower += fitAdd
         self.hipFollower += hipAdd
         self.lifeFollower += lifeAdd
         self.fashFollower += fashAdd
         self.followerTotal += (fitFollower + hipFollower + lifeFollower + fashFollower)
+        self.moneyTotal += moneyAdd
+        
         
 
-    
-sponsorArray = ["Sportsco", "Kate's Coffee",
-                "Tourism Board", "Nate's Kitchen", "Fashion Haus"]
 class sponsor(object):  # sponsor class
+    moodThresholdMax = 500  # max mood for a sponsor to bring you on
+    bonusMax = 500  # max sponsor bonus
     # object constructor
-
-    def __init__(self, name, moodThreshold, goodThings, badThings):
-        self.sponsored = False
+    def __init__(self, name, goodThings, badThings):
+        self.sponsoring = False
         self.name = name
         self.mood = -(randomNormal(0, 100))
-        self.moodThreshold = moodThreshold
-        self.bonusAmounts = rondomNormal(10, 500)
+        self.moodThreshold = randomNormal(0, sponsor.moodThresholdMax)
+        self.bonusAmounts = randomNormal(10, self.bonusMax)
         self.bonusFreq = randomNormal(1, 5)
         self.turnsSinceBonus = 0
         self.goodThings = goodThings
         self.badThings = badThings
 
-    def sponsorUpdate(self):
-        if self.sponsored == True:
+    def sponsorPay(self):
+        if self.sponsoring == True:
             if self.turnsSinceBonus >= self.bonusFreq:
-                
+                playerUpdate(0, 0, 0, 0, self.bonusAmount)
+        else:
+            if self.mood >= self.moodThreshold:
+                self.sponsoring = True
+            
 
         # update sponsor moods and things here from array of items that are
         # turned on and locations used
@@ -94,26 +98,37 @@ def sponsorBuild():
     restaurantBad = ["Cafe", "Coffee", "Bagel", "Croissant"]
     fashionGood = ["T-Shirt", "Casual", "Dressed Up", "Heels"]
     fashionBad = ["Workout", "Sneakers"]
-    moodThresholdMax = 500  # max mood for a sponsor to bring you on
-    for i in sponsorArray:
-        if i == "Sportsco":
-            i = sponsor(i, randomNormal(moodThresholdMax), randomNormal(
-                bonusMax), sportscoGood, sportscoBad)
-        elif i == "Kate's Coffee":
-            i = sponsor(i, randomNormal(moodThresholdMax), randomNormal(
-                bonusMax), coffeeGood, coffeeBad)
-        elif i == "Tourism Board":
-            i = sponsor(i, randomNormal(moodThresholdMax), randomNormal(
-                bonusMax), tourismGood, tourismBad)
-        elif i == "Nate's Kitchen":
-            i = sponsor(i, randomNormal(moodThresholdMax), randomNormal(
-                bonusMax), restaurantGood, restaurantBad)
-        elif i == "Fashion Haus":
-            i = sponsor(i, randomNormal(moodThresholdMax), randomNormal(
-                bonusMax), fashionGood, fashionBad)
+    
+    
+    for name in sponsorArray.keys():
+        if name == "Sportsco":
+            sponsorArray[name] = sponsor(name, sportscoGood, sportscoBad)
+        elif name == "Kate's Coffee":
+            sponsorArray[name] = sponsor(name, coffeeGood, coffeeBad)
+        elif name == "Tourism Board":
+            sponsorArray[name] = sponsor(name, tourismGood, tourismBad)
+        elif name == "Nate's Kitchen":
+            sponsorArray[name] = sponsor(name, restaurantGood, restaurantBad)
+        elif name == "Fashion Haus":
+            sponsorArray[name] = sponsor(name, fashionGood, fashionBad)
+
+def sponsorCheck():
+    for sponsorName, sponsor in sponsorArray.iteritems():
+        for locationName, location in locationArray.iteritems():
+            if locationName in sponsor.goodThings:
+                sponsor.mood += randomNormal(0, 200)
+            if locationName in sponsor.badThings:
+                sponsor.mood -= randomNormal(0, 200)
+        for inventoryName, inventory in inventoryArray.iteritems():
+            if inventoryName in sponsor.goodThings:
+                sponsor.mood += randomNormal(0, 200)
+            if inventoryName in sponsor.badThings:
+                sponsor.mood -= randomNormal(0, 200)
+        sponsor.sponsorPay()
+        
+        
 
 
-audienceArray = ["Fitness", "Hipster", "Lifestyle", "Fashion"]
 class audience(object):  # audience class
     # object constructor
 
@@ -123,8 +138,7 @@ class audience(object):  # audience class
         self.goodThings = goodThings
         self.badThings = badThings
 
-locationArray = [
-    "Cafe", "Art Gallery", "Bedroom", "Nature", "City Scape", "Studio"]
+
 class location(object):  # location class
 
     def __init__(self, name, cost, locationImage):
@@ -140,12 +154,6 @@ class location(object):  # location class
     # def display(self): #location display
         # todo draw stuff here
 
-foodArray = ["Coffee", "Bagel", "Croissant",
-             "Sandwich", "Ice Cream", "Pizza", "Burger"]
-outfitArray = ["T-Shirt", "Casual", "Dressed Up",
-               "Workout", "Sneakers", "Heels", "Hand"]
-itemArray = ["Mac", "Camera", "Stationary",
-             "Manicure", "Sunglass", "Bag", "Car"]
 class inventory(object):  # inventory class
 
     def __init__(self, name, cost, inventoryImage):
@@ -164,11 +172,11 @@ class inventory(object):  # inventory class
 class button(object):  # class defenition
     # object constructor
 
-    def __init__(self, xPos, yPos, buttonWidth, buttonHeight, strokeColour, buttonLabel, buttonResult, buttonType):
+    def __init__(self, xPos, yPos, buttonWidth, buttonHeight, strokeColour, buttonLabel, buttonResult):
         self.buttonOn = True
         self.yPos = yPos
         self.xPos = xPos
-        self.buttonType = buttonType
+        # self.buttonType = buttonType
         # todo make this the destination of the button
         self.buttonResult = buttonResult
         self.buttonWidth = buttonWidth
@@ -196,12 +204,12 @@ def buttonHittest():
     i = 0
     while i < len(buttonArray):
         b = buttonArray[i]
-        if b.buttonType == gameStateButton
+        if b.buttonType == gameStateButton:
             if mouseX > b.xPos - b.buttonWidth / 2 and mouseX < b.xPos + b.buttonWidth / 2 and mouseY > b.yPos - b.buttonHeight / 2 and mouseY < b.yPos + b.buttonHeight / 2:
                 global gameState
                 gameState = b.buttonResult
 
-def introMenuButtonBuild():
+def introMenuButtonBuild(phoneX, phoneY):
             # set up and display play and help buttons buttons
     buttonColour = color(200, 200, 200)
     #buttonWidth = 190
@@ -209,11 +217,12 @@ def introMenuButtonBuild():
     playLabel = "PLAY"
     helpLabel = "HELP"
     playButton = button(
-        phoneX + phone.width / 2, phoneY + 150, 160, 75, buttonColour, playLabel)
+        phoneX + phone.width / 2, phoneY + 150, 160, 75, buttonColour, playLabel, 3)
     helpButton = button(
-        phoneX + phone.width / 2, phoneY + 250, 160, 75, buttonColour, helpLabel)
+        phoneX + phone.width / 2, phoneY + 250, 160, 75, buttonColour, helpLabel, 1)
     playButton.display()
     helpButton.display()
+    return(playButton, helpButton)
 
 
 def gameStateControl(stateValue):
@@ -221,6 +230,7 @@ def gameStateControl(stateValue):
         phoneX = 242
         phoneY = 48
         phoneDraw(phoneX, phoneY)
+        playButton, helpButton = introMenuButtonBuild(phoneX, phoneY)
 
         # button results
         if mousePressed:
@@ -235,6 +245,7 @@ def gameStateControl(stateValue):
         phoneX = 242
         phoneY = 48
         phoneDraw(phoneX, phoneY)
+        playButton, helpButton = introMenuButtonBuild(phoneX, phoneY)
 
         helpBoxDraw(phoneX + phone.width / 2 - helpBox.width / 2,
                     phoneY + phone.height / 2 - helpBox.height / 2)
@@ -242,8 +253,6 @@ def gameStateControl(stateValue):
         buttonColour = color(255, 255, 255)
         playLabel = "PLAY"
 
-        playButton = button(
-            phoneX + phone.width / 2, phoneY + 330, 140, 50, buttonColour, playLabel)
         playButton.display()
 
         if mousePressed:
@@ -258,6 +267,8 @@ def gameStateControl(stateValue):
         phoneX = 10
         phoneY = 48
         phoneDraw(phoneX, phoneY)
+        
+        text(
         """
         row = 0
         while row < 4:

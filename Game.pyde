@@ -1,4 +1,4 @@
-# constants to avoid magic numbers
+
 from Settings import * 
 
 # gamestates
@@ -99,7 +99,6 @@ def sponsorBuild():
     fashionGood = ["T-Shirt", "Casual", "Dressed Up", "Heels"]
     fashionBad = ["Workout", "Sneakers"]
     
-    
     for name in sponsorArray.keys():
         if name == "Sportsco":
             sponsorArray[name] = sponsor(name, sportscoGood, sportscoBad)
@@ -141,15 +140,14 @@ class audience(object):  # audience class
 
 class location(object):  # location class
 
-    def __init__(self, name, cost, locationImage):
+    def __init__(self, name, cost, locationImage, buttonLabel):
         self.name = name
         self.locationImage = locationImage
         self.locationOn = False
         # number of times in a row location has been used
         self.tiredLocation = 0
         self.turnsSinceLocation = 0  # number of turns since location was used
-        # todo build some kind of if statement that assigns the location to
-        # category or categories
+        self.buttonLabel = buttonLabel
 
     # def display(self): #location display
         # todo draw stuff here
@@ -172,11 +170,11 @@ class inventory(object):  # inventory class
 class button(object):  # class defenition
     # object constructor
 
-    def __init__(self, xPos, yPos, buttonWidth, buttonHeight, strokeColour, buttonLabel, buttonResult):
+    def __init__(self, xPos, yPos, buttonWidth, buttonHeight, strokeColour, buttonLabel, buttonResult, buttonType):
         self.buttonOn = True
         self.yPos = yPos
         self.xPos = xPos
-        # self.buttonType = buttonType
+        self.buttonType = buttonType
         # todo make this the destination of the button
         self.buttonResult = buttonResult
         self.buttonWidth = buttonWidth
@@ -201,36 +199,73 @@ class button(object):  # class defenition
              self.buttonWidth - 10, self.buttonHeight - 10)
 
 def buttonHittest():
-    i = 0
-    while i < len(buttonArray):
-        b = buttonArray[i]
-        if b.buttonType == gameStateButton:
+    for i in buttonArray:
+        #b = buttonArray[i]
+        if i.buttonType == gameStateButton:
             if mouseX > b.xPos - b.buttonWidth / 2 and mouseX < b.xPos + b.buttonWidth / 2 and mouseY > b.yPos - b.buttonHeight / 2 and mouseY < b.yPos + b.buttonHeight / 2:
                 global gameState
-                gameState = b.buttonResult
+                gameState = i.buttonResult
 
 def introMenuButtonBuild(phoneX, phoneY):
-            # set up and display play and help buttons buttons
+    # set up and display play and help buttons buttons
     buttonColour = color(200, 200, 200)
-    #buttonWidth = 190
-    #buttonHeight = 75
+    buttonX = phoneX + phone.width / 2
+    buttonY = phoneY + 150
+    for i in buttonArray.keys(): 
+        buttonName = [i]
+        println([i])
+        buttonName = button(buttonX, buttonY, 160, 75, buttonColour, buttonArray[i][0], 3, buttonArray[i][1])
+        buttonY += 100
+        buttonList.append([i])
+    """
     playLabel = "PLAY"
     helpLabel = "HELP"
     playButton = button(
-        phoneX + phone.width / 2, phoneY + 150, 160, 75, buttonColour, playLabel, 3)
+        phoneX + phone.width / 2, phoneY + 150, 160, 75, buttonColour, playLabel, 3, gameStateButton)
     helpButton = button(
-        phoneX + phone.width / 2, phoneY + 250, 160, 75, buttonColour, helpLabel, 1)
+        phoneX + phone.width / 2, phoneY + 250, 160, 75, buttonColour, helpLabel, 3, gameStateButton)
+    """
+    #playButton.display()
+    #helpButton.display()
+    println(buttonList)
+    return(buttonList)
+    break
+
+
+def locationButtonBuild(phoneX, phoneY):
+    # set up and display play and help buttons buttons
+    buttonColour = color(200, 200, 200)
+    buttonX = phoneX + 355
+    buttonY = phoneY + 90
+    cafeLabel = "CAFE"
+    galleryLabel = "GALLERY"
+    bedroomLabel = "BEDROOM"
+    natureLabel = "NATURE"
+    cityLabel = "CITY"
+    studioLabel = "STUDIO"
+    cafeButton = button(buttonX, buttonY, 43, 43, buttonColour, cafeLabel, 3)
+    
+    galleryButton = button(
+        phoneX + phone.width / 2, phoneY + 250, 160, 75, buttonColour, galleryLabel, 3)
     playButton.display()
     helpButton.display()
     return(playButton, helpButton)
 
+def buttonDisplay(buttonList):
+    for i in buttonList:
+        
+        a.display()
+    
+
+
 
 def gameStateControl(stateValue):
     if stateValue == 0:
-        phoneX = 242
-        phoneY = 48
+        phoneX = width/2 - phone.width/2
+        phoneY = 46
         phoneDraw(phoneX, phoneY)
-        playButton, helpButton = introMenuButtonBuild(phoneX, phoneY)
+        introMenuButtonBuild(phoneX, phoneY)
+        buttonDisplay(buttonList)
 
         # button results
         if mousePressed:
@@ -242,8 +277,8 @@ def gameStateControl(stateValue):
                 gameState = introHelp
 
     elif stateValue == 1:
-        phoneX = 242
-        phoneY = 48
+        phoneX = width/2 - phone.width/2
+        phoneY = 46
         phoneDraw(phoneX, phoneY)
         playButton, helpButton = introMenuButtonBuild(phoneX, phoneY)
 
@@ -264,11 +299,10 @@ def gameStateControl(stateValue):
         gameState = 3
 
     elif stateValue == 3:
-        phoneX = 10
-        phoneY = 48
+        phoneX = 2
+        phoneY = 46
         phoneDraw(phoneX, phoneY)
         
-        text(
         """
         row = 0
         while row < 4:

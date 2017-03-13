@@ -9,6 +9,13 @@ mainGame = 3
 gameOver = 4
 gameState = 0
 
+# roboto load
+def fontLoad():
+    font = loadFont("Roboto-Regular-14.vlw")
+    textAlign(LEFT, TOP)
+    textFont(font)
+
+
 # random number maker with a normal distribution from 0 to max
 def randomNormal(floorNum, maxNum):
     i = int(map(round(randomGaussian() * 100), -200, 200, floorNum, maxNum))
@@ -21,6 +28,8 @@ def pngLoad():  # loads the phone png
     phone = loadImage("Phone.png")
     global helpBox
     helpBox = loadImage("Helpbox.png")
+    global logo
+    logo = loadImage("Logo.png")
 
 def phoneDraw(xPos, yPos):  # draw player phone
     global phone
@@ -30,6 +39,9 @@ def helpBoxDraw(xPos, yPos):  # draw help screen box
     global helpBox
     image(helpBox, xPos, yPos)
 
+def logoDraw(xPos, yPos):
+    global logo
+    image(logo, xPos + phone.width / 2 - logo.width / 2, yPos + 132)
 """
 def phoneMove(finalX, finalY):
     if gameState == 0:
@@ -200,7 +212,7 @@ class button(object):  # class defenition
         fill(self.strokeColour)
         rect(self.xPos, self.yPos, self.buttonWidth, self.buttonHeight, 7)
         fill(0, 0, 0)
-        textSize(30)
+        textSize(10)
         textAlign(CENTER, CENTER)
         text(self.buttonLabel, self.xPos, self.yPos,
              self.buttonWidth - 10, self.buttonHeight - 10)
@@ -214,7 +226,6 @@ def buttonHittest():
                 gameState = b.buttonResult
                 println(b.buttonLabel)
                 println(b.yPos)
-                buttonKill()
 
 def buttonKill():
     for buttonobject in button:
@@ -247,7 +258,7 @@ def helpMenuButtonBuild(phoneX, phoneY):
 def locationButtonBuild(phoneX, phoneY):
     # set up location buttons
     buttonColour = color(200, 200, 200)
-    buttonX = phoneX + 355
+    buttonX = phoneX + 350
     buttonY = phoneY + 90
     cafeLabel = "CAFE"
     galleryLabel = "GALLERY"
@@ -283,7 +294,7 @@ def locationButtonBuild(phoneX, phoneY):
 def foodButtonBuild(phoneX, phoneY):
     # set up food buttons
     buttonColour = color(200, 200, 200)
-    buttonX = phoneX + 355
+    buttonX = phoneX + 350
     buttonY = phoneY + 157
     coffeeLabel = "COFFEE"
     bagelLabel = "BAGEL"
@@ -293,30 +304,120 @@ def foodButtonBuild(phoneX, phoneY):
     pizzaLabel = "PIZZA"
     burgerLabel = "BURGER"
     coffeeButton = button(
-        buttonX, buttonY, 43, 43, buttonColour, cafeLabel, 3, "locationButton")
+        buttonX, buttonY, 43, 43, buttonColour, coffeeLabel, 3, "itemButton")
     buttonX += 60
     bagelButton = button(
-        buttonX, buttonY, 43, 43, buttonColour, galleryLabel, 3, "locationButton")
+        buttonX, buttonY, 43, 43, buttonColour, bagelLabel, 3, "itemButton")
     buttonX += 60
-    bedroomButton = button(
-        buttonX, buttonY, 43, 43, buttonColour, bedroomLabel, 3, "locationButton")
+    croissantButton = button(
+        buttonX, buttonY, 43, 43, buttonColour, croissantLabel, 3, "itemButton")
     buttonX += 60
-    natureButton = button(
-        buttonX, buttonY, 43, 43, buttonColour, natureLabel, 3, "locationButton")
+    sandwichButton = button(
+        buttonX, buttonY, 43, 43, buttonColour, sandwichLabel, 3, "itemButton")
     buttonX += 60
-    cityButton = button(
-        buttonX, buttonY, 43, 43, buttonColour, cityLabel, 3, "locationButton")
+    icecreamButton = button(
+        buttonX, buttonY, 43, 43, buttonColour, icecreamLabel, 3, "itemButton")
     buttonX += 60
-    studioButton = button(
-        buttonX, buttonY, 43, 43, buttonColour, studioLabel, 3, "locationButton")
-    cafeButton.display()
-    galleryButton.display()
-    bedroomButton.display()
-    natureButton.display()
-    cityButton.display()
-    studioButton.display()
-    return(cafeButton, galleryButton, bedroomButton, natureButton, cityButton, studioButton)
+    pizzaButton = button(
+        buttonX, buttonY, 43, 43, buttonColour, pizzaLabel, 3, "itemButton")
+    buttonY += 60
+    buttonX = phoneX + 350
+    burgerButton = button(
+        buttonX, buttonY, 43, 43, buttonColour, burgerLabel, 3, "itemButton")
+    coffeeButton.display()
+    bagelButton.display()
+    croissantButton.display()
+    sandwichButton.display()
+    icecreamButton.display()
+    pizzaButton.display()
+    burgerButton.display()
+    return(coffeeButton, bagelButton, croissantButton, sandwichButton, icecreamButton, pizzaButton, burgerButton)
 
+def itemButtonBuild(phoneX, phoneY):
+    # set up food buttons
+    buttonColour = color(200, 200, 200)
+    buttonX = phoneX + 350
+    buttonY = phoneY + 283
+    laptopLabel = "LAPTOP"
+    cameraLabel = "CAMERA"
+    stationaryLabel = "STATIONARY"
+    sunglassLabel = "SUNGLASSES"
+    bagLabel = "BAG"
+    carLabel = "CAR"
+    laptopButton = button(
+        buttonX, buttonY, 43, 43, buttonColour, laptopLabel, 3, "itemButton")
+    buttonX += 60
+    cameraButton = button(
+        buttonX, buttonY, 43, 43, buttonColour, cameraLabel, 3, "itemButton")
+    buttonX += 60
+    stationaryButton = button(
+        buttonX, buttonY, 43, 43, buttonColour, stationaryLabel, 3, "itemButton")
+    buttonX += 60
+    sunglassButton = button(
+        buttonX, buttonY, 43, 43, buttonColour, sunglassLabel, 3, "itemButton")
+    buttonX += 60
+    bagButton = button(
+        buttonX, buttonY, 43, 43, buttonColour, bagLabel, 3, "itemButton")
+    buttonX += 60
+    carButton = button(
+        buttonX, buttonY, 43, 43, buttonColour, carLabel, 3, "itemButton")
+    laptopButton.display()
+    cameraButton.display()
+    stationaryButton.display()
+    sunglassButton.display()
+    bagButton.display()
+    carButton.display()
+    return(laptopButton, cameraButton, stationaryButton, sunglassButton, bagButton, carButton)
+
+def outfitButtonBuild(phoneX, phoneY):
+    # set up food buttons
+    buttonColour = color(200, 200, 200)
+    buttonX = phoneX + 350
+    buttonY = phoneY + 353
+    shirtLabel = "SHIRT"
+    casualLabel = "CASUAL"
+    dressedUpLabel = "DRESSED UP"
+    workoutLabel = "WORKOUT"
+    sneakersLabel = "SNEAKERS"
+    heelsLabel = "HEELS"
+    shirtButton = button(
+        buttonX, buttonY, 43, 43, buttonColour, shirtLabel, 3, "itemButton")
+    buttonX += 60
+    casualButton = button(
+        buttonX, buttonY, 43, 43, buttonColour, casualLabel, 3, "itemButton")
+    buttonX += 60
+    dressedUpButton = button(
+        buttonX, buttonY, 43, 43, buttonColour, dressedUpLabel, 3, "itemButton")
+    buttonX += 60
+    workoutButton = button(
+        buttonX, buttonY, 43, 43, buttonColour, workoutLabel, 3, "itemButton")
+    buttonX += 60
+    sneakersButton = button(
+        buttonX, buttonY, 43, 43, buttonColour, sneakersLabel, 3, "itemButton")
+    buttonX += 60
+    heelsButton = button(
+        buttonX, buttonY, 43, 43, buttonColour, heelsLabel, 3, "itemButton")
+    shirtButton.display()
+    casualButton.display()
+    dressedUpButton.display()
+    workoutButton.display()
+    sneakersButton.display()
+    heelsButton.display()
+    return(shirtButton, casualButton, dressedUpButton, workoutButton, sneakersButton, heelsButton)
+
+def itemButtonLabels(phoneX, phoneY):
+    textX = phoneX + 329
+    textY = phoneY + 55
+    textSize(14)
+    textAlign(LEFT, TOP)
+    text("Location", textX, textY)
+    textY += 65
+    text("Food", textX, textY)
+    textY += 125
+    text("Items", textX, textY)
+    textY += 70
+    text("Outfit", textX, textY)
+    
 
 def gameStateControl(stateValue):
     if stateValue == 0:
@@ -324,6 +425,7 @@ def gameStateControl(stateValue):
         phoneX = width / 2 - phone.width / 2
         phoneY = 46
         phoneDraw(phoneX, phoneY)
+        logoDraw(phoneX, phoneY)
         introMenuButtonBuild(phoneX, phoneY)
 
         # button results
@@ -348,6 +450,10 @@ def gameStateControl(stateValue):
         phoneY = 46
         phoneDraw(phoneX, phoneY)
         locationButtonBuild(phoneX, phoneY)
+        foodButtonBuild(phoneX, phoneY)
+        itemButtonBuild(phoneX, phoneY)
+        outfitButtonBuild(phoneX, phoneY)
+        itemButtonLabels(phoneX, phoneY)
 
     elif stateValue == 4:
         gameState = 0
@@ -356,6 +462,7 @@ def gameStateControl(stateValue):
 def setup():
     size(800, 600)
     sponsorBuild()
+    fontLoad()
     pngLoad()
 
 def draw():

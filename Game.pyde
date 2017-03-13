@@ -23,7 +23,8 @@ def randomNormal(floorNum, maxNum):
         i = abs(i)
     return(i)
 
-def pngLoad():  # loads the phone png
+# load images
+def pngLoad(): 
     global phone
     phone = loadImage("Phone.png")
     global helpBox
@@ -31,14 +32,17 @@ def pngLoad():  # loads the phone png
     global logo
     logo = loadImage("Logo.png")
 
-def phoneDraw(xPos, yPos):  # draw player phone
+# draw phone
+def phoneDraw(xPos, yPos): 
     global phone
     image(phone, xPos, yPos)
 
-def helpBoxDraw(xPos, yPos):  # draw help screen box
+# draw help screen box
+def helpBoxDraw(xPos, yPos):  
     global helpBox
     image(helpBox, xPos, yPos)
 
+# draw daily logo
 def logoDraw(xPos, yPos):
     global logo
     image(logo, xPos + phone.width / 2 - logo.width / 2, yPos + 132)
@@ -50,6 +54,7 @@ def phoneMove(finalX, finalY):
             yPos--
 """
 
+#player class to track game
 class player(object):
     # constructor
 
@@ -102,12 +107,12 @@ def sponsorBuild():
     sportscoGood = [
         "City Scape", "Nature", "Sneakers", "Shirts", "Workout", "Sunglasses"]
     sportscoBad = ["Art Gallery", "Studio", "Casual", "Heels",
-                   "Mac", "Camera", "Stationary", "Manicure", "Bag", "Car"]
+                   "Laptop", "Camera", "Stationary", "Manicure", "Bag", "Car"]
     coffeeGood = ["Cafe", "Coffee", "Bagel", "Croissant"]
-    coffeeBad = ["Sandwich", "Ice Cream", "Pizza", "Burger"]
+    coffeeBad = ["Sandwich", "Ice Cream", "Pizza"]
     tourismGood = ["Art Gallery", "Nature", "City Scape", "Camera"]
     tourismBad = ["Car", "Bedroom"]
-    restaurantGood = ["Sandwich", "Ice Cream", "Pizza", "Burger"]
+    restaurantGood = ["Sandwich", "Ice Cream", "Pizza"]
     restaurantBad = ["Cafe", "Coffee", "Bagel", "Croissant"]
     fashionGood = ["T-Shirt", "Casual", "Dressed Up", "Heels"]
     fashionBad = ["Workout", "Sneakers"]
@@ -302,7 +307,6 @@ def foodButtonBuild(phoneX, phoneY):
     sandwichLabel = "SANDWICH"
     icecreamLabel = "ICECREAM"
     pizzaLabel = "PIZZA"
-    burgerLabel = "BURGER"
     coffeeButton = button(
         buttonX, buttonY, 43, 43, buttonColour, coffeeLabel, 3, "itemButton")
     buttonX += 60
@@ -320,24 +324,19 @@ def foodButtonBuild(phoneX, phoneY):
     buttonX += 60
     pizzaButton = button(
         buttonX, buttonY, 43, 43, buttonColour, pizzaLabel, 3, "itemButton")
-    buttonY += 60
-    buttonX = phoneX + 350
-    burgerButton = button(
-        buttonX, buttonY, 43, 43, buttonColour, burgerLabel, 3, "itemButton")
     coffeeButton.display()
     bagelButton.display()
     croissantButton.display()
     sandwichButton.display()
     icecreamButton.display()
     pizzaButton.display()
-    burgerButton.display()
-    return(coffeeButton, bagelButton, croissantButton, sandwichButton, icecreamButton, pizzaButton, burgerButton)
+    return(coffeeButton, bagelButton, croissantButton, sandwichButton, icecreamButton, pizzaButton)
 
 def itemButtonBuild(phoneX, phoneY):
     # set up food buttons
     buttonColour = color(200, 200, 200)
     buttonX = phoneX + 350
-    buttonY = phoneY + 283
+    buttonY = phoneY + 224
     laptopLabel = "LAPTOP"
     cameraLabel = "CAMERA"
     stationaryLabel = "STATIONARY"
@@ -373,7 +372,7 @@ def outfitButtonBuild(phoneX, phoneY):
     # set up food buttons
     buttonColour = color(200, 200, 200)
     buttonX = phoneX + 350
-    buttonY = phoneY + 353
+    buttonY = phoneY + 291
     shirtLabel = "SHIRT"
     casualLabel = "CASUAL"
     dressedUpLabel = "DRESSED UP"
@@ -407,15 +406,15 @@ def outfitButtonBuild(phoneX, phoneY):
 
 def itemButtonLabels(phoneX, phoneY):
     textX = phoneX + 329
-    textY = phoneY + 55
+    textY = phoneY + 53
     textSize(14)
     textAlign(LEFT, TOP)
     text("Location", textX, textY)
-    textY += 65
+    textY += 67
     text("Food", textX, textY)
-    textY += 125
+    textY += 67
     text("Items", textX, textY)
-    textY += 70
+    textY += 67
     text("Outfit", textX, textY)
     
 

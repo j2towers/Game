@@ -31,6 +31,65 @@ def pngLoad():
     helpBox = loadImage("Helpbox.png")
     global logo
     logo = loadImage("Logo.png")
+    
+    # location buttons
+    global bedroom
+    bedroom = loadImage("Bedroom.png")
+    global cafe
+    cafe = loadImage("Cafe.png")
+    global cityscape
+    cityscape = loadImage("CityScape.png")
+    global gallery
+    gallery = loadImage("Gallery.png")
+    global nature
+    nature = loadImage("Nature.png")
+    global studio
+    studio = loadImage("Studio.png")
+    
+    # food buttons
+    global bagel
+    bagel = loadImage("Bagel.png")
+    global coffee
+    coffee = loadImage("Coffee.png")
+    global icecream
+    icecream = loadImage("Icecream.png")
+    global pastry
+    pastry = loadImage("Pastry.png")
+    global pizza
+    pizza = loadImage("Pizza.png")
+    global sandwich
+    sandwich = loadImage("Sandwich.png")
+    global tea
+    tea = loadImage("Tea.png")
+    
+    #item buttons
+    global bag
+    bag = loadImage("Bag.png")
+    global digicamera
+    digicamera = loadImage("Camera.png")
+    global car
+    car = loadImage("Car.png")
+    global laptop
+    laptop = loadImage("Laptop.png")
+    global manicure
+    manicure = loadImage("Manicure.png")
+    global shades
+    shades = loadImage("Shades.png")
+    
+    # clothes buttons
+    global casual
+    casual = loadImage("CasualLook.png")
+    global formal
+    formal = loadImage("DressedupLook.png")
+    global heels
+    heels = loadImage("Heels.png")
+    global shirts
+    shirts = loadImage("Shirts.png")
+    global sneakers
+    sneakers = loadImage("Sneakers.png")
+    global workout
+    workout = loadImage("WorkoutLook.png")
+    
 
 # draw phone
 def phoneDraw(xPos, yPos): 
@@ -105,15 +164,15 @@ class sponsor(object):  # sponsor class
 
 def sponsorBuild():
     sportscoGood = [
-        "City Scape", "Nature", "Sneakers", "Shirts", "Workout", "Sunglasses"]
+        "City Scape", "Nature", "Sneakers", "Shirts", "Workout", "Shades"]
     sportscoBad = ["Art Gallery", "Studio", "Casual", "Heels",
                    "Laptop", "Camera", "Stationary", "Manicure", "Bag", "Car"]
-    coffeeGood = ["Cafe", "Coffee", "Bagel", "Croissant"]
+    coffeeGood = ["Cafe", "Coffee", "Bagel", "Pastry"]
     coffeeBad = ["Sandwich", "Ice Cream", "Pizza"]
     tourismGood = ["Art Gallery", "Nature", "City Scape", "Camera"]
     tourismBad = ["Car", "Bedroom"]
     restaurantGood = ["Sandwich", "Ice Cream", "Pizza"]
-    restaurantBad = ["Cafe", "Coffee", "Bagel", "Croissant"]
+    restaurantBad = ["Cafe", "Coffee", "Bagel", "Pastry"]
     fashionGood = ["T-Shirt", "Casual", "Dressed Up", "Heels"]
     fashionBad = ["Workout", "Sneakers"]
 
@@ -262,7 +321,7 @@ def helpMenuButtonBuild(phoneX, phoneY):
 
 def locationButtonBuild(phoneX, phoneY):
     # set up location buttons
-    buttonColour = color(200, 200, 200)
+    buttonColour = color(200, 200, 200, 10)
     buttonX = phoneX + 350
     buttonY = phoneY + 90
     cafeLabel = "CAFE"
@@ -273,21 +332,39 @@ def locationButtonBuild(phoneX, phoneY):
     studioLabel = "STUDIO"
     cafeButton = button(
         buttonX, buttonY, 43, 43, buttonColour, cafeLabel, 3, "locationButton")
+    imageX = buttonX - cafeButton.buttonWidth/2
+    imageY = buttonY - cafeButton.buttonHeight/2
+    image(cafe, imageX, imageY)
     buttonX += 60
     galleryButton = button(
         buttonX, buttonY, 43, 43, buttonColour, galleryLabel, 3, "locationButton")
+    imageX = buttonX - cafeButton.buttonWidth/2
+    imageY = buttonY - cafeButton.buttonHeight/2
+    image(gallery, imageX, imageY)
     buttonX += 60
     bedroomButton = button(
         buttonX, buttonY, 43, 43, buttonColour, bedroomLabel, 3, "locationButton")
+    imageX = buttonX - cafeButton.buttonWidth/2
+    imageY = buttonY - cafeButton.buttonHeight/2
+    image(bedroom, imageX, imageY)
     buttonX += 60
     natureButton = button(
         buttonX, buttonY, 43, 43, buttonColour, natureLabel, 3, "locationButton")
+    imageX = buttonX - cafeButton.buttonWidth/2
+    imageY = buttonY - cafeButton.buttonHeight/2
+    image(nature, imageX, imageY)
     buttonX += 60
     cityButton = button(
         buttonX, buttonY, 43, 43, buttonColour, cityLabel, 3, "locationButton")
+    imageX = buttonX - cafeButton.buttonWidth/2
+    imageY = buttonY - cafeButton.buttonHeight/2
+    image(cityscape, imageX, imageY)
     buttonX += 60
     studioButton = button(
         buttonX, buttonY, 43, 43, buttonColour, studioLabel, 3, "locationButton")
+    imageX = buttonX - cafeButton.buttonWidth/2
+    imageY = buttonY - cafeButton.buttonHeight/2
+    image(studio, imageX, imageY)
     cafeButton.display()
     galleryButton.display()
     bedroomButton.display()
@@ -298,79 +375,115 @@ def locationButtonBuild(phoneX, phoneY):
 
 def foodButtonBuild(phoneX, phoneY):
     # set up food buttons
-    buttonColour = color(200, 200, 200)
+    buttonColour = color(200, 200, 200, 10)
     buttonX = phoneX + 350
     buttonY = phoneY + 157
     coffeeLabel = "COFFEE"
     bagelLabel = "BAGEL"
-    croissantLabel = "CROISSANT"
+    pastryLabel = "PASTRY"
     sandwichLabel = "SANDWICH"
     icecreamLabel = "ICECREAM"
     pizzaLabel = "PIZZA"
     coffeeButton = button(
         buttonX, buttonY, 43, 43, buttonColour, coffeeLabel, 3, "itemButton")
+    imageX = buttonX - coffeeButton.buttonWidth/2
+    imageY = buttonY - coffeeButton.buttonHeight/2
+    image(coffee, imageX, imageY)
     buttonX += 60
     bagelButton = button(
         buttonX, buttonY, 43, 43, buttonColour, bagelLabel, 3, "itemButton")
+    imageX = buttonX - coffeeButton.buttonWidth/2
+    imageY = buttonY - coffeeButton.buttonHeight/2
+    image(bagel, imageX, imageY)
     buttonX += 60
-    croissantButton = button(
-        buttonX, buttonY, 43, 43, buttonColour, croissantLabel, 3, "itemButton")
+    pastryButton = button(
+        buttonX, buttonY, 43, 43, buttonColour, pastryLabel, 3, "itemButton")
+    imageX = buttonX - coffeeButton.buttonWidth/2
+    imageY = buttonY - coffeeButton.buttonHeight/2
+    image(pastry, imageX, imageY)
     buttonX += 60
     sandwichButton = button(
         buttonX, buttonY, 43, 43, buttonColour, sandwichLabel, 3, "itemButton")
+    imageX = buttonX - coffeeButton.buttonWidth/2
+    imageY = buttonY - coffeeButton.buttonHeight/2
+    image(sandwich, imageX, imageY)
     buttonX += 60
     icecreamButton = button(
         buttonX, buttonY, 43, 43, buttonColour, icecreamLabel, 3, "itemButton")
+    imageX = buttonX - coffeeButton.buttonWidth/2
+    imageY = buttonY - coffeeButton.buttonHeight/2
+    image(icecream, imageX + 10, imageY)
     buttonX += 60
     pizzaButton = button(
         buttonX, buttonY, 43, 43, buttonColour, pizzaLabel, 3, "itemButton")
+    imageX = buttonX - coffeeButton.buttonWidth/2
+    imageY = buttonY - coffeeButton.buttonHeight/2
+    image(pizza, imageX, imageY)
     coffeeButton.display()
     bagelButton.display()
-    croissantButton.display()
+    pastryButton.display()
     sandwichButton.display()
     icecreamButton.display()
     pizzaButton.display()
-    return(coffeeButton, bagelButton, croissantButton, sandwichButton, icecreamButton, pizzaButton)
+    return(coffeeButton, bagelButton, pastryButton, sandwichButton, icecreamButton, pizzaButton)
 
 def itemButtonBuild(phoneX, phoneY):
     # set up food buttons
-    buttonColour = color(200, 200, 200)
+    buttonColour = color(200, 200, 200, 10)
     buttonX = phoneX + 350
     buttonY = phoneY + 224
     laptopLabel = "LAPTOP"
     cameraLabel = "CAMERA"
-    stationaryLabel = "STATIONARY"
-    sunglassLabel = "SUNGLASSES"
+    manicureLabel = "MANICURE"
+    shadesLabel = "SHADES"
     bagLabel = "BAG"
     carLabel = "CAR"
     laptopButton = button(
         buttonX, buttonY, 43, 43, buttonColour, laptopLabel, 3, "itemButton")
+    imageX = buttonX - laptopButton.buttonWidth/2
+    imageY = buttonY - laptopButton.buttonHeight/2
+    image(laptop, imageX, imageY)
     buttonX += 60
     cameraButton = button(
         buttonX, buttonY, 43, 43, buttonColour, cameraLabel, 3, "itemButton")
+    imageX = buttonX - laptopButton.buttonWidth/2
+    imageY = buttonY - laptopButton.buttonHeight/2
+    image(digicamera, imageX, imageY)
     buttonX += 60
-    stationaryButton = button(
-        buttonX, buttonY, 43, 43, buttonColour, stationaryLabel, 3, "itemButton")
+    manicureButton = button(
+        buttonX, buttonY, 43, 43, buttonColour, manicureLabel, 3, "itemButton")
+    imageX = buttonX - laptopButton.buttonWidth/2
+    imageY = buttonY - laptopButton.buttonHeight/2
+    image(manicure, imageX + 10, imageY)
     buttonX += 60
-    sunglassButton = button(
-        buttonX, buttonY, 43, 43, buttonColour, sunglassLabel, 3, "itemButton")
+    shadesButton = button(
+        buttonX, buttonY, 43, 43, buttonColour, shadesLabel, 3, "itemButton")
+    imageX = buttonX - laptopButton.buttonWidth/2
+    imageY = buttonY - laptopButton.buttonHeight/2
+    image(shades, imageX, imageY)
     buttonX += 60
     bagButton = button(
         buttonX, buttonY, 43, 43, buttonColour, bagLabel, 3, "itemButton")
+    imageX = buttonX - laptopButton.buttonWidth/2
+    imageY = buttonY - laptopButton.buttonHeight/2
+    image(bag, imageX + 5, imageY)
     buttonX += 60
     carButton = button(
         buttonX, buttonY, 43, 43, buttonColour, carLabel, 3, "itemButton")
+    imageX = buttonX - laptopButton.buttonWidth/2
+    imageY = buttonY - laptopButton.buttonHeight/2
+    image(car, imageX, imageY)
     laptopButton.display()
     cameraButton.display()
-    stationaryButton.display()
-    sunglassButton.display()
+    manicureButton.display()
+    shadesButton.display()
     bagButton.display()
     carButton.display()
-    return(laptopButton, cameraButton, stationaryButton, sunglassButton, bagButton, carButton)
+    return(laptopButton, cameraButton, manicureButton, shadesButton, bagButton, carButton)
 
 def outfitButtonBuild(phoneX, phoneY):
     # set up food buttons
-    buttonColour = color(200, 200, 200)
+    buttonColour = color(200, 200, 200, 10)
     buttonX = phoneX + 350
     buttonY = phoneY + 291
     shirtLabel = "SHIRT"
@@ -381,21 +494,39 @@ def outfitButtonBuild(phoneX, phoneY):
     heelsLabel = "HEELS"
     shirtButton = button(
         buttonX, buttonY, 43, 43, buttonColour, shirtLabel, 3, "itemButton")
+    imageX = buttonX - shirtButton.buttonWidth/2
+    imageY = buttonY - shirtButton.buttonHeight/2
+    image(shirts, imageX, imageY)
     buttonX += 60
     casualButton = button(
         buttonX, buttonY, 43, 43, buttonColour, casualLabel, 3, "itemButton")
+    imageX = buttonX - shirtButton.buttonWidth/2
+    imageY = buttonY - shirtButton.buttonHeight/2
+    image(casual, imageX, imageY)
     buttonX += 60
     dressedUpButton = button(
         buttonX, buttonY, 43, 43, buttonColour, dressedUpLabel, 3, "itemButton")
+    imageX = buttonX - shirtButton.buttonWidth/2
+    imageY = buttonY - shirtButton.buttonHeight/2
+    image(formal, imageX, imageY)
     buttonX += 60
     workoutButton = button(
         buttonX, buttonY, 43, 43, buttonColour, workoutLabel, 3, "itemButton")
+    imageX = buttonX - shirtButton.buttonWidth/2
+    imageY = buttonY - shirtButton.buttonHeight/2
+    image(workout, imageX, imageY)
     buttonX += 60
     sneakersButton = button(
         buttonX, buttonY, 43, 43, buttonColour, sneakersLabel, 3, "itemButton")
+    imageX = buttonX - shirtButton.buttonWidth/2
+    imageY = buttonY - shirtButton.buttonHeight/2
+    image(sneakers, imageX, imageY)
     buttonX += 60
     heelsButton = button(
         buttonX, buttonY, 43, 43, buttonColour, heelsLabel, 3, "itemButton")
+    imageX = buttonX - shirtButton.buttonWidth/2
+    imageY = buttonY - shirtButton.buttonHeight/2
+    image(heels, imageX, imageY)
     shirtButton.display()
     casualButton.display()
     dressedUpButton.display()

@@ -90,6 +90,10 @@ def pngLoad():
     global workout
     workout = loadImage("WorkoutLook.png")
     
+    # backgrounds
+    global bedroomBG
+    bedroomBG = loadImage("bedroom-BG.png")
+    
 
 # draw phone
 def phoneDraw(xPos, yPos): 
@@ -105,13 +109,7 @@ def helpBoxDraw(xPos, yPos):
 def logoDraw(xPos, yPos):
     global logo
     image(logo, xPos + phone.width / 2 - logo.width / 2, yPos + 132)
-"""
-def phoneMove(finalX, finalY):
-    if gameState == 0:
-        yPos = yPos + height
-        while yPos > finalY:
-            yPos--
-"""
+
 
 #player class to track game
 class player(object):
@@ -213,9 +211,18 @@ class audience(object):  # audience class
         self.badThings = badThings
 
 
+# function to make locations iterable
+class locationRegistry(type):
+
+    def __iter__(cls):
+        return iter(cls.lcnRegistry)
+
 class location(object):  # location class
+    __metaclass__ = locationRegistry
+    lcnRegistry = []
 
     def __init__(self, name, cost, locationImage, buttonLabel):
+        self.lcnRegistry.append(self)
         self.name = name
         self.locationImage = locationImage
         self.locationOn = False
@@ -224,8 +231,22 @@ class location(object):  # location class
         self.turnsSinceLocation = 0  # number of turns since location was used
         self.buttonLabel = buttonLabel
 
-    # def display(self): #location display
+    def display(self, phoneX, phoneY): #location display
+        locX = phoneX + 43
+        locY = phoneY
+        if self.locationOn == True:
+            image(self.locationImage, phoneX, phoneY)
         # todo draw stuff here
+
+def locationDraw(phoneX, phoneY):
+    for locationObject in location:
+        loc = locationObject
+        loc.display(phoneX, phoneY)
+  
+def locationBuild():
+    for l in locationArray:
+        name = l + "location"
+        name = location(l, randomNormal(0, 50), l[0], l[1])      
 
 class inventory(object):  # inventory class
 
@@ -241,7 +262,7 @@ class inventory(object):  # inventory class
     # def display(self): #item display
         # todo draw stuff here
 
-# function to build buttons
+# function to make buttons iterable
 class buttonRegistry(type):
 
     def __iter__(cls):
@@ -282,6 +303,7 @@ class button(object):  # class defenition
              self.buttonWidth - 10, self.buttonHeight - 10)
 
 def buttonHittest():
+    onCount = 0
     for buttonobject in button:
         b = buttonobject
         if b.buttonType == "gameStateButton" and b.buttonOn == True:
@@ -290,6 +312,30 @@ def buttonHittest():
                 gameState = b.buttonResult
                 println(b.buttonLabel)
                 println(b.yPos)
+        if b.buttonType == "locationButton" and b.buttonOn == True:
+            for locationobject in location:
+                l = locationobject
+                if l.locationOn == True:
+                    onCount += 1
+            if onCount == 0:    
+                if mouseX > b.xPos - b.buttonWidth / 2 and mouseX < b.xPos + b.buttonWidth / 2 and mouseY > b.yPos - b.buttonHeight / 2 and mouseY < b.yPos + b.buttonHeight / 2:
+                    name = b.buttonLabel
+                    for locationobject in location:
+                        output.print(name)
+                        output.print(locationobject.name)
+                        if name == locationobject.name:
+                            locationobject.locationOn = True
+                            println(b.buttonLabel)
+                            println(b.yPos)
+            elif onCount > 0:
+                if mouseX > b.xPos - b.buttonWidth / 2 and mouseX < b.xPos + b.buttonWidth / 2 and mouseY > b.yPos - b.buttonHeight / 2 and mouseY < b.yPos + b.buttonHeight / 2:
+                    name = b.buttonLabel
+                    for locationobject in location:
+                        locationobject.locationOn = False
+                        println("turned off")
+                        println(onCount)
+                        println(b.buttonLabel)
+                        println(b.yPos)
 
 def buttonKill():
     for buttonobject in button:
@@ -324,7 +370,7 @@ def locationButtonBuild(phoneX, phoneY):
     buttonColour = color(200, 200, 200, 10)
     buttonX = phoneX + 350
     buttonY = phoneY + 90
-    cafeLabel = "CAFE"
+    cafeLabel = "Cafe"
     galleryLabel = "GALLERY"
     bedroomLabel = "BEDROOM"
     natureLabel = "NATURE"
@@ -584,6 +630,10 @@ def gameStateControl(stateValue):
         itemButtonBuild(phoneX, phoneY)
         outfitButtonBuild(phoneX, phoneY)
         itemButtonLabels(phoneX, phoneY)
+        locationDraw(phoneX, phoneY)
+        
+        if mousePressed:
+            buttonHittest()
 
     elif stateValue == 4:
         gameState = 0
@@ -592,9 +642,14 @@ def gameStateControl(stateValue):
 def setup():
     size(800, 600)
     sponsorBuild()
+    locationBuild()
     fontLoad()
     pngLoad()
+    
+    global output
+    output = createWriter("log.txt")
 
 def draw():
     background(255, 255, 255)
     gameStateControl(gameState)
+    output.flush()

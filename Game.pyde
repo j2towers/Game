@@ -221,8 +221,10 @@ class location(object):  # location class
     __metaclass__ = locationRegistry
     lcnRegistry = []
 
-    def __init__(self, name, cost, locationImage, buttonLabel):
+    def __init__(self, xPos, yPos, name, cost, locationImage, buttonLabel):
         self.lcnRegistry.append(self)
+        self.xPos = xPos
+        self.yPos = yPos
         self.name = name
         self.locationImage = locationImage
         self.locationOn = False
@@ -231,22 +233,22 @@ class location(object):  # location class
         self.turnsSinceLocation = 0  # number of turns since location was used
         self.buttonLabel = buttonLabel
 
-    def display(self, phoneX, phoneY): #location display
-        locX = phoneX + 43
-        locY = phoneY
-        if self.locationOn == True:
-            image(self.locationImage, phoneX, phoneY)
+    def display(self): #location display
+        pic = self.locationImage
+        image(pic, self.xPos, self.yPos)
         # todo draw stuff here
 
-def locationDraw(phoneX, phoneY):
+def locationDraw():
     for locationObject in location:
-        loc = locationObject
-        loc.display(phoneX, phoneY)
+        if locationObject.locationOn == True:
+            locationObject.display()
   
-def locationBuild():
+def locationBuild(phoneX, phoneY):
+    locationX = phoneX + 43
+    locationY = phoneY + 79
     for l in locationArray:
         name = l + "location"
-        name = location(l, randomNormal(0, 50), l[0], l[1])      
+        name = location(locationX, locationY, l, randomNormal(0, 50), l[0], l[1])      
 
 class inventory(object):  # inventory class
 
@@ -303,7 +305,6 @@ class button(object):  # class defenition
              self.buttonWidth - 10, self.buttonHeight - 10)
 
 def buttonHittest():
-    onCount = 0
     for buttonobject in button:
         b = buttonobject
         if b.buttonType == "gameStateButton" and b.buttonOn == True:
@@ -312,30 +313,34 @@ def buttonHittest():
                 gameState = b.buttonResult
                 println(b.buttonLabel)
                 println(b.yPos)
-        if b.buttonType == "locationButton" and b.buttonOn == True:
+        elif b.buttonType == "locationButton" and b.buttonOn == True:
             for locationobject in location:
                 l = locationobject
-                if l.locationOn == True:
-                    onCount += 1
-            if onCount == 0:    
                 if mouseX > b.xPos - b.buttonWidth / 2 and mouseX < b.xPos + b.buttonWidth / 2 and mouseY > b.yPos - b.buttonHeight / 2 and mouseY < b.yPos + b.buttonHeight / 2:
-                    name = b.buttonLabel
-                    for locationobject in location:
-                        output.print(name)
-                        output.print(locationobject.name)
-                        if name == locationobject.name:
-                            locationobject.locationOn = True
-                            println(b.buttonLabel)
-                            println(b.yPos)
-            elif onCount > 0:
-                if mouseX > b.xPos - b.buttonWidth / 2 and mouseX < b.xPos + b.buttonWidth / 2 and mouseY > b.yPos - b.buttonHeight / 2 and mouseY < b.yPos + b.buttonHeight / 2:
-                    name = b.buttonLabel
-                    for locationobject in location:
-                        locationobject.locationOn = False
-                        println("turned off")
-                        println(onCount)
+                    #name = b.buttonLabel
+                    if l.name == b.buttonLabel:
+                        l.locationOn = not l.locationOn
+                        println("Match")
                         println(b.buttonLabel)
-                        println(b.yPos)
+                        println("location " + l.name)
+                        println(l.locationOn)
+                        output.print("\n")
+                        output.print("Match")
+                        output.print(b.buttonLabel)
+                        output.print("location " + l.name)
+                        output.print(l.locationOn)
+                    elif l.name != b.buttonLabel:
+                        l.locationOn = False
+                        println("No Match")
+                        println(b.buttonLabel)
+                        println("location " + l.name)
+                        println(l.locationOn)
+                        output.print("\n")
+                        output.print("No Match")
+                        output.print(b.buttonLabel)
+                        output.print("location " + l.name)
+                        output.print(l.locationOn)
+                
 
 def buttonKill():
     for buttonobject in button:
@@ -349,7 +354,7 @@ def introMenuButtonBuild(phoneX, phoneY):
     buttonY = phoneY + 268
     helpLabel = "HELP"
     helpButton = button(
-        phoneX + phone.width / 2, buttonY, 76, 23, buttonColour, helpLabel, 1, "gameStateButton")
+        buttonX, buttonY, 76, 23, buttonColour, helpLabel, 1, "gameStateButton")
     helpButton.display()
     return(helpButton)
 
@@ -360,7 +365,7 @@ def helpMenuButtonBuild(phoneX, phoneY):
     buttonY = phoneY + 250
     playLabel = "PLAY"
     playButton = button(
-        phoneX + phone.width / 2, buttonY, 76, 23, buttonColour, playLabel, 3, "gameStateButton")
+        buttonX, buttonY, 76, 23, buttonColour, playLabel, 3, "gameStateButton")
     playButton.display()
     return(playButton)
 
@@ -605,8 +610,8 @@ def gameStateControl(stateValue):
         introMenuButtonBuild(phoneX, phoneY)
 
         # button results
-        if mousePressed:
-            buttonHittest()
+      #  if mouseClicked:
+       #     buttonHittest()
 
     elif stateValue == 1:
         buttonKill()
@@ -615,8 +620,8 @@ def gameStateControl(stateValue):
         phoneDraw(phoneX, phoneY)
         helpMenuButtonBuild(phoneX, phoneY)
 
-        if mousePressed:
-            buttonHittest()
+       # if mouseClicked:
+        #    buttonHittest()
 
     elif stateValue == 2:
         gameState = 3
@@ -626,23 +631,25 @@ def gameStateControl(stateValue):
         phoneY = 46
         phoneDraw(phoneX, phoneY)
         locationButtonBuild(phoneX, phoneY)
+        locationBuild(phoneX, phoneY)
         foodButtonBuild(phoneX, phoneY)
         itemButtonBuild(phoneX, phoneY)
         outfitButtonBuild(phoneX, phoneY)
         itemButtonLabels(phoneX, phoneY)
-        locationDraw(phoneX, phoneY)
+        locationDraw()
         
-        if mousePressed:
-            buttonHittest()
+        #if mouseClicked:
+         #   buttonHittest()
 
     elif stateValue == 4:
         gameState = 0
 
+def mouseClicked():
+    buttonHittest()
 
 def setup():
     size(800, 600)
     sponsorBuild()
-    locationBuild()
     fontLoad()
     pngLoad()
     

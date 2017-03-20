@@ -234,8 +234,7 @@ class location(object):  # location class
         self.buttonLabel = buttonLabel
 
     def display(self): #location display
-        pic = self.locationImage
-        image(pic, self.xPos, self.yPos)
+        image(self.locationImage, self.xPos, self.yPos)
         # todo draw stuff here
 
 def locationDraw():
@@ -248,7 +247,10 @@ def locationBuild(phoneX, phoneY):
     locationY = phoneY + 79
     for l in locationArray:
         name = l + "location"
-        name = location(locationX, locationY, l, randomNormal(0, 50), l[0], l[1])      
+        img = l.lower() + "BG"
+        println(name)
+        println(img)
+        name = location(locationX, locationY, l, randomNormal(0, 50), img, l[1])      
 
 class inventory(object):  # inventory class
 
@@ -307,17 +309,15 @@ class button(object):  # class defenition
 def buttonHittest():
     for buttonobject in button:
         b = buttonobject
-        if b.buttonType == "gameStateButton" and b.buttonOn == True:
-            if mouseX > b.xPos - b.buttonWidth / 2 and mouseX < b.xPos + b.buttonWidth / 2 and mouseY > b.yPos - b.buttonHeight / 2 and mouseY < b.yPos + b.buttonHeight / 2:
+        if mouseX > b.xPos - b.buttonWidth / 2 and mouseX < b.xPos + b.buttonWidth / 2 and mouseY > b.yPos - b.buttonHeight / 2 and mouseY < b.yPos + b.buttonHeight / 2:
+            if b.buttonType == "gameStateButton" and b.buttonOn == True:
                 global gameState
                 gameState = b.buttonResult
                 println(b.buttonLabel)
                 println(b.yPos)
-        elif b.buttonType == "locationButton" and b.buttonOn == True:
-            for locationobject in location:
-                l = locationobject
-                if mouseX > b.xPos - b.buttonWidth / 2 and mouseX < b.xPos + b.buttonWidth / 2 and mouseY > b.yPos - b.buttonHeight / 2 and mouseY < b.yPos + b.buttonHeight / 2:
-                    #name = b.buttonLabel
+            elif b.buttonType == "locationButton" and b.buttonOn == True:
+                for locationobject in location:
+                    l = locationobject
                     if l.name == b.buttonLabel:
                         l.locationOn = not l.locationOn
                         println("Match")
@@ -340,6 +340,7 @@ def buttonHittest():
                         output.print(b.buttonLabel)
                         output.print("location " + l.name)
                         output.print(l.locationOn)
+                        
                 
 
 def buttonKill():
@@ -377,7 +378,7 @@ def locationButtonBuild(phoneX, phoneY):
     buttonY = phoneY + 90
     cafeLabel = "Cafe"
     galleryLabel = "GALLERY"
-    bedroomLabel = "BEDROOM"
+    bedroomLabel = "Bedroom"
     natureLabel = "NATURE"
     cityLabel = "CITY"
     studioLabel = "STUDIO"
@@ -631,7 +632,6 @@ def gameStateControl(stateValue):
         phoneY = 46
         phoneDraw(phoneX, phoneY)
         locationButtonBuild(phoneX, phoneY)
-        locationBuild(phoneX, phoneY)
         foodButtonBuild(phoneX, phoneY)
         itemButtonBuild(phoneX, phoneY)
         outfitButtonBuild(phoneX, phoneY)
@@ -650,6 +650,7 @@ def mouseClicked():
 def setup():
     size(800, 600)
     sponsorBuild()
+    locationBuild(29, 46)
     fontLoad()
     pngLoad()
     

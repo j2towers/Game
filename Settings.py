@@ -2,7 +2,7 @@ sponsorArray = {"Sportsco": None, "Kate's Coffee": None, "Tourism Board": None, 
 
 audienceArray = {"Fitness": None, "Hipster": None, "Lifestyle": None, "Fashion": None}
 
-locationArray = {"Cafe": ["cafeBG", "cafeButton"], "Art Gallery": ["galleryBG", "galleryButton"], "Bedroom": ["bedroomBG", "bedroomButton"], "Nature": ["natureBG", "natureButton"], "City Scape": ["cityBG", "cityButton"], "Studio": ["studioBG", "studioButton"]}
+locationArray = {"Cafe": ["cafeBG", "cafeButton"], "Gallery": ["galleryBG", "galleryButton"], "Bedroom": ["bedroomBG", "bedroomButton"], "Nature": ["natureBG", "natureButton"], "City": ["cityBG", "cityButton"], "Studio": ["studioBG", "studioButton"]}
 
 foodArray = {"Coffee": None, "Bagel": None, "Croissant": None, "Sandwich": None, "Ice Cream": None, "Pizza": None, "Burger": None}
 

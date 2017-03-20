@@ -43,8 +43,8 @@ def pngLoad():
     gallery = loadImage("Gallery.png")
     global nature
     nature = loadImage("Nature.png")
-    global studio
-    studio = loadImage("Studio.png")
+    global wall
+    wall = loadImage("Wall.png")
     
     # food buttons
     global bagel
@@ -92,8 +92,17 @@ def pngLoad():
     
     # backgrounds
     global bedroomBG
-    bedroomBG = loadImage("bedroom-BG.png")
-    
+    bedroomBG = loadImage("bedroomBG.png")
+    global cafeBG
+    cafeBG = loadImage("cafeBG.png")
+    global cityBG
+    cityBG = loadImage("cityBG.png")
+    global galleryBG
+    galleryBG = loadImage("galleryBG.png")
+    global wallBG
+    wallBG = loadImage("wallBG.png")
+    #global bedroomBG
+    #bedroomBG = loadImage("bedroom-BG.png")
 
 # draw phone
 def phoneDraw(xPos, yPos): 
@@ -122,6 +131,7 @@ class player(object):
         self.fashFollower = 0
         self.followerTotal = 0
         self.moneyTotal = 0
+        playerList.append(self)
 
     def playerUpdate(fitAdd, hipAdd, lifeAdd, fashAdd, moneyAdd):
         self.fitFollower += fitAdd
@@ -131,6 +141,13 @@ class player(object):
         self.followerTotal += (fitFollower +
                                hipFollower + lifeFollower + fashFollower)
         self.moneyTotal += moneyAdd
+        
+    def playerDisplay():
+        textAlign(LEFT)
+        textSize(36)
+        text("$" + self.moneyTotal, )
+
+    
 
 
 class sponsor(object):  # sponsor class
@@ -163,7 +180,7 @@ class sponsor(object):  # sponsor class
 def sponsorBuild():
     sportscoGood = [
         "City Scape", "Nature", "Sneakers", "Shirts", "Workout", "Shades"]
-    sportscoBad = ["Art Gallery", "Studio", "Casual", "Heels",
+    sportscoBad = ["Art Gallery", "Wall", "Casual", "Heels",
                    "Laptop", "Camera", "Stationary", "Manicure", "Bag", "Car"]
     coffeeGood = ["Cafe", "Coffee", "Bagel", "Pastry"]
     coffeeBad = ["Sandwich", "Ice Cream", "Pizza"]
@@ -211,46 +228,53 @@ class audience(object):  # audience class
         self.badThings = badThings
 
 
-# function to make locations iterable
-class locationRegistry(type):
-
-    def __iter__(cls):
-        return iter(cls.lcnRegistry)
-
 class location(object):  # location class
-    __metaclass__ = locationRegistry
-    lcnRegistry = []
 
-    def __init__(self, xPos, yPos, name, cost, locationImage, buttonLabel):
-        self.lcnRegistry.append(self)
+    def __init__(self, xPos, yPos, name, locationImage, buttonLabel):
         self.xPos = xPos
         self.yPos = yPos
         self.name = name
+        self.cost = randomNormal(10, 50)
         self.locationImage = locationImage
         self.locationOn = False
         # number of times in a row location has been used
         self.tiredLocation = 0
-        self.turnsSinceLocation = 0  # number of turns since location was used
         self.buttonLabel = buttonLabel
+        locationList.append(self)
 
     def display(self): #location display
-        image(self.locationImage, self.xPos, self.yPos)
+        picSize = 191
+        if self.locationImage == bedroomBG:
+            image(bedroomBG, self.xPos, self.yPos, picSize, picSize)
+        elif self.locationImage == cafeBG:
+            image(cafeBG, self.xPos, self.yPos, picSize, picSize)
+        elif self.locationImage == galleryBG:
+            image(galleryBG, self.xPos, self.yPos, picSize, picSize)
+        #elif self.locationImage == natureBG:
+         #   image(natureBG, self.xPos, self.yPos, picSize, picSize)
+        elif self.locationImage == cityBG:
+            image(cityBG, self.xPos, self.yPos, picSize, picSize)
+        elif self.locationImage == wallBG:
+            image(wallBG, self.xPos, self.yPos, picSize, picSize)
         # todo draw stuff here
 
 def locationDraw():
-    for locationObject in location:
-        if locationObject.locationOn == True:
+    for locationObject in locationList:
+        if locationObject.locationOn == True:        
             locationObject.display()
+        else:
+            continue
   
 def locationBuild(phoneX, phoneY):
-    locationX = phoneX + 43
+    locationX = phoneX + 41
     locationY = phoneY + 79
-    for l in locationArray:
-        name = l + "location"
-        img = l.lower() + "BG"
-        println(name)
-        println(img)
-        name = location(locationX, locationY, l, randomNormal(0, 50), img, l[1])      
+    cafe = location(locationX, locationY, "Cafe", cafeBG, "cafeButton")
+    gallery = location(locationX, locationY, "Gallery", galleryBG, "galleryButton")
+    bedroom = location(locationX, locationY, "Bedroom", bedroomBG, "bedroomButton")
+    #nature = location(locationX, locationY, Nature, natureBG, natureButton)
+    city = location(locationX, locationY, "City", cityBG, "cityButton")
+    wall = location(locationX, locationY, "Wall", wallBG, "wallButton")
+        
 
 class inventory(object):  # inventory class
 
@@ -267,18 +291,18 @@ class inventory(object):  # inventory class
         # todo draw stuff here
 
 # function to make buttons iterable
-class buttonRegistry(type):
+#class buttonRegistry(type):
 
-    def __iter__(cls):
-        return iter(cls.btnRegistry)
+#    def __iter__(cls):
+#        return iter(cls.btnRegistry)
 
 class button(object):  # class defenition
     # object constructor
-    __metaclass__ = buttonRegistry
-    btnRegistry = []
+ #   __metaclass__ = buttonRegistry
+ #   btnRegistry = []
 
     def __init__(self, xPos, yPos, buttonWidth, buttonHeight, strokeColour, buttonLabel, buttonResult, buttonType):
-        self.btnRegistry.append(self)
+   #     self.btnRegistry.append(self)
         self.buttonOn = True
         self.yPos = yPos
         self.xPos = xPos
@@ -289,6 +313,7 @@ class button(object):  # class defenition
         self.buttonHeight = buttonHeight
         self.strokeColour = strokeColour
         self.buttonLabel = buttonLabel
+        buttonList.append(self)
         # add to an array of buttons and build hittest that loops over every
         # button in the array
 
@@ -307,7 +332,7 @@ class button(object):  # class defenition
              self.buttonWidth - 10, self.buttonHeight - 10)
 
 def buttonHittest():
-    for buttonobject in button:
+    for buttonobject in buttonList:
         b = buttonobject
         if mouseX > b.xPos - b.buttonWidth / 2 and mouseX < b.xPos + b.buttonWidth / 2 and mouseY > b.yPos - b.buttonHeight / 2 and mouseY < b.yPos + b.buttonHeight / 2:
             if b.buttonType == "gameStateButton" and b.buttonOn == True:
@@ -316,35 +341,19 @@ def buttonHittest():
                 println(b.buttonLabel)
                 println(b.yPos)
             elif b.buttonType == "locationButton" and b.buttonOn == True:
-                for locationobject in location:
+                for locationobject in locationList:
                     l = locationobject
                     if l.name == b.buttonLabel:
-                        l.locationOn = not l.locationOn
-                        println("Match")
-                        println(b.buttonLabel)
-                        println("location " + l.name)
-                        println(l.locationOn)
-                        output.print("\n")
-                        output.print("Match")
-                        output.print(b.buttonLabel)
-                        output.print("location " + l.name)
-                        output.print(l.locationOn)
+                        l.locationOn = True
                     elif l.name != b.buttonLabel:
                         l.locationOn = False
-                        println("No Match")
-                        println(b.buttonLabel)
-                        println("location " + l.name)
-                        println(l.locationOn)
-                        output.print("\n")
-                        output.print("No Match")
-                        output.print(b.buttonLabel)
-                        output.print("location " + l.name)
-                        output.print(l.locationOn)
+        else:
+            continue
                         
                 
 
 def buttonKill():
-    for buttonobject in button:
+    for buttonobject in buttonList:
         b = buttonobject
         b.buttonOn = False
 
@@ -377,11 +386,11 @@ def locationButtonBuild(phoneX, phoneY):
     buttonX = phoneX + 350
     buttonY = phoneY + 90
     cafeLabel = "Cafe"
-    galleryLabel = "GALLERY"
+    galleryLabel = "Gallery"
     bedroomLabel = "Bedroom"
-    natureLabel = "NATURE"
-    cityLabel = "CITY"
-    studioLabel = "STUDIO"
+    natureLabel = "Nature"
+    cityLabel = "City"
+    wallLabel = "Wall"
     cafeButton = button(
         buttonX, buttonY, 43, 43, buttonColour, cafeLabel, 3, "locationButton")
     imageX = buttonX - cafeButton.buttonWidth/2
@@ -412,18 +421,18 @@ def locationButtonBuild(phoneX, phoneY):
     imageY = buttonY - cafeButton.buttonHeight/2
     image(cityscape, imageX, imageY)
     buttonX += 60
-    studioButton = button(
-        buttonX, buttonY, 43, 43, buttonColour, studioLabel, 3, "locationButton")
+    wallButton = button(
+        buttonX, buttonY, 43, 43, buttonColour, wallLabel, 3, "locationButton")
     imageX = buttonX - cafeButton.buttonWidth/2
     imageY = buttonY - cafeButton.buttonHeight/2
-    image(studio, imageX, imageY)
+    image(wall, imageX, imageY)
     cafeButton.display()
     galleryButton.display()
     bedroomButton.display()
     natureButton.display()
     cityButton.display()
-    studioButton.display()
-    return(cafeButton, galleryButton, bedroomButton, natureButton, cityButton, studioButton)
+    wallButton.display()
+    return(cafeButton, galleryButton, bedroomButton, natureButton, cityButton, wallButton)
 
 def foodButtonBuild(phoneX, phoneY):
     # set up food buttons
@@ -632,10 +641,12 @@ def gameStateControl(stateValue):
         phoneY = 46
         phoneDraw(phoneX, phoneY)
         locationButtonBuild(phoneX, phoneY)
+        locationBuild(29, 46)
         foodButtonBuild(phoneX, phoneY)
         itemButtonBuild(phoneX, phoneY)
         outfitButtonBuild(phoneX, phoneY)
         itemButtonLabels(phoneX, phoneY)
+        #image(bedroomBG, phoneX + 41, phoneY + 70)
         locationDraw()
         
         #if mouseClicked:
@@ -650,9 +661,10 @@ def mouseClicked():
 def setup():
     size(800, 600)
     sponsorBuild()
-    locationBuild(29, 46)
+    player()
     fontLoad()
     pngLoad()
+    
     
     global output
     output = createWriter("log.txt")

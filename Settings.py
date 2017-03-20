@@ -12,4 +12,9 @@ itemArray = {"Laptop": None, "Camera": None, "Stationary": None, "Manicure": Non
 
 #buttonArray = {"playButton": ["PLAY", "gameStateButton"], "helpButton": ["HELP", "gameStateButton"]}
 
-buttonList = {}
+buttonList = list()
+locationList = list()
+playerList = list()
+sponsorList = list()
+inventoryList = list()
+playerList = list()

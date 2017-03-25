@@ -106,6 +106,46 @@ def pngLoad():
     wallBG = loadImage("wallBG.png")
     global natureBG
     natureBG = loadImage("natureBG.png")
+    
+    # items
+    global coffeePic
+    coffeePic = loadImage("coffeePic.png")
+    global bagelPic
+    bagelPic = loadImage("bagelPic.png")
+    global pastryPic
+    pastryPic = loadImage("pastryPic.png")
+    global sandwichPic
+    sandwichPic = loadImage("sandwichPic.png")
+    global icecreamPic
+    icecreamPic = loadImage("icecreamPic.png")
+    global teaPic
+    teaPic = loadImage("teaPic.png")
+    global laptopPic
+    laptopPic = loadImage("laptopPic.png")
+    global tabletPic
+    tabletPic = loadImage("tabletPic.png")
+    global cameraPic
+    cameraPic = loadImage("cameraPic.png")
+    global manicurePic
+    manicurePic = loadImage("manicurePic.png")
+    global shadesPic
+    shadesPic = loadImage("shadesPic.png")
+    global bagPic
+    bagPic = loadImage("bagPic.png")
+    global carPic
+    carPic = loadImage("carPic.png")
+    global shirtPic
+    shirtPic = loadImage("shirtPic.png")
+    global casualPic
+    casualPic = loadImage("casualPic.png")
+    global formalPic
+    formalPic = loadImage("formalPic.png")
+    global workoutPic
+    workoutPic = loadImage("workoutPic.png")
+    global sneakerPic
+    sneakerPic = loadImage("sneakerPic.png")
+    global heelsPic
+    heelsPic = loadImage("heelsPic.png")
 
 # draw phone
 def phoneDraw(xPos, yPos): 

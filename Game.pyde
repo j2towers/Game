@@ -11,7 +11,7 @@ gameState = 0
 
 # roboto load
 def fontLoad():
-    font = loadFont("Roboto-Regular-14.vlw")
+    font = loadFont("Roboto-Regular-48.vlw")
     textAlign(LEFT, TOP)
     textFont(font)
 
@@ -21,6 +21,9 @@ def randomNormal(floorNum, maxNum):
     i = int(map(round(randomGaussian() * 100), -200, 200, floorNum, maxNum))
     if i < 0:
         i = abs(i)
+    if i > maxNum:
+        i = maxNum
+    println("random: " + "low:" + str(floorNum) + " high:" + str(maxNum) + " result:" + str(i))
     return(i)
 
 # load images
@@ -101,8 +104,8 @@ def pngLoad():
     galleryBG = loadImage("galleryBG.png")
     global wallBG
     wallBG = loadImage("wallBG.png")
-    #global bedroomBG
-    #bedroomBG = loadImage("bedroom-BG.png")
+    global natureBG
+    natureBG = loadImage("natureBG.png")
 
 # draw phone
 def phoneDraw(xPos, yPos): 
@@ -120,6 +123,8 @@ def logoDraw(xPos, yPos):
     image(logo, xPos + phone.width / 2 - logo.width / 2, yPos + 132)
 
 
+#PLAYER STUFF
+
 #player class to track game
 class player(object):
     # constructor
@@ -130,25 +135,42 @@ class player(object):
         self.lifeFollower = 0
         self.fashFollower = 0
         self.followerTotal = 0
-        self.moneyTotal = 0
+        self.moneyTotal = 200
         playerList.append(self)
 
-    def playerUpdate(fitAdd, hipAdd, lifeAdd, fashAdd, moneyAdd):
-        self.fitFollower += fitAdd
-        self.hipFollower += hipAdd
-        self.lifeFollower += lifeAdd
-        self.fashFollower += fashAdd
-        self.followerTotal += (fitFollower +
-                               hipFollower + lifeFollower + fashFollower)
-        self.moneyTotal += moneyAdd
+def playerUpdate(fitAdd, hipAdd, lifeAdd, fashAdd, moneyAdd):
+    for playeritem in playerList:
+        p = playeritem
+        p.fitFollower += fitAdd
+        p.hipFollower += hipAdd
+        p.lifeFollower += lifeAdd
+        p.fashFollower += fashAdd
+        p.followerTotal += (p.fitFollower +
+                               p.hipFollower + p.lifeFollower + p.fashFollower)
+        p.moneyTotal += moneyAdd
+        println("money:" + str(p.moneyTotal))
         
-    def playerDisplay():
+def moneyDisplay(phoneX, phoneY):
+    moneytextX = phoneX + 330
+    followtextX = phoneX + 675
+    sponsortextX = (moneytextX + followtextX) / 2
+    textY = phoneY + 450
+    for playerobject in playerList:
+        p = playerobject
+        #if p.moneyTotal < 
+        money = str(p.moneyTotal)
         textAlign(LEFT)
-        textSize(36)
-        text("$" + self.moneyTotal, )
+        textSize(25)
+        fill(192, 177, 177)
+        text("$" + money, moneytextX, textY)
+        textSize(20)
+        textAlign(RIGHT)
+        text("Followers", followtextX, textY) 
+        textAlign(CENTER)
+        text("Sponsors", sponsortextX, textY)
 
     
-
+#SPONSOR STUFF
 
 class sponsor(object):  # sponsor class
     moodThresholdMax = 500  # max mood for a sponsor to bring you on
@@ -158,18 +180,28 @@ class sponsor(object):  # sponsor class
     def __init__(self, name, goodThings, badThings):
         self.sponsoring = False
         self.name = name
-        self.mood = -(randomNormal(0, 100))
-        self.moodThreshold = randomNormal(0, sponsor.moodThresholdMax)
-        self.bonusAmounts = randomNormal(10, self.bonusMax)
+        self.mood = -(randomNormal(0, 50))
+        self.moodThreshold = randomNormal(0, self.moodThresholdMax)
+        println(str(self.name) + " " + str(self.mood) + " " + str(self.moodThreshold))
+        self.bonusAmount = randomNormal(10, self.bonusMax)
         self.bonusFreq = randomNormal(1, 5)
         self.turnsSinceBonus = 0
         self.goodThings = goodThings
         self.badThings = badThings
+        sponsorList.append(self)
 
     def sponsorPay(self):
+        println(self.name)
+        println("mood: " + str(self.mood))
+        println("moodlimit: " + str(self.moodThreshold))
+        println("sponsoring: " + str(self.sponsoring))
+        println(str(self.turnsSinceBonus) + " " + str(self.bonusFreq))
+        self.turnsSinceBonus += 1
         if self.sponsoring == True:
             if self.turnsSinceBonus >= self.bonusFreq:
-                playerUpdate(0, 0, 0, 0, self.bonusAmount)
+                self.turnsSinceBonus = 0
+                bonus = self.bonusAmount
+                playerUpdate(0, 0, 0, 0, bonus)
         else:
             if self.mood >= self.moodThreshold:
                 self.sponsoring = True
@@ -178,6 +210,7 @@ class sponsor(object):  # sponsor class
         # turned on and locations used
 
 def sponsorBuild():
+    println("sponsors built")
     sportscoGood = [
         "City Scape", "Nature", "Sneakers", "Shirts", "Workout", "Shades"]
     sportscoBad = ["Art Gallery", "Wall", "Casual", "Heels",
@@ -191,34 +224,40 @@ def sponsorBuild():
     fashionGood = ["T-Shirt", "Casual", "Dressed Up", "Heels"]
     fashionBad = ["Workout", "Sneakers"]
 
-    for name in sponsorArray.keys():
-        if name == "Sportsco":
-            sponsorArray[name] = sponsor(name, sportscoGood, sportscoBad)
-        elif name == "Kate's Coffee":
-            sponsorArray[name] = sponsor(name, coffeeGood, coffeeBad)
-        elif name == "Tourism Board":
-            sponsorArray[name] = sponsor(name, tourismGood, tourismBad)
-        elif name == "Nate's Kitchen":
-            sponsorArray[name] = sponsor(name, restaurantGood, restaurantBad)
-        elif name == "Fashion Haus":
-            sponsorArray[name] = sponsor(name, fashionGood, fashionBad)
+    sports = sponsor("Sportsco", sportscoGood, sportscoBad)
+    coffee = sponsor("Kate's Coffee", coffeeGood, coffeeBad)
+    tourism = sponsor("Tourism Board", tourismGood, tourismBad)
+    restaurant = sponsor("Nate's Kitchen", restaurantGood, restaurantBad)
+    fashion = sponsor("Fashion Haus", fashionGood, fashionBad)
+
 
 def sponsorCheck():
-    for sponsorName, sponsor in sponsorArray.iteritems():
-        for locationName, location in locationArray.iteritems():
-            if locationName in sponsor.goodThings:
-                sponsor.mood += randomNormal(0, 200)
-            if locationName in sponsor.badThings:
-                sponsor.mood -= randomNormal(0, 200)
-        for inventoryName, inventory in inventoryArray.iteritems():
-            if inventoryName in sponsor.goodThings:
-                sponsor.mood += randomNormal(0, 200)
-            if inventoryName in sponsor.badThings:
-                sponsor.mood -= randomNormal(0, 200)
-        sponsor.sponsorPay()
+    println("sponsorcheck")
+    for sponsoritem in sponsorList:
+        s = sponsoritem
+        for locationitem in locationList:
+            l = locationitem
+            if l.name in s.goodThings:
+                s.mood += randomNormal(0, 50)
+            elif l.name in s.badThings:
+                s.mood -= randomNormal(0, 50)
+            else:
+                continue
+        for inventoryitem in inventoryList:
+            i = inventoryitem
+            if i.name in s.goodThings:
+                s.mood += randomNormal(0, 50)
+            elif i.name in s.badThings:
+                s.mood -= randomNormal(0, 50)
+            else:
+                continue
+        s.sponsorPay()
 
+
+#AUDIENCE STUFF
 
 class audience(object):  # audience class
+
     # object constructor
 
     def __init__(self, name, goodThings, badThings):
@@ -226,7 +265,68 @@ class audience(object):  # audience class
         self.amount = 0
         self.goodThings = goodThings
         self.badThings = badThings
+        audienceList.append(self)
+        
+def audienceBuild():
+    println("audience built")
+    
+    hipsterGood = ["Cafe", "Gallery", "City", "Studio", "Coffee", "Croissant", "Casual", "Camera", "Stationary"]
+    hipsterBad = ["Dressed Up", "Workout", "Heels", "Hand", "Manicure", "Car"]
+    fitnessGood = ["Nature", "Workout", "Sneakers"]
+    fitnessBad = ["Bagel", "Croissant", "Sandwich", "Ice Cream", "Pizza", "Burger", "Car"]
+    lifestyleGood = ["Gallery", "Bedroom", "City", "Dressed Up", "Manicure", "Car"]
+    lifestyleBad = ["Sandwich", "Ice Cream", "Pizza", "Burger", "Shirt", "Workout"]
+    fashionGood = ["Gallery", "City", "Dressed Up", "Sneakers", "Heels", "Sunglasses", "Bag"]
+    fashionBad = ["Shirt", "Casual", "Workout"]
+    
+    fitness = audience("Fitness", fitnessGood, fitnessBad)
+    hipster = audience("Hipster", hipsterGood, hipsterBad)
+    lifestyle = audience("Lifestyle", lifestyleGood, lifestyleBad)
+    fashion = audience("Fashion", fashionGood, fashionBad)
+    
 
+def audienceCheck():
+    fitAdd = 0
+    hipAdd = 0
+    lifeAdd = 0
+    fashAdd = 0
+    println("audiencecheck")
+    for audienceitem in audienceList:
+        a = audienceitem
+        a.amount = 0
+        for locationitem in locationList:
+            l = locationitem
+            if l.name in a.goodThings:
+                a.amount += randomNormal(0, 200)
+            elif l.name in a.badThings:
+                a.amount -= randomNormal(0, 200)
+            else:
+                continue
+        for inventoryitem in inventoryList:
+            i = inventoryitem
+            if i.name in a.goodThings:
+                a.amount += randomNormal(0, 200)
+            elif i.name in a.badThings:
+                a.amount -= randomNormal(0, 200)
+            else:
+                continue
+        if a.name == "Fitness":
+            fitAdd = a.amount
+        elif a.name == "Hipster":
+            hipAdd = a.amount
+        elif a.name == "Lifestyle":
+            lifeAdd = a.amount
+        elif a.name == "Fashion":
+            fashAdd = a.amount
+            
+    playerUpdate(fitAdd, hipAdd, lifeAdd, fashAdd, 0)
+    for playeritem in playerList:
+        p = playeritem
+        println("player stats // Fit: " + str(p.fitFollower) + " Hip: " + str(p.hipFollower) + " Life: " + str(p.lifeFollower) + " Fash: " + str(p.fashFollower) + " Tot: " + str(p.followerTotal))
+                
+
+
+#LOCATION STUFF
 
 class location(object):  # location class
 
@@ -249,7 +349,7 @@ class location(object):  # location class
         elif self.locationImage == cafeBG:
             image(cafeBG, self.xPos, self.yPos, picSize, picSize)
         elif self.locationImage == galleryBG:
-            image(galleryBG, self.xPos, self.yPos, picSize, picSize)
+            image(galleryBG, self.xPos, self.yPos)
         #elif self.locationImage == natureBG:
          #   image(natureBG, self.xPos, self.yPos, picSize, picSize)
         elif self.locationImage == cityBG:
@@ -258,23 +358,29 @@ class location(object):  # location class
             image(wallBG, self.xPos, self.yPos, picSize, picSize)
         # todo draw stuff here
 
-def locationDraw():
+def locationDraw(phoneX, phoneY):
+    locationX = phoneX + 40
+    locationY = phoneY + 70
     for locationObject in locationList:
+        locationObject.xPos = locationX
+        locationObject.yPos = locationY
         if locationObject.locationOn == True:        
             locationObject.display()
         else:
             continue
   
-def locationBuild(phoneX, phoneY):
-    locationX = phoneX + 41
-    locationY = phoneY + 79
-    cafe = location(locationX, locationY, "Cafe", cafeBG, "cafeButton")
-    gallery = location(locationX, locationY, "Gallery", galleryBG, "galleryButton")
-    bedroom = location(locationX, locationY, "Bedroom", bedroomBG, "bedroomButton")
-    #nature = location(locationX, locationY, Nature, natureBG, natureButton)
-    city = location(locationX, locationY, "City", cityBG, "cityButton")
-    wall = location(locationX, locationY, "Wall", wallBG, "wallButton")
+def locationBuild():
+    #locationX = phoneX + 40
+    #locationY = phoneY + 70
+    cafe = location(0, 0, "Cafe", cafeBG, "cafeButton")
+    gallery = location(0, 0, "Gallery", galleryBG, "galleryButton")
+    bedroom = location(0, 0, "Bedroom", bedroomBG, "bedroomButton")
+    nature = location(0, 0, "Nature", natureBG, "natureButton")
+    city = location(0, 0, "City", cityBG, "cityButton")
+    wall = location(0, 0, "Wall", wallBG, "wallButton")
         
+
+#LOCATION STUFF
 
 class inventory(object):  # inventory class
 
@@ -287,22 +393,11 @@ class inventory(object):  # inventory class
         # todo build some kind of if statement that assigns the item to
         # category or categories
 
-    # def display(self): #item display
-        # todo draw stuff here
-
-# function to make buttons iterable
-#class buttonRegistry(type):
-
-#    def __iter__(cls):
-#        return iter(cls.btnRegistry)
+#ALL OF THE BUTTON STUFF STARTS HERE
 
 class button(object):  # class defenition
-    # object constructor
- #   __metaclass__ = buttonRegistry
- #   btnRegistry = []
 
     def __init__(self, xPos, yPos, buttonWidth, buttonHeight, strokeColour, buttonLabel, buttonResult, buttonType):
-   #     self.btnRegistry.append(self)
         self.buttonOn = True
         self.yPos = yPos
         self.xPos = xPos
@@ -331,6 +426,19 @@ class button(object):  # class defenition
         text(self.buttonLabel, self.xPos, self.yPos,
              self.buttonWidth - 10, self.buttonHeight - 10)
 
+
+def snapButton():
+    sponsorCheck()
+    audienceCheck()
+    for locationitem in locationList:
+        l = locationitem
+        l.locationOn = False
+    for inventoryitem in inventoryList:
+        i = inventoryitem
+        i.itemOn = False
+    println("ding")
+
+
 def buttonHittest():
     for buttonobject in buttonList:
         b = buttonobject
@@ -347,6 +455,8 @@ def buttonHittest():
                         l.locationOn = True
                     elif l.name != b.buttonLabel:
                         l.locationOn = False
+            elif b.buttonType == "snapButton" and b.buttonOn == True:
+                snapButton()   
         else:
             continue
                         
@@ -355,7 +465,7 @@ def buttonHittest():
 def buttonKill():
     for buttonobject in buttonList:
         b = buttonobject
-        b.buttonOn = False
+        buttonList.remove(b)
 
 def introMenuButtonBuild(phoneX, phoneY):
     # set up and display play and help buttons buttons
@@ -609,6 +719,21 @@ def itemButtonLabels(phoneX, phoneY):
     textY += 67
     text("Outfit", textX, textY)
     
+def snapButtonBuild(phoneX, phoneY):
+    buttonX = phoneX + phone.width / 2
+    buttonY = phoneY + 320
+    snapLabel = "SNAP"
+    buttonColour = color(200, 200, 200)
+    snapButton = button(buttonX, buttonY, 49, 49, buttonColour, snapLabel, 3, "snapButton")
+    fill(buttonColour)
+    ellipse(buttonX, buttonY, 49, 49)
+    buttonColour = color(255, 255, 255)
+    fill(buttonColour)
+    ellipse(buttonX, buttonY, 31, 31)
+    return(snapButton)
+
+#ALL OF THE BUTTON THINGS ARE FINISHED        
+    
 
 def gameStateControl(stateValue):
     if stateValue == 0:
@@ -619,10 +744,6 @@ def gameStateControl(stateValue):
         logoDraw(phoneX, phoneY)
         introMenuButtonBuild(phoneX, phoneY)
 
-        # button results
-      #  if mouseClicked:
-       #     buttonHittest()
-
     elif stateValue == 1:
         buttonKill()
         phoneX = width / 2 - phone.width / 2
@@ -630,46 +751,47 @@ def gameStateControl(stateValue):
         phoneDraw(phoneX, phoneY)
         helpMenuButtonBuild(phoneX, phoneY)
 
-       # if mouseClicked:
-        #    buttonHittest()
-
     elif stateValue == 2:
         gameState = 3
 
     elif stateValue == 3:
+        buttonKill()
         phoneX = 29
         phoneY = 46
         phoneDraw(phoneX, phoneY)
         locationButtonBuild(phoneX, phoneY)
-        locationBuild(29, 46)
+        #locationBuild(29, 46)
         foodButtonBuild(phoneX, phoneY)
         itemButtonBuild(phoneX, phoneY)
         outfitButtonBuild(phoneX, phoneY)
         itemButtonLabels(phoneX, phoneY)
-        #image(bedroomBG, phoneX + 41, phoneY + 70)
-        locationDraw()
-        
-        #if mouseClicked:
-         #   buttonHittest()
+        snapButtonBuild(phoneX, phoneY)
+        moneyDisplay(phoneX, phoneY)
+        locationDraw(phoneX, phoneY)
+
 
     elif stateValue == 4:
         gameState = 0
 
 def mouseClicked():
     buttonHittest()
+    
 
 def setup():
     size(800, 600)
-    sponsorBuild()
-    player()
     fontLoad()
     pngLoad()
+    sponsorBuild()
+    audienceBuild()
+    locationBuild()
+    player()
+
     
     
-    global output
-    output = createWriter("log.txt")
+    #global output
+    #output = createWriter("log.txt")
 
 def draw():
     background(255, 255, 255)
     gameStateControl(gameState)
-    output.flush()
+    #output.flush()

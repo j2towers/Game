@@ -16,5 +16,9 @@ buttonList = list()
 locationList = list()
 playerList = list()
 sponsorList = list()
+audienceList = list()
 inventoryList = list()
 playerList = list()
+
+
+#"Cafe", "Gallery", "Bedroom", "Nature", "City", "Studio", "Coffee", "Bagel", "Croissant", "Sandwich", "Ice Cream", "Pizza", "Burger", "Shirt", "Casual", "Dressed Up", "Workout", "Sneakers", "Heels", "Hand", "Laptop", "Camera", "Stationary", "Manicure", "Sunglasses", "Bag", "Car"

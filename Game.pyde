@@ -1,5 +1,5 @@
 
-from Settings import *
+from Arrays import *
 
 # gamestates
 introMenu = 0
@@ -23,7 +23,7 @@ def randomNormal(floorNum, maxNum):
         i = abs(i)
     if i > maxNum:
         i = maxNum
-    println("random: " + "low:" + str(floorNum) + " high:" + str(maxNum) + " result:" + str(i))
+    #println("random: " + "low:" + str(floorNum) + " high:" + str(maxNum) + " result:" + str(i))
     return(i)
 
 # load images
@@ -58,8 +58,6 @@ def pngLoad():
     icecream = loadImage("Icecream.png")
     global pastry
     pastry = loadImage("Pastry.png")
-    global pizza
-    pizza = loadImage("Pizza.png")
     global sandwich
     sandwich = loadImage("Sandwich.png")
     global tea
@@ -72,8 +70,8 @@ def pngLoad():
     digicamera = loadImage("Camera.png")
     global car
     car = loadImage("Car.png")
-    global laptop
-    laptop = loadImage("Laptop.png")
+    global gadget
+    gadget = loadImage("Gadget.png")
     global manicure
     manicure = loadImage("Manicure.png")
     global shades
@@ -120,8 +118,8 @@ def pngLoad():
     icecreamPic = loadImage("icecreamPic.png")
     global teaPic
     teaPic = loadImage("teaPic.png")
-    global laptopPic
-    laptopPic = loadImage("laptopPic.png")
+    global gadgetPic
+    gadgetPic = loadImage("gadgetPic.png")
     global tabletPic
     tabletPic = loadImage("tabletPic.png")
     global cameraPic
@@ -146,10 +144,15 @@ def pngLoad():
     sneakerPic = loadImage("sneakerPic.png")
     global heelsPic
     heelsPic = loadImage("heelsPic.png")
+   
+     # hand mode items
+     
+    
 
 # draw phone
 def phoneDraw(xPos, yPos): 
     global phone
+    imageMode(CORNER)
     image(phone, xPos, yPos)
 
 # draw help screen box
@@ -222,7 +225,7 @@ class sponsor(object):  # sponsor class
         self.name = name
         self.mood = -(randomNormal(0, 50))
         self.moodThreshold = randomNormal(0, self.moodThresholdMax)
-        println(str(self.name) + " " + str(self.mood) + " " + str(self.moodThreshold))
+        #println(str(self.name) + " " + str(self.mood) + " " + str(self.moodThreshold))
         self.bonusAmount = randomNormal(10, self.bonusMax)
         self.bonusFreq = randomNormal(1, 5)
         self.turnsSinceBonus = 0
@@ -231,11 +234,11 @@ class sponsor(object):  # sponsor class
         sponsorList.append(self)
 
     def sponsorPay(self):
-        println(self.name)
-        println("mood: " + str(self.mood))
-        println("moodlimit: " + str(self.moodThreshold))
-        println("sponsoring: " + str(self.sponsoring))
-        println(str(self.turnsSinceBonus) + " " + str(self.bonusFreq))
+        #println(self.name)
+        #println("mood: " + str(self.mood))
+        #println("moodlimit: " + str(self.moodThreshold))
+        #println("sponsoring: " + str(self.sponsoring))
+        #println(str(self.turnsSinceBonus) + " " + str(self.bonusFreq))
         self.turnsSinceBonus += 1
         if self.sponsoring == True:
             if self.turnsSinceBonus >= self.bonusFreq:
@@ -246,20 +249,19 @@ class sponsor(object):  # sponsor class
             if self.mood >= self.moodThreshold:
                 self.sponsoring = True
 
-        # update sponsor moods and things here from array of items that are
-        # turned on and locations used
+   
 
 def sponsorBuild():
     println("sponsors built")
     sportscoGood = [
         "City Scape", "Nature", "Sneakers", "Shirts", "Workout", "Shades"]
     sportscoBad = ["Art Gallery", "Wall", "Casual", "Heels",
-                   "Laptop", "Camera", "Stationary", "Manicure", "Bag", "Car"]
+                   "Gadget", "Camera", "Stationary", "Manicure", "Bag", "Car"]
     coffeeGood = ["Cafe", "Coffee", "Bagel", "Pastry"]
-    coffeeBad = ["Sandwich", "Ice Cream", "Pizza"]
+    coffeeBad = ["Sandwich", "Ice Cream", "Tea"]
     tourismGood = ["Art Gallery", "Nature", "City Scape", "Camera"]
     tourismBad = ["Car", "Bedroom"]
-    restaurantGood = ["Sandwich", "Ice Cream", "Pizza"]
+    restaurantGood = ["Sandwich", "Ice Cream", "Tea"]
     restaurantBad = ["Cafe", "Coffee", "Bagel", "Pastry"]
     fashionGood = ["T-Shirt", "Casual", "Dressed Up", "Heels"]
     fashionBad = ["Workout", "Sneakers"]
@@ -283,7 +285,7 @@ def sponsorCheck():
                 s.mood -= randomNormal(0, 50)
             else:
                 continue
-        for inventoryitem in inventoryList:
+        for inventoryitem in itemList:
             i = inventoryitem
             if i.name in s.goodThings:
                 s.mood += randomNormal(0, 50)
@@ -313,9 +315,9 @@ def audienceBuild():
     hipsterGood = ["Cafe", "Gallery", "City", "Studio", "Coffee", "Croissant", "Casual", "Camera", "Stationary"]
     hipsterBad = ["Dressed Up", "Workout", "Heels", "Hand", "Manicure", "Car"]
     fitnessGood = ["Nature", "Workout", "Sneakers"]
-    fitnessBad = ["Bagel", "Croissant", "Sandwich", "Ice Cream", "Pizza", "Burger", "Car"]
+    fitnessBad = ["Bagel", "Croissant", "Sandwich", "Ice Cream", "Tea", "Burger", "Car"]
     lifestyleGood = ["Gallery", "Bedroom", "City", "Dressed Up", "Manicure", "Car"]
-    lifestyleBad = ["Sandwich", "Ice Cream", "Pizza", "Burger", "Shirt", "Workout"]
+    lifestyleBad = ["Sandwich", "Ice Cream", "Tea", "Burger", "Shirt", "Workout"]
     fashionGood = ["Gallery", "City", "Dressed Up", "Sneakers", "Heels", "Sunglasses", "Bag"]
     fashionBad = ["Shirt", "Casual", "Workout"]
     
@@ -342,7 +344,7 @@ def audienceCheck():
                 a.amount -= randomNormal(0, 200)
             else:
                 continue
-        for inventoryitem in inventoryList:
+        for inventoryitem in itemList:
             i = inventoryitem
             if i.name in a.goodThings:
                 a.amount += randomNormal(0, 200)
@@ -383,28 +385,28 @@ class location(object):  # location class
         locationList.append(self)
 
     def display(self): #location display
-        picSize = 191
         if self.locationImage == bedroomBG:
-            image(bedroomBG, self.xPos, self.yPos, picSize, picSize)
+            image(bedroomBG, self.xPos, self.yPos)
         elif self.locationImage == cafeBG:
-            image(cafeBG, self.xPos, self.yPos, picSize, picSize)
+            image(cafeBG, self.xPos, self.yPos)
         elif self.locationImage == galleryBG:
             image(galleryBG, self.xPos, self.yPos)
-        #elif self.locationImage == natureBG:
-         #   image(natureBG, self.xPos, self.yPos, picSize, picSize)
+        elif self.locationImage == natureBG:
+            image(natureBG, self.xPos, self.yPos)
         elif self.locationImage == cityBG:
-            image(cityBG, self.xPos, self.yPos, picSize, picSize)
+            image(cityBG, self.xPos, self.yPos)
         elif self.locationImage == wallBG:
-            image(wallBG, self.xPos, self.yPos, picSize, picSize)
+            image(wallBG, self.xPos, self.yPos)
         # todo draw stuff here
 
 def locationDraw(phoneX, phoneY):
-    locationX = phoneX + 40
+    locationX = phoneX + 41
     locationY = phoneY + 70
     for locationObject in locationList:
         locationObject.xPos = locationX
         locationObject.yPos = locationY
-        if locationObject.locationOn == True:        
+        if locationObject.locationOn == True:  
+            imageMode(CORNER)      
             locationObject.display()
         else:
             continue
@@ -422,16 +424,93 @@ def locationBuild():
 
 #LOCATION STUFF
 
-class inventory(object):  # inventory class
+class item(object):  # inventory class
 
-    def __init__(self, name, cost, inventoryImage):
+    def __init__(self, name, cost, handMode, itemImage, buttonLabel):
+        self.xPos = 0
+        self.yPos = 0
         self.name = name
         self.cost = cost
-        self.inventoryImage = inventoryImage
-        self.tiredImage = 0  # number of times in a row item has been used
-        self.turnsSinceItem = 0  # number of times in a row item has been used
-        # todo build some kind of if statement that assigns the item to
-        # category or categories
+        self.bought = False
+        self.handMode = handMode
+        self.itemImage = itemImage
+        self.itemOn = False
+        # number of times in a row location has been used
+        self.tiredItem = 0
+        self.buttonLabel = buttonLabel
+        itemList.append(self)
+        
+    def display(self): #item display
+        if self.itemImage == coffeePic:
+            image(coffeePic, self.xPos, self.yPos)
+        elif self.itemImage == bagelPic:
+            image(bagelPic, self.xPos, self.yPos)
+        elif self.itemImage == pastryPic:
+            image(pastryPic, self.xPos, self.yPos)
+        elif self.itemImage == sandwichPic:
+            image(sandwichPic, self.xPos, self.yPos)
+        elif self.itemImage == icecreamPic:
+            image(icecreamPic, self.xPos, self.yPos)
+        elif self.itemImage == teaPic:
+            image(teaPic, self.xPos, self.yPos)
+        elif self.itemImage == gadgetPic:
+            image(gadgetPic, self.xPos, self.yPos)
+        elif self.itemImage == cameraPic:
+            image(cameraPic, self.xPos, self.yPos)
+        elif self.itemImage == manicurePic:
+            image(manicurePic, self.xPos, self.yPos)
+        elif self.itemImage == shadesPic:
+            image(shadesPic, self.xPos, self.yPos)
+        elif self.itemImage == bagPic:
+            image(bagPic, self.xPos, self.yPos)
+        elif self.itemImage == carPic:
+            image(carPic, self.xPos, self.yPos)
+        elif self.itemImage == shirtPic:
+            image(shirtPic, self.xPos, self.yPos)
+        elif self.itemImage == casualPic:
+            image(casualPic, self.xPos, self.yPos)
+        elif self.itemImage == formalPic:
+            image(formalPic, self.xPos, self.yPos)
+        elif self.itemImage == workoutPic:
+            image(workoutPic, self.xPos, self.yPos)
+        elif self.itemImage == sneakerPic:
+            image(sneakerPic, self.xPos, self.yPos)
+        elif self.itemImage == heelsPic:
+            image(heelsPic, self.xPos, self.yPos)
+            
+def itemDraw(phoneX, phoneY):
+    itemX = phoneX + 41
+    itemY = phoneY + 70
+    for itemObject in itemList:
+        itemObject.xPos = itemX
+        itemObject.yPos = itemY
+        if itemObject.itemOn == True:        
+            imageMode(CORNER)
+            itemObject.display()
+        else:
+            continue
+  
+def itemBuild():
+    coffee = item("Coffee", randomNormal(1, 7), 0, coffeePic, "coffeeButton")
+    bagel = item("Bagel", randomNormal(1, 4), 0, bagelPic, "bagelButton")
+    pastry = item("Pastry", randomNormal(1, 4), 0, pastryPic, "pastryLabel")
+    sandwich = item("Sandwich", randomNormal(5, 10), 0, sandwichPic, "sandwichLabel")
+    icecream = item("IceCream", randomNormal(1, 5), 0, icecreamPic, "icecreamLabel")
+    tea = item("Tea", randomNormal(1, 5), 0, teaPic, "teaLabel")
+    gadget = item("Gadget", randomNormal(300, 700), 0, gadgetPic, "gadgetLabel")
+    digicamera = item("Camera", randomNormal(100, 300), 0, cameraPic, "cameraLabel")
+    manicure = item("Manicure", randomNormal(10, 30), 0, manicurePic, "manicureLabel")
+    shades = item("Shades", randomNormal(10, 100), 0, shadesPic, "shadesLabel")
+    bag = item("Bag", randomNormal(50, 100), 0, bagPic, "bagLabel")
+    car = item("Car", randomNormal(80, 200), 0, carPic, "carLabel")
+    shirt = item("Shirt", randomNormal(10, 50), 0, shirtPic, "shirtLabel")
+    casual = item("Casual", randomNormal(30, 70), 0, casualPic, "casualLabel")
+    formal = item("Formal", randomNormal(50, 150), 0, formalPic, "formalLabel")
+    workout = item("Workout", randomNormal(20, 70), 0, workoutPic, "wourkoutLabel")
+    sneakers = item("Sneakers", randomNormal(50, 150), 0, sneakerPic, "sneakerLabel")
+    heels = item("Heels", randomNormal(100, 200), 0, heelsPic, "heelsLabel")
+
+
 
 #ALL OF THE BUTTON STUFF STARTS HERE
 
@@ -473,21 +552,23 @@ def snapButton():
     for locationitem in locationList:
         l = locationitem
         l.locationOn = False
-    for inventoryitem in inventoryList:
+    for inventoryitem in itemList:
         i = inventoryitem
         i.itemOn = False
     println("ding")
 
 
 def buttonHittest():
+    println("Start")
     for buttonobject in buttonList:
         b = buttonobject
         if mouseX > b.xPos - b.buttonWidth / 2 and mouseX < b.xPos + b.buttonWidth / 2 and mouseY > b.yPos - b.buttonHeight / 2 and mouseY < b.yPos + b.buttonHeight / 2:
+            println(b.buttonType == "snapButton" and b.buttonOn == True)
             if b.buttonType == "gameStateButton" and b.buttonOn == True:
                 global gameState
                 gameState = b.buttonResult
-                println(b.buttonLabel)
-                println(b.yPos)
+                #println(b.buttonLabel)
+                #println(b.yPos)
             elif b.buttonType == "locationButton" and b.buttonOn == True:
                 for locationobject in locationList:
                     l = locationobject
@@ -495,10 +576,21 @@ def buttonHittest():
                         l.locationOn = True
                     elif l.name != b.buttonLabel:
                         l.locationOn = False
+            elif b.buttonType == "itemButton" or "foodButton" or "outfitButton" and b.buttonOn == True:
+                for itemobject in itemList:
+                    i = itemobject
+                    if i.name == b.buttonLabel:
+                        #println(i.itemOn)
+                        i.itemOn = not i.itemOn
+                        #println("result: " + str(i.itemOn))
+                    else:
+                        continue
             elif b.buttonType == "snapButton" and b.buttonOn == True:
+                println("snapmatch")
                 snapButton()   
         else:
             continue
+    println("End")
                         
                 
 
@@ -507,34 +599,48 @@ def buttonKill():
         b = buttonobject
         buttonList.remove(b)
 
-def introMenuButtonBuild(phoneX, phoneY):
+
+def introMenuButtonBuild():
     # set up and display play and help buttons buttons
     buttonColour = color(200, 200, 200)
-    buttonX = phoneX + phone.width / 2
-    buttonY = phoneY + 268
+    buttonX = 0
+    buttonY = 0
     helpLabel = "HELP"
     helpButton = button(
         buttonX, buttonY, 76, 23, buttonColour, helpLabel, 1, "gameStateButton")
-    helpButton.display()
-    return(helpButton)
 
-def helpMenuButtonBuild(phoneX, phoneY):
+def introMenuButtonDisplay(phoneX, phoneY):
+    for buttonitem in buttonList:
+        b = buttonitem
+        if b.buttonLabel == "HELP":
+            b.xPos = phoneX + phone.width / 2
+            b.yPos = phoneY + 268
+            b.display()
+
+
+def helpMenuButtonBuild():
     # set up and display play and help buttons buttons
     buttonColour = color(200, 200, 200)
-    buttonX = phoneX + phone.width / 2
-    buttonY = phoneY + 250
+    buttonX = 0
+    buttonY = 0
     playLabel = "PLAY"
     playButton = button(
         buttonX, buttonY, 76, 23, buttonColour, playLabel, 3, "gameStateButton")
-    playButton.display()
-    return(playButton)
 
+def helpMenuButtonDisplay(phoneX, phoneY):
+    for buttonitem in buttonList:
+        b = buttonitem
+        if b.buttonLabel == "PLAY":
+            b.xPos = phoneX + phone.width / 2
+            b.yPos = phoneY + 200
+            b.display()
+            
 
-def locationButtonBuild(phoneX, phoneY):
+def locationButtonBuild():
     # set up location buttons
     buttonColour = color(200, 200, 200, 10)
-    buttonX = phoneX + 350
-    buttonY = phoneY + 90
+    buttonX = 0
+    buttonY = 0
     cafeLabel = "Cafe"
     galleryLabel = "Gallery"
     bedroomLabel = "Bedroom"
@@ -543,209 +649,188 @@ def locationButtonBuild(phoneX, phoneY):
     wallLabel = "Wall"
     cafeButton = button(
         buttonX, buttonY, 43, 43, buttonColour, cafeLabel, 3, "locationButton")
-    imageX = buttonX - cafeButton.buttonWidth/2
-    imageY = buttonY - cafeButton.buttonHeight/2
-    image(cafe, imageX, imageY)
-    buttonX += 60
     galleryButton = button(
         buttonX, buttonY, 43, 43, buttonColour, galleryLabel, 3, "locationButton")
-    imageX = buttonX - cafeButton.buttonWidth/2
-    imageY = buttonY - cafeButton.buttonHeight/2
-    image(gallery, imageX, imageY)
-    buttonX += 60
     bedroomButton = button(
         buttonX, buttonY, 43, 43, buttonColour, bedroomLabel, 3, "locationButton")
-    imageX = buttonX - cafeButton.buttonWidth/2
-    imageY = buttonY - cafeButton.buttonHeight/2
-    image(bedroom, imageX, imageY)
-    buttonX += 60
     natureButton = button(
         buttonX, buttonY, 43, 43, buttonColour, natureLabel, 3, "locationButton")
-    imageX = buttonX - cafeButton.buttonWidth/2
-    imageY = buttonY - cafeButton.buttonHeight/2
-    image(nature, imageX, imageY)
-    buttonX += 60
     cityButton = button(
         buttonX, buttonY, 43, 43, buttonColour, cityLabel, 3, "locationButton")
-    imageX = buttonX - cafeButton.buttonWidth/2
-    imageY = buttonY - cafeButton.buttonHeight/2
-    image(cityscape, imageX, imageY)
-    buttonX += 60
     wallButton = button(
         buttonX, buttonY, 43, 43, buttonColour, wallLabel, 3, "locationButton")
-    imageX = buttonX - cafeButton.buttonWidth/2
-    imageY = buttonY - cafeButton.buttonHeight/2
-    image(wall, imageX, imageY)
-    cafeButton.display()
-    galleryButton.display()
-    bedroomButton.display()
-    natureButton.display()
-    cityButton.display()
-    wallButton.display()
-    return(cafeButton, galleryButton, bedroomButton, natureButton, cityButton, wallButton)
 
-def foodButtonBuild(phoneX, phoneY):
+def locationButtonDisplay(phoneX, phoneY):    
+    buttonX = phoneX + 350
+    buttonY = phoneY + 90
+    for buttonItem in buttonList:
+        b = buttonItem 
+        if b.buttonType == "locationButton":
+            b.xPos = buttonX
+            b.yPos = buttonY
+            imageMode(CENTER)
+            if b.buttonLabel == "Cafe":
+                image(cafe, b.xPos, b.yPos)
+            elif b.buttonLabel == "Gallery":
+                image(gallery, b.xPos, b.yPos)
+            elif b.buttonLabel == "Bedroom":
+                image(bedroom, b.xPos, b.yPos)
+            elif b.buttonLabel == "Nature":
+                image(nature, b.xPos, b.yPos)
+            elif b.buttonLabel == "City":
+                image(cityscape, b.xPos, b.yPos)
+            elif b.buttonLabel == "Wall":
+                image(wall, b.xPos, b.yPos)
+            b.display()
+            buttonX += 60
+ 
+
+def foodButtonBuild():
     # set up food buttons
     buttonColour = color(200, 200, 200, 10)
+    buttonX = 0
+    buttonY = 0
+    coffeeLabel = "Coffee"
+    bagelLabel = "Bagel"
+    pastryLabel = "Pastry"
+    sandwichLabel = "Sandwich"
+    icecreamLabel = "IceCream"
+    teaLabel = "Tea"
+    coffeeButton = button(
+        buttonX, buttonY, 43, 43, buttonColour, coffeeLabel, 3, "foodButton")
+    bagelButton = button(
+        buttonX, buttonY, 43, 43, buttonColour, bagelLabel, 3, "foodButton")
+    pastryButton = button(
+        buttonX, buttonY, 43, 43, buttonColour, pastryLabel, 3, "foodButton")
+    sandwichButton = button(
+        buttonX, buttonY, 43, 43, buttonColour, sandwichLabel, 3, "foodButton")
+    icecreamButton = button(
+        buttonX, buttonY, 43, 43, buttonColour, icecreamLabel, 3, "foodButton")
+    teaButton = button(
+        buttonX, buttonY, 43, 43, buttonColour, teaLabel, 3, "foodButton")
+
+def foodButtonDisplay(phoneX, phoneY):
     buttonX = phoneX + 350
     buttonY = phoneY + 157
-    coffeeLabel = "COFFEE"
-    bagelLabel = "BAGEL"
-    pastryLabel = "PASTRY"
-    sandwichLabel = "SANDWICH"
-    icecreamLabel = "ICECREAM"
-    pizzaLabel = "PIZZA"
-    coffeeButton = button(
-        buttonX, buttonY, 43, 43, buttonColour, coffeeLabel, 3, "itemButton")
-    imageX = buttonX - coffeeButton.buttonWidth/2
-    imageY = buttonY - coffeeButton.buttonHeight/2
-    image(coffee, imageX, imageY)
-    buttonX += 60
-    bagelButton = button(
-        buttonX, buttonY, 43, 43, buttonColour, bagelLabel, 3, "itemButton")
-    imageX = buttonX - coffeeButton.buttonWidth/2
-    imageY = buttonY - coffeeButton.buttonHeight/2
-    image(bagel, imageX, imageY)
-    buttonX += 60
-    pastryButton = button(
-        buttonX, buttonY, 43, 43, buttonColour, pastryLabel, 3, "itemButton")
-    imageX = buttonX - coffeeButton.buttonWidth/2
-    imageY = buttonY - coffeeButton.buttonHeight/2
-    image(pastry, imageX, imageY)
-    buttonX += 60
-    sandwichButton = button(
-        buttonX, buttonY, 43, 43, buttonColour, sandwichLabel, 3, "itemButton")
-    imageX = buttonX - coffeeButton.buttonWidth/2
-    imageY = buttonY - coffeeButton.buttonHeight/2
-    image(sandwich, imageX, imageY)
-    buttonX += 60
-    icecreamButton = button(
-        buttonX, buttonY, 43, 43, buttonColour, icecreamLabel, 3, "itemButton")
-    imageX = buttonX - coffeeButton.buttonWidth/2
-    imageY = buttonY - coffeeButton.buttonHeight/2
-    image(icecream, imageX + 10, imageY)
-    buttonX += 60
-    pizzaButton = button(
-        buttonX, buttonY, 43, 43, buttonColour, pizzaLabel, 3, "itemButton")
-    imageX = buttonX - coffeeButton.buttonWidth/2
-    imageY = buttonY - coffeeButton.buttonHeight/2
-    image(pizza, imageX, imageY)
-    coffeeButton.display()
-    bagelButton.display()
-    pastryButton.display()
-    sandwichButton.display()
-    icecreamButton.display()
-    pizzaButton.display()
-    return(coffeeButton, bagelButton, pastryButton, sandwichButton, icecreamButton, pizzaButton)
-
-def itemButtonBuild(phoneX, phoneY):
+    for buttonitem in buttonList:
+        b = buttonitem
+        if b.buttonType == "foodButton":
+            b.xPos = buttonX
+            b.yPos = buttonY
+            imageMode(CENTER)
+            if b.buttonLabel == "Coffee":
+                image(coffee, b.xPos, b.yPos)
+            elif b.buttonLabel == "Bagel":
+                image(bagel, b.xPos, b.yPos)
+            elif b.buttonLabel == "Pastry":
+                image(pastry, b.xPos, b.yPos)
+            elif b.buttonLabel == "Sandwich":
+                image(sandwich, b.xPos, b.yPos)
+            elif b.buttonLabel == "IceCream":
+                image(icecream, b.xPos, b.yPos)
+            elif b.buttonLabel == "Tea":
+                image(tea, b.xPos, b.yPos)
+            b.display()    
+            buttonX += 60
+    
+    
+def itemButtonBuild():
     # set up food buttons
     buttonColour = color(200, 200, 200, 10)
-    buttonX = phoneX + 350
-    buttonY = phoneY + 224
-    laptopLabel = "LAPTOP"
-    cameraLabel = "CAMERA"
-    manicureLabel = "MANICURE"
-    shadesLabel = "SHADES"
-    bagLabel = "BAG"
-    carLabel = "CAR"
-    laptopButton = button(
-        buttonX, buttonY, 43, 43, buttonColour, laptopLabel, 3, "itemButton")
-    imageX = buttonX - laptopButton.buttonWidth/2
-    imageY = buttonY - laptopButton.buttonHeight/2
-    image(laptop, imageX, imageY)
-    buttonX += 60
+    buttonX = 0
+    buttonY = 0
+    gadgetLabel = "Gadget"
+    cameraLabel = "Camera"
+    manicureLabel = "Manicure"
+    shadesLabel = "Shades"
+    bagLabel = "Bag"
+    carLabel = "Car"
+    gadgetButton = button(
+        buttonX, buttonY, 43, 43, buttonColour, gadgetLabel, 3, "itemButton")
     cameraButton = button(
         buttonX, buttonY, 43, 43, buttonColour, cameraLabel, 3, "itemButton")
-    imageX = buttonX - laptopButton.buttonWidth/2
-    imageY = buttonY - laptopButton.buttonHeight/2
-    image(digicamera, imageX, imageY)
-    buttonX += 60
     manicureButton = button(
         buttonX, buttonY, 43, 43, buttonColour, manicureLabel, 3, "itemButton")
-    imageX = buttonX - laptopButton.buttonWidth/2
-    imageY = buttonY - laptopButton.buttonHeight/2
-    image(manicure, imageX + 10, imageY)
-    buttonX += 60
     shadesButton = button(
         buttonX, buttonY, 43, 43, buttonColour, shadesLabel, 3, "itemButton")
-    imageX = buttonX - laptopButton.buttonWidth/2
-    imageY = buttonY - laptopButton.buttonHeight/2
-    image(shades, imageX, imageY)
-    buttonX += 60
     bagButton = button(
         buttonX, buttonY, 43, 43, buttonColour, bagLabel, 3, "itemButton")
-    imageX = buttonX - laptopButton.buttonWidth/2
-    imageY = buttonY - laptopButton.buttonHeight/2
-    image(bag, imageX + 5, imageY)
-    buttonX += 60
     carButton = button(
         buttonX, buttonY, 43, 43, buttonColour, carLabel, 3, "itemButton")
-    imageX = buttonX - laptopButton.buttonWidth/2
-    imageY = buttonY - laptopButton.buttonHeight/2
-    image(car, imageX, imageY)
-    laptopButton.display()
-    cameraButton.display()
-    manicureButton.display()
-    shadesButton.display()
-    bagButton.display()
-    carButton.display()
-    return(laptopButton, cameraButton, manicureButton, shadesButton, bagButton, carButton)
 
-def outfitButtonBuild(phoneX, phoneY):
+def itemButtonDisplay(phoneX, phoneY):
+    buttonX = phoneX + 350
+    buttonY = phoneY + 224
+    for buttonitem in buttonList:
+        b = buttonitem
+        if b.buttonType == "itemButton":
+            b.xPos = buttonX
+            b.yPos = buttonY
+            imageMode(CENTER)
+            if b.buttonLabel == "Gadget":
+                image(gadget, b.xPos, b.yPos)
+            elif b.buttonLabel == "Camera":
+                image(digicamera, b.xPos, b.yPos)
+            elif b.buttonLabel == "Manicure":
+                image(manicure, b.xPos, b.yPos)
+            elif b.buttonLabel == "Shades":
+                image(shades, b.xPos, b.yPos)
+            elif b.buttonLabel == "Bag":
+                image(bag, b.xPos, b.yPos)
+            elif b.buttonLabel == "Car":
+                image(car, b.xPos, b.yPos)
+            b.display()
+            buttonX += 60
+
+
+def outfitButtonBuild():
     # set up food buttons
     buttonColour = color(200, 200, 200, 10)
+    buttonX = 0
+    buttonY = 0
+    shirtLabel = "Shirt"
+    casualLabel = "Casual"
+    formalLabel = "Formal"
+    workoutLabel = "Workout"
+    sneakersLabel = "Sneakers"
+    heelsLabel = "Heels"
+    shirtButton = button(
+        buttonX, buttonY, 43, 43, buttonColour, shirtLabel, 3, "outfitButton")
+    casualButton = button(
+        buttonX, buttonY, 43, 43, buttonColour, casualLabel, 3, "outfitButton")
+    formalButton = button(
+        buttonX, buttonY, 43, 43, buttonColour, formalLabel, 3, "outfitButton")
+    workoutButton = button(
+        buttonX, buttonY, 43, 43, buttonColour, workoutLabel, 3, "outfitButton")
+    sneakersButton = button(
+        buttonX, buttonY, 43, 43, buttonColour, sneakersLabel, 3, "outfitButton")
+    heelsButton = button(
+        buttonX, buttonY, 43, 43, buttonColour, heelsLabel, 3, "outfitButton")
+    
+def outfitButtonDisplay(phoneX, phoneY):
     buttonX = phoneX + 350
     buttonY = phoneY + 291
-    shirtLabel = "SHIRT"
-    casualLabel = "CASUAL"
-    dressedUpLabel = "DRESSED UP"
-    workoutLabel = "WORKOUT"
-    sneakersLabel = "SNEAKERS"
-    heelsLabel = "HEELS"
-    shirtButton = button(
-        buttonX, buttonY, 43, 43, buttonColour, shirtLabel, 3, "itemButton")
-    imageX = buttonX - shirtButton.buttonWidth/2
-    imageY = buttonY - shirtButton.buttonHeight/2
-    image(shirts, imageX, imageY)
-    buttonX += 60
-    casualButton = button(
-        buttonX, buttonY, 43, 43, buttonColour, casualLabel, 3, "itemButton")
-    imageX = buttonX - shirtButton.buttonWidth/2
-    imageY = buttonY - shirtButton.buttonHeight/2
-    image(casual, imageX, imageY)
-    buttonX += 60
-    dressedUpButton = button(
-        buttonX, buttonY, 43, 43, buttonColour, dressedUpLabel, 3, "itemButton")
-    imageX = buttonX - shirtButton.buttonWidth/2
-    imageY = buttonY - shirtButton.buttonHeight/2
-    image(formal, imageX, imageY)
-    buttonX += 60
-    workoutButton = button(
-        buttonX, buttonY, 43, 43, buttonColour, workoutLabel, 3, "itemButton")
-    imageX = buttonX - shirtButton.buttonWidth/2
-    imageY = buttonY - shirtButton.buttonHeight/2
-    image(workout, imageX, imageY)
-    buttonX += 60
-    sneakersButton = button(
-        buttonX, buttonY, 43, 43, buttonColour, sneakersLabel, 3, "itemButton")
-    imageX = buttonX - shirtButton.buttonWidth/2
-    imageY = buttonY - shirtButton.buttonHeight/2
-    image(sneakers, imageX, imageY)
-    buttonX += 60
-    heelsButton = button(
-        buttonX, buttonY, 43, 43, buttonColour, heelsLabel, 3, "itemButton")
-    imageX = buttonX - shirtButton.buttonWidth/2
-    imageY = buttonY - shirtButton.buttonHeight/2
-    image(heels, imageX, imageY)
-    shirtButton.display()
-    casualButton.display()
-    dressedUpButton.display()
-    workoutButton.display()
-    sneakersButton.display()
-    heelsButton.display()
-    return(shirtButton, casualButton, dressedUpButton, workoutButton, sneakersButton, heelsButton)
-
+    for buttonitem in buttonList:
+        b = buttonitem
+        if b.buttonType == "outfitButton":
+            b.xPos = buttonX
+            b.yPos = buttonY
+            imageMode(CENTER)
+            if b.buttonLabel == "Shirt":
+                image(shirts, b.xPos, b.yPos)
+            elif b.buttonLabel == "Casual":
+                image(casual, b.xPos, b.yPos)
+            elif b.buttonLabel == "Formal":
+                image(formal, b.xPos, b.yPos)
+            elif b.buttonLabel == "Workout":
+                image(workout, b.xPos, b.yPos)
+            elif b.buttonLabel == "Sneakers":
+                image(sneakers, b.xPos, b.yPos)
+            elif b.buttonLabel == "Heels":
+                image(heels, b.xPos, b.yPos)
+            b.display()
+            buttonX += 60
+    
 def itemButtonLabels(phoneX, phoneY):
     textX = phoneX + 329
     textY = phoneY + 53
@@ -759,56 +844,69 @@ def itemButtonLabels(phoneX, phoneY):
     textY += 67
     text("Outfit", textX, textY)
     
-def snapButtonBuild(phoneX, phoneY):
+    
+def snapButtonBuild():
+    buttonX = 0
+    buttonY = 0
+    snapLabel = "SNAP"
+    buttonColour = color(200, 200, 200, 100)
+    snapButton = button(buttonX, buttonY, 49, 49, buttonColour, snapLabel, 3, "snapButton")
+
+def snapButtonDisplay(phoneX, phoneY):
     buttonX = phoneX + phone.width / 2
     buttonY = phoneY + 320
-    snapLabel = "SNAP"
-    buttonColour = color(200, 200, 200)
-    snapButton = button(buttonX, buttonY, 49, 49, buttonColour, snapLabel, 3, "snapButton")
-    fill(buttonColour)
-    ellipse(buttonX, buttonY, 49, 49)
-    buttonColour = color(255, 255, 255)
-    fill(buttonColour)
-    ellipse(buttonX, buttonY, 31, 31)
-    return(snapButton)
+    for buttonitem in buttonList:
+        b = buttonitem
+        if b.buttonLabel == "SNAP":
+            b.xPos = buttonX
+            b.yPos = buttonY
+            fill(200, 200, 200)
+            ellipse(b.xPos, b.yPos, 49, 49)
+            buttonColour = color(255, 255, 255)
+            fill(buttonColour)
+            ellipse(b.xPos, b.yPos, 31, 31)
+            b.display()
+            
 
 #ALL OF THE BUTTON THINGS ARE FINISHED        
     
 
 def gameStateControl(stateValue):
     if stateValue == 0:
-        buttonKill()
         phoneX = width / 2 - phone.width / 2
         phoneY = 46
         phoneDraw(phoneX, phoneY)
         logoDraw(phoneX, phoneY)
-        introMenuButtonBuild(phoneX, phoneY)
+        introMenuButtonDisplay(phoneX, phoneY)
+        
 
     elif stateValue == 1:
-        buttonKill()
         phoneX = width / 2 - phone.width / 2
         phoneY = 46
         phoneDraw(phoneX, phoneY)
-        helpMenuButtonBuild(phoneX, phoneY)
+        helpMenuButtonDisplay(phoneX, phoneY)
 
     elif stateValue == 2:
         gameState = 3
 
     elif stateValue == 3:
-        buttonKill()
         phoneX = 29
         phoneY = 46
+        #main phone draw
         phoneDraw(phoneX, phoneY)
-        locationButtonBuild(phoneX, phoneY)
-        #locationBuild(29, 46)
-        foodButtonBuild(phoneX, phoneY)
-        itemButtonBuild(phoneX, phoneY)
-        outfitButtonBuild(phoneX, phoneY)
+        
+        #button draws
+        locationButtonDisplay(phoneX, phoneY)
+        foodButtonDisplay(phoneX, phoneY)
+        itemButtonDisplay(phoneX, phoneY)
+        outfitButtonDisplay(phoneX, phoneY)
         itemButtonLabels(phoneX, phoneY)
-        snapButtonBuild(phoneX, phoneY)
+        snapButtonDisplay(phoneX, phoneY)
+        
+        #
         moneyDisplay(phoneX, phoneY)
         locationDraw(phoneX, phoneY)
-
+        itemDraw(phoneX, phoneY)
 
     elif stateValue == 4:
         gameState = 0
@@ -819,19 +917,29 @@ def mouseClicked():
 
 def setup():
     size(800, 600)
+    
+    #asset loads
     fontLoad()
     pngLoad()
+    
+    #object builds
     sponsorBuild()
     audienceBuild()
     locationBuild()
+    itemBuild()
     player()
+    
+    #button builds
+    introMenuButtonBuild()
+    helpMenuButtonBuild()
+    locationButtonBuild()
+    foodButtonBuild()
+    itemButtonBuild()
+    outfitButtonBuild()
+    snapButtonBuild()
 
-    
-    
-    #global output
-    #output = createWriter("log.txt")
+
 
 def draw():
     background(255, 255, 255)
     gameStateControl(gameState)
-    #output.flush()

@@ -17,7 +17,7 @@ locationList = list()
 playerList = list()
 sponsorList = list()
 audienceList = list()
-inventoryList = list()
+itemList = list()
 playerList = list()
 
 

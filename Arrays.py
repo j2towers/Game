@@ -10,15 +10,18 @@ outfitArray = {"Shirt": None, "Casual": None, "Dressed Up": None, "Workout": Non
 
 itemArray = {"Laptop": None, "Camera": None, "Stationary": None, "Manicure": None, "Sunglasses": None, "Bag": None, "Car": None}
 
-#buttonArray = {"playButton": ["PLAY", "gameStateButton"], "helpButton": ["HELP", "gameStateButton"]}
-
 buttonList = list()
+modeList = list()
+
 locationList = list()
+itemList = list()
+hardGoods = ("Gadget", "Camera", "Shades", "Bag", "Shirt", "Casual", "Formal", "Workout", "Sneakers", "Heels")
+
 playerList = list()
 sponsorList = list()
 audienceList = list()
-itemList = list()
-playerList = list()
+
+
 
 
 #"Cafe", "Gallery", "Bedroom", "Nature", "City", "Studio", "Coffee", "Bagel", "Croissant", "Sandwich", "Ice Cream", "Pizza", "Burger", "Shirt", "Casual", "Dressed Up", "Workout", "Sneakers", "Heels", "Hand", "Laptop", "Camera", "Stationary", "Manicure", "Sunglasses", "Bag", "Car"

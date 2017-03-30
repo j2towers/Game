@@ -28,12 +28,19 @@ def randomNormal(floorNum, maxNum):
 
 # load images
 def pngLoad(): 
+    #game items
     global phone
     phone = loadImage("Phone.png")
     global helpBox
     helpBox = loadImage("Helpbox.png")
     global logo
     logo = loadImage("Logo.png")
+    global selfie
+    selfie = loadImage("selfie.png")
+    global hand
+    hand = loadImage("hand.png")
+    global thumb
+    thumb = loadImage("thumb.png")
     
     # location buttons
     global bedroom
@@ -94,8 +101,12 @@ def pngLoad():
     # backgrounds
     global bedroomBG
     bedroomBG = loadImage("bedroomBG.png")
+    global blanket
+    blanket = loadImage("blanket.png")
     global cafeBG
     cafeBG = loadImage("cafeBG.png")
+    global tabletop
+    tabletop = loadImage("tabletop.png")
     global cityBG
     cityBG = loadImage("cityBG.png")
     global galleryBG
@@ -108,62 +119,163 @@ def pngLoad():
     # items
     global coffeePic
     coffeePic = loadImage("coffeePic.png")
+    global coffeePic2
+    coffeePic2 = loadImage("coffeePic2.png")
+    global coffeePicH
+    coffeePicH = loadImage("coffeePicH.png")
     global bagelPic
     bagelPic = loadImage("bagelPic.png")
+    global bagelPic2
+    bagelPic2 = loadImage("bagelPic2.png")
+    global bagelPicH
+    bagelPicH = loadImage("bagelPicH.png")
     global pastryPic
     pastryPic = loadImage("pastryPic.png")
+    global pastryPic2
+    pastryPic2 = loadImage("pastryPic2.png")
+    global pastryPicH
+    pastryPicH = loadImage("pastryPicH.png")
     global sandwichPic
     sandwichPic = loadImage("sandwichPic.png")
+    global sandwichPic2
+    sandwichPic2 = loadImage("sandwichPic2.png")
+    global sandwichPicH
+    sandwichPicH = loadImage("sandwichPicH.png")
     global icecreamPic
     icecreamPic = loadImage("icecreamPic.png")
+    global icecreamPic2
+    icecreamPic2 = loadImage("icecreamPic2.png")
+    global icecreamPicH
+    icecreamPicH = loadImage("icecreamPicH.png")
     global teaPic
     teaPic = loadImage("teaPic.png")
+    global teaPic2
+    teaPic2 = loadImage("teaPic2.png")
+    global teaPicH
+    teaPicH = loadImage("teaPicH.png")
     global gadgetPic
     gadgetPic = loadImage("gadgetPic.png")
-    global tabletPic
-    tabletPic = loadImage("tabletPic.png")
+    global gadgetPic2
+    gadgetPic2 = loadImage("gadgetPic2.png")
+    global gadgetPicH
+    gadgetPicH = loadImage("gadgetPicH.png")
     global cameraPic
     cameraPic = loadImage("cameraPic.png")
+    global cameraPic2
+    cameraPic2 = loadImage("cameraPic2.png")
+    global cameraPicH
+    cameraPicH = loadImage("cameraPicH.png")
     global manicurePic
     manicurePic = loadImage("manicurePic.png")
+    global manicurePic2 
+    manicurePic2 = loadImage("manicurePic2.png")
+    global manicurePicH
+    manicurePicH = loadImage("manicurePicH.png")
     global shadesPic
     shadesPic = loadImage("shadesPic.png")
+    global shadesPic2
+    shadesPic2 = loadImage("shadesPic2.png")
+    global shadesPicH
+    shadesPicH = loadImage("shadesPicH.png")
     global bagPic
     bagPic = loadImage("bagPic.png")
+    global bagPic2
+    bagPic2 = loadImage("bagPic2.png")
+    global bagPicH
+    bagPicH = loadImage("bagPicH.png")
     global carPic
     carPic = loadImage("carPic.png")
+    global carPic2
+    carPic2 = loadImage("carPic2.png")
+    global carPicH
+    carPicH = loadImage("carPicH.png")
     global shirtPic
     shirtPic = loadImage("shirtPic.png")
+    global shirtPic2
+    shirtPic2 = loadImage("shirtPic2.png")
+    global shirtPicH
+    shirtPicH = loadImage("shirtPicH.png")
     global casualPic
     casualPic = loadImage("casualPic.png")
+    global casualPic2
+    casualPic2 = loadImage("casualPic2.png")
+    global casualPicH
+    casualPicH = loadImage("casualPicH.png")
     global formalPic
     formalPic = loadImage("formalPic.png")
+    global formalPic2
+    formalPic2 = loadImage("formalPic2.png")
+    global formalPicH
+    formalPicH = loadImage("formalPicH.png")
     global workoutPic
     workoutPic = loadImage("workoutPic.png")
+    global workoutPic2
+    workoutPic2 = loadImage("workoutPic2.png")
+    global workoutPicH
+    workoutPicH = loadImage("workoutPicH.png")
     global sneakerPic
     sneakerPic = loadImage("sneakerPic.png")
+    global sneakerPic2
+    sneakerPic2 = loadImage("sneakerPic2.png")
+    global sneakerPicH
+    sneakerPicH = loadImage("sneakerPicH.png")
     global heelsPic
     heelsPic = loadImage("heelsPic.png")
-   
-     # hand mode items
+    global heelsPic2
+    heelsPic2 = loadImage("heelsPic2.png")
+    global heelsPicH
+    heelsPicH = loadImage("heelsPicH.png")
      
     
 
 # draw phone
 def phoneDraw(xPos, yPos): 
-    global phone
     imageMode(CORNER)
     image(phone, xPos, yPos)
 
 # draw help screen box
 def helpBoxDraw(xPos, yPos):  
-    global helpBox
     image(helpBox, xPos, yPos)
 
 # draw daily logo
 def logoDraw(xPos, yPos):
-    global logo
     image(logo, xPos + phone.width / 2 - logo.width / 2, yPos + 132)
+ 
+#hand draw
+def handDraw(phoneX, phoneY):
+    for modeitem in modeList:
+        m = modeitem
+        if m.handMode:
+            image(hand, phoneX + 41, phoneY + 70)
+    
+#thumb draw
+def thumbDraw(phoneX, phoneY):
+    for modeitem in modeList:
+        m = modeitem
+        if m.handMode:
+            image(thumb, phoneX + 41, phoneY + 70)
+            
+#handmode manicure draw
+def tmDraw(phoneX, phoneY):
+    for item in itemList:
+        i = item
+        for modeitem in modeList:
+            m = modeitem
+            if i.name == "Manicure" and i.itemOn and m.handMode:
+                image(manicurePicH, phoneX + 41, phoneY + 70)
+            
+#draw blanket or tabletop
+def bedcafeDraw(phoneX, phoneY):
+    for modeitem in modeList:
+        m = modeitem
+        if m.bedcafeMode and m.handMode == False:
+            for locationitem in locationList:
+                l = locationitem
+                if l.locationOn:
+                    if l.name == "Cafe":
+                        image(tabletop, phoneX + 41, phoneY + 70)
+                    elif l.name == "Bedroom":
+                        image(blanket, phoneX + 41, phoneY + 70)
 
 
 #PLAYER STUFF
@@ -178,18 +290,18 @@ class player(object):
         self.lifeFollower = 0
         self.fashFollower = 0
         self.followerTotal = 0
-        self.moneyTotal = 200
+        self.turnsLeft = 20
+        self.moneyTotal = 2000
         playerList.append(self)
 
 def playerUpdate(fitAdd, hipAdd, lifeAdd, fashAdd, moneyAdd):
     for playeritem in playerList:
         p = playeritem
-        p.fitFollower += fitAdd
-        p.hipFollower += hipAdd
-        p.lifeFollower += lifeAdd
-        p.fashFollower += fashAdd
-        p.followerTotal += (p.fitFollower +
-                               p.hipFollower + p.lifeFollower + p.fashFollower)
+        p.fitFollower = max(0, p.fitFollower + fitAdd)
+        p.hipFollower = max(0, p.hipFollower + hipAdd)
+        p.lifeFollower = max(0, p.lifeFollower + lifeAdd)
+        p.fashFollower = max(0, p.fashFollower + fashAdd)
+        p.followerTotal = max(0, p.fitFollower + p.hipFollower + p.lifeFollower + p.fashFollower)
         p.moneyTotal += moneyAdd
         println("money:" + str(p.moneyTotal))
         
@@ -211,8 +323,13 @@ def moneyDisplay(phoneX, phoneY):
         text("Followers", followtextX, textY) 
         textAlign(CENTER)
         text("Sponsors", sponsortextX, textY)
+        
+def cashUpdate(cash):
+    for playeritem in playerList:
+        p = playeritem
+        p.moneyTotal = cash
+        
 
-    
 #SPONSOR STUFF
 
 class sponsor(object):  # sponsor class
@@ -234,11 +351,6 @@ class sponsor(object):  # sponsor class
         sponsorList.append(self)
 
     def sponsorPay(self):
-        #println(self.name)
-        #println("mood: " + str(self.mood))
-        #println("moodlimit: " + str(self.moodThreshold))
-        #println("sponsoring: " + str(self.sponsoring))
-        #println(str(self.turnsSinceBonus) + " " + str(self.bonusFreq))
         self.turnsSinceBonus += 1
         if self.sponsoring == True:
             if self.turnsSinceBonus >= self.bonusFreq:
@@ -250,7 +362,11 @@ class sponsor(object):  # sponsor class
                 self.sponsoring = True
 
    
-
+def sponsorMouseOver():
+    for sponsoritem in sponsorList:
+        s = sponsoritem
+        
+    
 def sponsorBuild():
     println("sponsors built")
     sportscoGood = [
@@ -372,11 +488,11 @@ def audienceCheck():
 
 class location(object):  # location class
 
-    def __init__(self, xPos, yPos, name, locationImage, buttonLabel):
+    def __init__(self, xPos, yPos, name, cost, locationImage, buttonLabel):
         self.xPos = xPos
         self.yPos = yPos
         self.name = name
-        self.cost = randomNormal(10, 50)
+        self.cost = cost
         self.locationImage = locationImage
         self.locationOn = False
         # number of times in a row location has been used
@@ -414,19 +530,19 @@ def locationDraw(phoneX, phoneY):
 def locationBuild():
     #locationX = phoneX + 40
     #locationY = phoneY + 70
-    cafe = location(0, 0, "Cafe", cafeBG, "cafeButton")
-    gallery = location(0, 0, "Gallery", galleryBG, "galleryButton")
-    bedroom = location(0, 0, "Bedroom", bedroomBG, "bedroomButton")
-    nature = location(0, 0, "Nature", natureBG, "natureButton")
-    city = location(0, 0, "City", cityBG, "cityButton")
-    wall = location(0, 0, "Wall", wallBG, "wallButton")
+    cafe = location(0, 0, "Cafe", randomNormal(1, 5), cafeBG, "cafeButton")
+    gallery = location(0, 0, "Gallery", randomNormal(5, 20), galleryBG, "galleryButton")
+    bedroom = location(0, 0, "Bedroom", 0, bedroomBG, "bedroomButton")
+    nature = location(0, 0, "Nature", randomNormal(5, 20), natureBG, "natureButton")
+    city = location(0, 0, "City", randomNormal(5, 20), cityBG, "cityButton")
+    wall = location(0, 0, "Wall", randomNormal(1, 5), wallBG, "wallButton")
         
 
 #LOCATION STUFF
 
 class item(object):  # inventory class
 
-    def __init__(self, name, cost, handMode, itemImage, buttonLabel):
+    def __init__(self, name, cost, handMode, itemImage, buttonLabel, itemType):
         self.xPos = 0
         self.yPos = 0
         self.name = name
@@ -438,45 +554,123 @@ class item(object):  # inventory class
         # number of times in a row location has been used
         self.tiredItem = 0
         self.buttonLabel = buttonLabel
+        self.itemType = itemType
         itemList.append(self)
         
     def display(self): #item display
-        if self.itemImage == coffeePic:
-            image(coffeePic, self.xPos, self.yPos)
-        elif self.itemImage == bagelPic:
-            image(bagelPic, self.xPos, self.yPos)
-        elif self.itemImage == pastryPic:
-            image(pastryPic, self.xPos, self.yPos)
-        elif self.itemImage == sandwichPic:
-            image(sandwichPic, self.xPos, self.yPos)
-        elif self.itemImage == icecreamPic:
-            image(icecreamPic, self.xPos, self.yPos)
-        elif self.itemImage == teaPic:
-            image(teaPic, self.xPos, self.yPos)
-        elif self.itemImage == gadgetPic:
-            image(gadgetPic, self.xPos, self.yPos)
-        elif self.itemImage == cameraPic:
-            image(cameraPic, self.xPos, self.yPos)
-        elif self.itemImage == manicurePic:
-            image(manicurePic, self.xPos, self.yPos)
-        elif self.itemImage == shadesPic:
-            image(shadesPic, self.xPos, self.yPos)
-        elif self.itemImage == bagPic:
-            image(bagPic, self.xPos, self.yPos)
-        elif self.itemImage == carPic:
-            image(carPic, self.xPos, self.yPos)
-        elif self.itemImage == shirtPic:
-            image(shirtPic, self.xPos, self.yPos)
-        elif self.itemImage == casualPic:
-            image(casualPic, self.xPos, self.yPos)
-        elif self.itemImage == formalPic:
-            image(formalPic, self.xPos, self.yPos)
-        elif self.itemImage == workoutPic:
-            image(workoutPic, self.xPos, self.yPos)
-        elif self.itemImage == sneakerPic:
-            image(sneakerPic, self.xPos, self.yPos)
-        elif self.itemImage == heelsPic:
-            image(heelsPic, self.xPos, self.yPos)
+        for modeitem in modeList:
+            m = modeitem
+            if m.handMode:
+                if self.itemImage == coffeePic:
+                    image(coffeePicH, self.xPos, self.yPos)
+                elif self.itemImage == bagelPic:
+                    image(bagelPicH, self.xPos, self.yPos)
+                elif self.itemImage == pastryPic:
+                    image(pastryPicH, self.xPos, self.yPos)
+                elif self.itemImage == sandwichPic:
+                    image(sandwichPicH, self.xPos, self.yPos)
+                elif self.itemImage == icecreamPic:
+                    image(icecreamPicH, self.xPos, self.yPos)
+                elif self.itemImage == teaPic:
+                    image(teaPicH, self.xPos, self.yPos)
+                elif self.itemImage == gadgetPic:
+                    image(gadgetPicH, self.xPos, self.yPos)
+                elif self.itemImage == cameraPic:
+                    image(cameraPicH, self.xPos, self.yPos)
+                elif self.itemImage == manicurePic:
+                    image(manicurePicH, self.xPos, self.yPos)
+                elif self.itemImage == shadesPic:
+                    image(shadesPicH, self.xPos, self.yPos)
+                elif self.itemImage == bagPic:
+                    image(bagPicH, self.xPos, self.yPos)
+                elif self.itemImage == carPic:
+                    image(carPicH, self.xPos, self.yPos)
+                elif self.itemImage == shirtPic:
+                    image(shirtPicH, self.xPos, self.yPos)
+                elif self.itemImage == casualPic:
+                    image(casualPicH, self.xPos, self.yPos)
+                elif self.itemImage == formalPic:
+                    image(formalPicH, self.xPos, self.yPos)
+                elif self.itemImage == workoutPic:
+                    image(workoutPicH, self.xPos, self.yPos)
+                elif self.itemImage == sneakerPic:
+                    image(sneakerPicH, self.xPos, self.yPos)
+                elif self.itemImage == heelsPic:
+                    image(heelsPicH, self.xPos, self.yPos)
+            elif m.bedcafeMode:    
+                if self.itemImage == coffeePic:
+                    image(coffeePic, self.xPos, self.yPos)
+                elif self.itemImage == bagelPic:
+                    image(bagelPic, self.xPos, self.yPos)
+                elif self.itemImage == pastryPic:
+                    image(pastryPic, self.xPos, self.yPos)
+                elif self.itemImage == sandwichPic:
+                    image(sandwichPic, self.xPos, self.yPos)
+                elif self.itemImage == icecreamPic:
+                    image(icecreamPic, self.xPos, self.yPos)
+                elif self.itemImage == teaPic:
+                    image(teaPic, self.xPos, self.yPos)
+                elif self.itemImage == gadgetPic:
+                    image(gadgetPic, self.xPos, self.yPos)
+                elif self.itemImage == cameraPic:
+                    image(cameraPic, self.xPos, self.yPos)
+                elif self.itemImage == manicurePic:
+                    image(manicurePic, self.xPos, self.yPos)
+                elif self.itemImage == shadesPic:
+                    image(shadesPic, self.xPos, self.yPos)
+                elif self.itemImage == bagPic:
+                    image(bagPic, self.xPos, self.yPos)
+                elif self.itemImage == carPic:
+                    image(carPic, self.xPos, self.yPos)
+                elif self.itemImage == shirtPic:
+                    image(shirtPic, self.xPos, self.yPos)
+                elif self.itemImage == casualPic:
+                    image(casualPic, self.xPos, self.yPos)
+                elif self.itemImage == formalPic:
+                    image(formalPic, self.xPos, self.yPos)
+                elif self.itemImage == workoutPic:
+                    image(workoutPic, self.xPos, self.yPos)
+                elif self.itemImage == sneakerPic:
+                    image(sneakerPic, self.xPos, self.yPos)
+                elif self.itemImage == heelsPic:
+                    image(heelsPic, self.xPos, self.yPos)
+            else:
+                if self.itemImage == coffeePic:
+                    image(coffeePic2, self.xPos, self.yPos)
+                elif self.itemImage == bagelPic:
+                    image(bagelPic2, self.xPos, self.yPos)
+                elif self.itemImage == pastryPic:
+                    image(pastryPic2, self.xPos, self.yPos)
+                elif self.itemImage == sandwichPic:
+                    image(sandwichPic2, self.xPos, self.yPos)
+                elif self.itemImage == icecreamPic:
+                    image(icecreamPic2, self.xPos, self.yPos)
+                elif self.itemImage == teaPic:
+                    image(teaPic2, self.xPos, self.yPos)
+                elif self.itemImage == gadgetPic:
+                    image(gadgetPic2, self.xPos, self.yPos)
+                elif self.itemImage == cameraPic:
+                    image(cameraPic2, self.xPos, self.yPos)
+                elif self.itemImage == manicurePic:
+                    image(manicurePic2, self.xPos, self.yPos)
+                elif self.itemImage == shadesPic:
+                    image(shadesPic2, self.xPos, self.yPos)
+                elif self.itemImage == bagPic:
+                    image(bagPic2, self.xPos, self.yPos)
+                elif self.itemImage == carPic:
+                    image(carPic2, self.xPos, self.yPos)
+                elif self.itemImage == shirtPic:
+                    image(shirtPic2, self.xPos, self.yPos)
+                elif self.itemImage == casualPic:
+                    image(casualPic2, self.xPos, self.yPos)
+                elif self.itemImage == formalPic:
+                    image(formalPic2, self.xPos, self.yPos)
+                elif self.itemImage == workoutPic:
+                    image(workoutPic2, self.xPos, self.yPos)
+                elif self.itemImage == sneakerPic:
+                    image(sneakerPic2, self.xPos, self.yPos)
+                elif self.itemImage == heelsPic:
+                    image(heelsPic2, self.xPos, self.yPos)
             
 def itemDraw(phoneX, phoneY):
     itemX = phoneX + 41
@@ -484,32 +678,56 @@ def itemDraw(phoneX, phoneY):
     for itemObject in itemList:
         itemObject.xPos = itemX
         itemObject.yPos = itemY
-        if itemObject.itemOn == True:        
+        if itemObject.itemOn == True and itemObject.itemType != "Food" and itemObject.itemType != "Clothes":        
             imageMode(CORNER)
             itemObject.display()
         else:
             continue
-  
-def itemBuild():
-    coffee = item("Coffee", randomNormal(1, 7), 0, coffeePic, "coffeeButton")
-    bagel = item("Bagel", randomNormal(1, 4), 0, bagelPic, "bagelButton")
-    pastry = item("Pastry", randomNormal(1, 4), 0, pastryPic, "pastryLabel")
-    sandwich = item("Sandwich", randomNormal(5, 10), 0, sandwichPic, "sandwichLabel")
-    icecream = item("IceCream", randomNormal(1, 5), 0, icecreamPic, "icecreamLabel")
-    tea = item("Tea", randomNormal(1, 5), 0, teaPic, "teaLabel")
-    gadget = item("Gadget", randomNormal(300, 700), 0, gadgetPic, "gadgetLabel")
-    digicamera = item("Camera", randomNormal(100, 300), 0, cameraPic, "cameraLabel")
-    manicure = item("Manicure", randomNormal(10, 30), 0, manicurePic, "manicureLabel")
-    shades = item("Shades", randomNormal(10, 100), 0, shadesPic, "shadesLabel")
-    bag = item("Bag", randomNormal(50, 100), 0, bagPic, "bagLabel")
-    car = item("Car", randomNormal(80, 200), 0, carPic, "carLabel")
-    shirt = item("Shirt", randomNormal(10, 50), 0, shirtPic, "shirtLabel")
-    casual = item("Casual", randomNormal(30, 70), 0, casualPic, "casualLabel")
-    formal = item("Formal", randomNormal(50, 150), 0, formalPic, "formalLabel")
-    workout = item("Workout", randomNormal(20, 70), 0, workoutPic, "wourkoutLabel")
-    sneakers = item("Sneakers", randomNormal(50, 150), 0, sneakerPic, "sneakerLabel")
-    heels = item("Heels", randomNormal(100, 200), 0, heelsPic, "heelsLabel")
 
+def charfoodDraw(phoneX, phoneY):
+    itemX = phoneX + 41
+    itemY = phoneY + 70
+    for itemObject in itemList:
+        itemObject.xPos = itemX
+        itemObject.yPos = itemY
+        if itemObject.itemOn == True and itemObject.itemType != "Item" and itemObject.itemType != "Shoes":        
+            imageMode(CORNER)
+            itemObject.display()
+        else:
+            continue
+    
+def itemBuild():
+    coffee = item("Coffee", randomNormal(1, 7), 0, coffeePic, "coffeeButton", "Food")
+    bagel = item("Bagel", randomNormal(1, 4), 0, bagelPic, "bagelButton", "Food")
+    pastry = item("Pastry", randomNormal(1, 4), 0, pastryPic, "pastryLabel", "Food")
+    sandwich = item("Sandwich", randomNormal(5, 10), 0, sandwichPic, "sandwichLabel", "Food")
+    icecream = item("IceCream", randomNormal(1, 5), 0, icecreamPic, "icecreamLabel", "Food")
+    tea = item("Tea", randomNormal(1, 5), 0, teaPic, "teaLabel", "Food")
+    gadget = item("Gadget", randomNormal(300, 700), 0, gadgetPic, "gadgetLabel", "Item")
+    digicamera = item("Camera", randomNormal(100, 300), 0, cameraPic, "cameraLabel", "Item")
+    manicure = item("Manicure", randomNormal(10, 30), 0, manicurePic, "manicureLabel", "Item")
+    shades = item("Shades", randomNormal(10, 100), 0, shadesPic, "shadesLabel", "Item")
+    bag = item("Bag", randomNormal(50, 100), 0, bagPic, "bagLabel", "Item")
+    car = item("Car", randomNormal(80, 200), 0, carPic, "carLabel", "Item")
+    shirt = item("Shirt", randomNormal(10, 50), 0, shirtPic, "shirtLabel", "Clothes")
+    casual = item("Casual", randomNormal(30, 70), 0, casualPic, "casualLabel", "Clothes")
+    formal = item("Formal", randomNormal(50, 150), 0, formalPic, "formalLabel", "Clothes")
+    workout = item("Workout", randomNormal(20, 70), 0, workoutPic, "wourkoutLabel", "Clothes")
+    sneakers = item("Sneakers", randomNormal(50, 150), 0, sneakerPic, "sneakerLabel", "Shoes")
+    heels = item("Heels", randomNormal(100, 200), 0, heelsPic, "heelsLabel", "Shoes")
+
+
+class gameMode(object):
+    
+    def __init__(self):
+        self.handMode = False
+        self.bedcafeMode = False
+        self.locationOn = False
+        self.outfitOn = False
+        self.itemOn = False
+        self.foodOn = False
+        modeList.append(self)
+        
 
 
 #ALL OF THE BUTTON STUFF STARTS HERE
@@ -542,62 +760,405 @@ class button(object):  # class defenition
         fill(0, 0, 0)
         textSize(10)
         textAlign(CENTER, CENTER)
-        text(self.buttonLabel, self.xPos, self.yPos,
-             self.buttonWidth - 10, self.buttonHeight - 10)
-
-
-def snapButton():
-    sponsorCheck()
-    audienceCheck()
-    for locationitem in locationList:
-        l = locationitem
-        l.locationOn = False
-    for inventoryitem in itemList:
-        i = inventoryitem
-        i.itemOn = False
-    println("ding")
+        #text(self.buttonLabel, self.xPos, self.yPos,
+             #self.buttonWidth - 10, self.buttonHeight - 10)    
 
 
 def buttonHittest():
-    println("Start")
+    cash = 0
+    for playeritem in playerList:
+        p = playeritem
+        cash = p.moneyTotal
     for buttonobject in buttonList:
         b = buttonobject
         if mouseX > b.xPos - b.buttonWidth / 2 and mouseX < b.xPos + b.buttonWidth / 2 and mouseY > b.yPos - b.buttonHeight / 2 and mouseY < b.yPos + b.buttonHeight / 2:
-            println(b.buttonType == "snapButton" and b.buttonOn == True)
-            if b.buttonType == "gameStateButton" and b.buttonOn == True:
+            if b.buttonType == "gameStateButton" and b.buttonOn:
                 global gameState
                 gameState = b.buttonResult
-                #println(b.buttonLabel)
-                #println(b.yPos)
-            elif b.buttonType == "locationButton" and b.buttonOn == True:
+            elif b.buttonType == "locationButton" and b.buttonOn:
                 for locationobject in locationList:
                     l = locationobject
                     if l.name == b.buttonLabel:
-                        l.locationOn = True
+                        if l.cost < cash and l.locationOn == False:
+                            cash -= l.cost
+                            l.locationOn = True
+                            cashUpdate(cash)
+                            for modeitem in modeList:
+                                m = modeitem
+                                m.locationOn = True
+                                if l.name == "Cafe" or l.name == "Bedroom":
+                                    m.bedcafeMode = True
+                                else:
+                                    m.bedcafeMode = False
                     elif l.name != b.buttonLabel:
-                        l.locationOn = False
-            elif b.buttonType == "itemButton" or "foodButton" or "outfitButton" and b.buttonOn == True:
-                for itemobject in itemList:
-                    i = itemobject
-                    if i.name == b.buttonLabel:
-                        #println(i.itemOn)
-                        i.itemOn = not i.itemOn
-                        #println("result: " + str(i.itemOn))
+                        if l.locationOn == True:
+                            cash += l.cost
+                            l.locationOn = False
+                            cashUpdate(cash)
+            elif b.buttonType == "outfitButton" and b.buttonOn:
+                for modeitem in modeList:
+                    m = modeitem
+                    if m.locationOn:
+                        for itemobject in itemList:
+                            i = itemobject
+                            if i.name == b.buttonLabel and m.handMode == False:
+                                if i.bought:
+                                    i.itemOn = True
+                                    m.outfitOn = True
+                                elif i.cost < cash and i.itemOn == False:
+                                    cash -= i.cost
+                                    i.itemOn = True
+                                    cashUpdate(cash)
+                                    m.outfitOn = True
+                            elif i.name != b.buttonLabel and i.itemType == "Clothes" and m.handMode == False:
+                                if i.itemOn:
+                                    cash += i.cost
+                                    i.itemOn = False
+                                    cashUpdate(cash)
+                            elif i.name == b.buttonLabel and m.handMode:
+                                if i.bought:
+                                    i.itemOn = True
+                                    m.outfitOn = True
+                                elif i.cost < cash and i.itemOn == False:
+                                    cash -= i.cost
+                                    i.itemOn = True
+                                    cashUpdate(cash)
+                                    m.outfitOn = True
+                            elif i.name != b.buttonLabel and m.handMode:
+                                if i.itemOn:
+                                    cash += i.cost
+                                    i.itemOn = False
+                                    cashUpdate(cash)
+            elif b.buttonType == "shoeButton" and b.buttonOn:
+                for modeitem in modeList:
+                    m = modeitem
+                    println(str(m.locationOn) + str(m.outfitOn) + str(m.bedcafeMode) + str(m.handMode))
+                    if m.locationOn and m.outfitOn and m.bedcafeMode == False and m.handMode == False:
+                        for itemobject in itemList:
+                            i = itemobject
+                            if i.name == b.buttonLabel:
+                                if i.bought:
+                                    i.itemOn = True
+                                elif i.cost < cash and i.itemOn == False:
+                                    cash -= i.cost
+                                    i.itemOn = True
+                                    cashUpdate(cash)
+                            elif i.name != b.buttonLabel and i.itemType == "Shoes":
+                                if i.itemOn:
+                                    cash += i.cost
+                                    i.itemOn = False
+                                    cashUpdate(cash)
+                    if m.locationOn and m.handMode:
+                        for itemobject in itemList:
+                            i = itemobject
+                            if i.name == b.buttonLabel:
+                                if i.bought:
+                                    i.itemOn = True
+                                elif i.cost < cash and i.itemOn == False:
+                                    cash -= i.cost
+                                    i.itemOn = True
+                                    cashUpdate(cash)
+                            elif i.name != b.buttonLabel:
+                                if i.itemOn:
+                                    cash += i.cost
+                                    i.itemOn = False
+                                    cashUpdate(cash)
+            elif b.buttonType == "itemButton" and b.buttonOn:
+                for modeitem in modeList:
+                    m = modeitem
+                    #println(str(m.locationOn) + " " + str(m.out)
+                    if m.locationOn and m.outfitOn:
+                        for itemobject in itemList:
+                            i = itemobject
+                            if i.name == b.buttonLabel and m.handMode == False:
+                                if i.bought:
+                                    i.itemOn = True
+                                elif i.cost < cash and i.itemOn == False:
+                                    cash -= i.cost
+                                    i.itemOn = True
+                                    cashUpdate(cash)
+                            elif i.name != b.buttonLabel and i.itemType == "Item" and m.handMode == False:
+                                if i.itemOn:
+                                    cash += i.cost
+                                    i.itemOn = False
+                                    cashUpdate(cash) 
+                            elif i.name == b.buttonLabel and m.handMode:
+                                if i.bought:
+                                    i.itemOn = True
+                                elif i.cost < cash and i.itemOn == False:
+                                    cash -= i.cost
+                                    i.itemOn = True
+                                    cashUpdate(cash)
+                            elif i.name != b.buttonLabel and m.handMode:
+                                if i.itemOn:
+                                    cash += i.cost
+                                    i.itemOn = False
+                                    cashUpdate(cash)
+            elif b.buttonType == "foodButton" and b.buttonOn:
+                for modeitem in modeList:
+                    m = modeitem
+                    #println(str(m.locationOn) + " " + str(m.out)
+                    if m.locationOn and m.outfitOn:
+                        for itemobject in itemList:
+                            i = itemobject
+                            if i.name == b.buttonLabel:
+                                if i.bought:
+                                    i.itemOn = True
+                                elif i.cost < cash and i.itemOn == False:
+                                    cash -= i.cost
+                                    i.itemOn = True
+                                    cashUpdate(cash)
+                            elif i.name != b.buttonLabel and i.itemType == "Food":
+                                if i.itemOn:
+                                    cash += i.cost
+                                    i.itemOn = False
+                                    cashUpdate(cash)
+                            elif i.name == b.buttonLabel and m.handMode:
+                                if i.bought:
+                                    i.itemOn = True
+                                elif i.cost < cash and i.itemOn == False:
+                                    cash -= i.cost
+                                    i.itemOn = True
+                                    cashUpdate(cash)
+                            elif i.name != b.buttonLabel and m.handMode:
+                                if i.itemOn:
+                                    cash += i.cost
+                                    i.itemOn = False
+                                    cashUpdate(cash)
+            elif b.buttonType == "handmodeButton" and b.buttonOn:
+                for modeitem in modeList:
+                    m = modeitem
+                    if m.handMode:
+                        m.handMode = False
+                        m.outfitOn = False
+                        for item in itemList:
+                            i = item
+                            i.itemOn = False
                     else:
-                        continue
-            elif b.buttonType == "snapButton" and b.buttonOn == True:
-                println("snapmatch")
-                snapButton()   
+                        m.handMode = True
+                        m.outfitOn = True
+                        for item in itemList:
+                            i = item
+                            i.itemOn = False
+            elif b.buttonType == "snapButton" and b.buttonOn:
+                for modeitem in modeList:
+                    m = modeitem
+                    if m.locationOn:
+                        snapButton()   
         else:
             continue
-    println("End")
-                        
-                
 
-def buttonKill():
+
+def buttonMouseOver():
     for buttonobject in buttonList:
         b = buttonobject
-        buttonList.remove(b)
+        xPos = mouseX + 30
+        yPos = mouseY - 10
+        if mouseX > b.xPos - b.buttonWidth / 2 and mouseX < b.xPos + b.buttonWidth / 2 and mouseY > b.yPos - b.buttonHeight / 2 and mouseY < b.yPos + b.buttonHeight / 2:
+            if b.buttonType == "locationButton" and b.buttonOn:
+                for locationobject in locationList:
+                    l = locationobject
+                    if l.name == b.buttonLabel:
+                        price = l.cost
+                        textSize(14)
+                        fill(0, 0, 0)
+                        text("$" + str(price) + ".00", xPos, yPos)            
+            elif b.buttonType == "itemButton" and b.buttonOn:
+                for itemobject in itemList:
+                    i = itemobject
+                    if i.name == b.buttonLabel and i.bought == False:
+                        price = i.cost
+                        textSize(14)
+                        fill(0, 0, 0)
+                        text("$" + str(price) + ".00", xPos, yPos)  
+            elif b.buttonType == "foodButton" and b.buttonOn:
+                for foodobject in itemList:
+                    f = foodobject
+                    if f.name == b.buttonLabel:
+                        price = f.cost
+                        textSize(14)
+                        fill(0, 0, 0)
+                        text("$" + str(price) + ".00", xPos, yPos)  
+            elif b.buttonType == "outfitButton" or b.buttonType == "shoeButton" and b.buttonOn:
+                for outfitobject in itemList:
+                    o = outfitobject
+                    if o.name == b.buttonLabel and o.bought == False:
+                        price = o.cost
+                        textSize(14)
+                        fill(0, 0, 0)
+                        text("$" + str(price) + ".00", xPos, yPos)
+            elif b.buttonType == "mouseOverButton" and b.buttonOn:
+                if b.buttonLabel == "Sponsor":
+                    sponsorX = b.xPos - 30
+                    sponsorY = b.yPos + 20
+                    for sponsoritem in sponsorList:
+                        s = sponsoritem
+                        mood = s.moodThreshold - s.mood
+                        textAlign(LEFT)
+                        textSize(12)
+                        if s.sponsoring:
+                            text(str(s.name) + " - " + "Sponsored", sponsorX, sponsorY)
+                        else:
+                            if mood > 100:
+                                text(str(s.name) + " - " + "Not Impressed", sponsorX, sponsorY)
+                            elif mood > 30:
+                                text(str(s.name) + " - " + "Neutral", sponsorX, sponsorY)
+                            elif mood > 0:
+                                text(str(s.name) + " - " + "Impressed", sponsorX, sponsorY)
+                        sponsorY += 13
+                elif b.buttonLabel == "Follower":
+                    followerX = b.xPos - 30
+                    followerY = b.yPos + 20
+                    for playeritem in playerList:
+                        p = playeritem
+                        total = p.followerTotal
+                        textAlign(LEFT)
+                        textSize(12)
+                        if total > 0:
+                            text("Total Followers - " + str(total), followerX, followerY)
+                            followerY += 13
+                            text("Fitness Fans - " + str((p.fitFollower / total) * 100) + "%" + "//" + str(p.fitFollower), followerX, followerY)
+                            followerY += 13
+                            text("Hipsters - " + str((p.hipFollower / total) * 100) + "%" + "//" + str(p.hipFollower), followerX, followerY)
+                            followerY += 13
+                            text("Lifestyle Fans - " + str((p.lifeFollower / total) * 100) + "%" + "//" + str(p.lifeFollower), followerX, followerY)
+                            followerY += 13
+                            text("Fashionistas - " + str((p.fashFollower / total) * 100) + "%" + "//" + str(p.fashFollower), followerX, followerY)
+                        else:
+                            text("No Followers", followerX, followerY) 
+                elif b.buttonLabel == "TurnsLeft":
+                     turnsX = b.xPos
+                     turnsY = b.yPos + 13
+                     for playeritem in playerList:
+                         p = playeritem
+                         fill(200, 200, 200)
+                         textSize(12)
+                         text("TURNS", turnsX, turnsY)                   
+                    
+        else:
+            continue  
+
+
+def snapButtonBuild():
+    buttonX = 0
+    buttonY = 0
+    snapLabel = "SNAP"
+    buttonColour = color(200, 200, 200, 10)
+    snapButton = button(buttonX, buttonY, 49, 49, buttonColour, snapLabel, 3, "snapButton")
+
+def snapButtonDisplay(phoneX, phoneY):
+    buttonX = phoneX + phone.width / 2
+    buttonY = phoneY + 320
+    for buttonitem in buttonList:
+        b = buttonitem
+        if b.buttonLabel == "SNAP":
+            b.xPos = buttonX
+            b.yPos = buttonY
+            fill(200, 200, 200)
+            ellipse(b.xPos, b.yPos, 49, 49)
+            buttonColour = color(255, 255, 255)
+            fill(buttonColour)
+            ellipse(b.xPos, b.yPos, 31, 31)
+            b.display()
+                                                                            
+def snapButton():
+    sponsorCheck()
+    audienceCheck()
+    for modeobject in modeList:
+        m = modeobject
+        m.locationOn = False
+        m.outfitOn = False
+        m.handMode = False
+        m.bedcafeMode = False
+    for locationobject in locationList:
+        l = locationobject
+        l.locationOn = False
+    for itemobject in itemList:
+        i = itemobject
+        if i.itemOn == True:
+            i.bought = i.name in hardGoods
+            i.tiredItem += 1
+            i.itemOn = False
+        elif i.itemOn == False:
+            i.tiredItem = 0
+    for playeritem in playerList:
+        p = playeritem 
+        p.turnsLeft -= 1
+    println("ding")
+    
+
+def turnsLeftButtonBuild():
+    #set up and display # of turns left
+    buttonColour = color(200, 200, 200, 10)
+    buttonX = 0
+    buttonY = 0
+    turnsLeftLabel = "TurnsLeft"
+    turnsleftButton = button(buttonX, buttonY, 30, 16, buttonColour, turnsLeftLabel, 3, "mouseOverButton")
+    
+def turnsLeftButtonDisplay(phoneX, phoneY):
+    for buttonitem in buttonList:
+        b = buttonitem
+        if b.buttonLabel == "TurnsLeft":
+            b.xPos = phoneX + 78
+            b.yPos = phoneY + 322
+            b.display()
+            for playeritem in playerList:
+                p = playeritem
+                fill(200, 200, 200)
+                textSize(18)
+                text(str(p.turnsLeft), b.xPos, b.yPos)
+            
+        
+def handModeButtonBuild():
+    #set up and display selfie button
+    buttonColour = color(200, 200, 200, 5)
+    buttonX = 0
+    buttonY = 0
+    handmodeLabel = "Handmode"
+    handmodeButton = button(buttonX, buttonY, 18, 18, buttonColour, handmodeLabel, 3, "handmodeButton")
+    
+def handModeButtonDisplay(phoneX, phoneY):
+    for buttonitem in buttonList:
+        b = buttonitem
+        if b.buttonLabel == "Handmode":
+            b.xPos = phoneX + 200
+            b.yPos = phoneY + 320
+            b.display()
+            image(selfie, b.xPos, b.yPos)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+                        
+
+def sponsorButtonBuild():
+    #set up and display sponsor button for mouseOver
+    buttonColour = color(200, 200, 200, 10)
+    buttonX = 0
+    buttonY = 0
+    sponsorLabel = "Sponsor"
+    sponsorButton = button(buttonX, buttonY, 80, 25, buttonColour, sponsorLabel, 3, "mouseOverButton")
+    
+def sponsorButtonDisplay(phoneX, phoneY):
+    for buttonitem in buttonList:
+        b = buttonitem
+        if b.buttonLabel == "Sponsor":
+            b.xPos = phoneX + 501
+            b.yPos = phoneY + 445
+            b.display()
+
+
+def followerButtonBuild():
+    #set up and display follower button for mouseOver
+    buttonColour = color(200, 200, 200, 10)
+    buttonX = 0
+    buttonY = 0
+    followerLabel = "Follower"
+    followerButton = button(buttonX, buttonY, 80, 25, buttonColour, followerLabel, 3, "mouseOverButton")
+    
+def followerButtonDisplay(phoneX, phoneY):
+    for buttonitem in buttonList:
+        b = buttonitem
+        if b.buttonLabel == "Follower":
+            b.xPos = phoneX + 630
+            b.yPos = phoneY + 445
+            b.display()
 
 
 def introMenuButtonBuild():
@@ -616,6 +1177,7 @@ def introMenuButtonDisplay(phoneX, phoneY):
             b.xPos = phoneX + phone.width / 2
             b.yPos = phoneY + 268
             b.display()
+            text(str(b.buttonLabel), b.xPos, b.yPos)
 
 
 def helpMenuButtonBuild():
@@ -634,6 +1196,7 @@ def helpMenuButtonDisplay(phoneX, phoneY):
             b.xPos = phoneX + phone.width / 2
             b.yPos = phoneY + 200
             b.display()
+            text(str(b.buttonLabel), b.xPos, b.yPos)
             
 
 def locationButtonBuild():
@@ -711,7 +1274,7 @@ def foodButtonBuild():
 
 def foodButtonDisplay(phoneX, phoneY):
     buttonX = phoneX + 350
-    buttonY = phoneY + 157
+    buttonY = phoneY + 291
     for buttonitem in buttonList:
         b = buttonitem
         if b.buttonType == "foodButton":
@@ -803,16 +1366,16 @@ def outfitButtonBuild():
     workoutButton = button(
         buttonX, buttonY, 43, 43, buttonColour, workoutLabel, 3, "outfitButton")
     sneakersButton = button(
-        buttonX, buttonY, 43, 43, buttonColour, sneakersLabel, 3, "outfitButton")
+        buttonX, buttonY, 43, 43, buttonColour, sneakersLabel, 3, "shoeButton")
     heelsButton = button(
-        buttonX, buttonY, 43, 43, buttonColour, heelsLabel, 3, "outfitButton")
+        buttonX, buttonY, 43, 43, buttonColour, heelsLabel, 3, "shoeButton")
     
 def outfitButtonDisplay(phoneX, phoneY):
     buttonX = phoneX + 350
-    buttonY = phoneY + 291
+    buttonY = phoneY + 157
     for buttonitem in buttonList:
         b = buttonitem
-        if b.buttonType == "outfitButton":
+        if b.buttonType == "outfitButton" or b.buttonType == "shoeButton":
             b.xPos = buttonX
             b.yPos = buttonY
             imageMode(CENTER)
@@ -838,38 +1401,22 @@ def itemButtonLabels(phoneX, phoneY):
     textAlign(LEFT, TOP)
     text("Location", textX, textY)
     textY += 67
-    text("Food", textX, textY)
+    text("Outfit", textX, textY)
     textY += 67
     text("Items", textX, textY)
     textY += 67
-    text("Outfit", textX, textY)
+    text("Food", textX, textY)
     
-    
-def snapButtonBuild():
-    buttonX = 0
-    buttonY = 0
-    snapLabel = "SNAP"
-    buttonColour = color(200, 200, 200, 100)
-    snapButton = button(buttonX, buttonY, 49, 49, buttonColour, snapLabel, 3, "snapButton")
-
-def snapButtonDisplay(phoneX, phoneY):
-    buttonX = phoneX + phone.width / 2
-    buttonY = phoneY + 320
-    for buttonitem in buttonList:
-        b = buttonitem
-        if b.buttonLabel == "SNAP":
-            b.xPos = buttonX
-            b.yPos = buttonY
-            fill(200, 200, 200)
-            ellipse(b.xPos, b.yPos, 49, 49)
-            buttonColour = color(255, 255, 255)
-            fill(buttonColour)
-            ellipse(b.xPos, b.yPos, 31, 31)
-            b.display()
             
 
 #ALL OF THE BUTTON THINGS ARE FINISHED        
-    
+
+def gameOverCheck():
+    for playeritem in playerList:
+        p = playeritem
+        if p.turnsLeft == 0:
+            global gameState
+            gameState = 4        
 
 def gameStateControl(stateValue):
     if stateValue == 0:
@@ -902,11 +1449,24 @@ def gameStateControl(stateValue):
         outfitButtonDisplay(phoneX, phoneY)
         itemButtonLabels(phoneX, phoneY)
         snapButtonDisplay(phoneX, phoneY)
+        sponsorButtonDisplay(phoneX, phoneY)
+        followerButtonDisplay(phoneX, phoneY)
+        handModeButtonDisplay(phoneX, phoneY)
+        turnsLeftButtonDisplay(phoneX, phoneY)
+        buttonMouseOver()
         
-        #
+        #draw game things and snaps
         moneyDisplay(phoneX, phoneY)
         locationDraw(phoneX, phoneY)
+        handDraw(phoneX, phoneY)
+        charfoodDraw(phoneX, phoneY)
+        bedcafeDraw(phoneX, phoneY)
         itemDraw(phoneX, phoneY)
+        thumbDraw(phoneX, phoneY)
+        tmDraw(phoneX, phoneY)
+        
+        #gameover check
+        gameOverCheck()
 
     elif stateValue == 4:
         gameState = 0
@@ -917,6 +1477,9 @@ def mouseClicked():
 
 def setup():
     size(800, 600)
+    
+    #mode load
+    gameMode()
     
     #asset loads
     fontLoad()
@@ -937,6 +1500,10 @@ def setup():
     itemButtonBuild()
     outfitButtonBuild()
     snapButtonBuild()
+    sponsorButtonBuild()
+    followerButtonBuild()
+    handModeButtonBuild()
+    turnsLeftButtonBuild()
 
 
 

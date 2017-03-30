@@ -1,5 +1,13 @@
+  
+add_library("sound")
 
 from Arrays import *
+
+#sound
+def soundLoad():
+    global click
+    click = SoundFile(this, "camera.wav")
+
 
 # gamestates
 introMenu = 0
@@ -291,7 +299,7 @@ class player(object):
         self.fashFollower = 0
         self.followerTotal = 0
         self.turnsLeft = 20
-        self.moneyTotal = 2000
+        self.moneyTotal = 200
         playerList.append(self)
 
 def playerUpdate(fitAdd, hipAdd, lifeAdd, fashAdd, moneyAdd):
@@ -944,7 +952,8 @@ def buttonHittest():
                 for modeitem in modeList:
                     m = modeitem
                     if m.locationOn:
-                        snapButton()   
+                        snapButton()
+                        click.play()   
         else:
             continue
 
@@ -1019,7 +1028,7 @@ def buttonMouseOver():
                             followerY += 13
                             text("Fitness Fans - " + str((p.fitFollower / total) * 100) + "%" + "//" + str(p.fitFollower), followerX, followerY)
                             followerY += 13
-                            text("Hipsters - " + str((p.hipFollower / total) * 100) + "%" + "//" + str(p.hipFollower), followerX, followerY)
+                            text("Hipsters - " + str((float(p.hipFollower) / float(total)) * 100) + "%" + "//" + str(p.hipFollower), followerX, followerY)
                             followerY += 13
                             text("Lifestyle Fans - " + str((p.lifeFollower / total) * 100) + "%" + "//" + str(p.lifeFollower), followerX, followerY)
                             followerY += 13
@@ -1416,7 +1425,8 @@ def gameOverCheck():
         p = playeritem
         if p.turnsLeft == 0:
             global gameState
-            gameState = 4        
+            gameState = 4 
+    return(gameState)       
 
 def gameStateControl(stateValue):
     if stateValue == 0:
@@ -1484,6 +1494,7 @@ def setup():
     #asset loads
     fontLoad()
     pngLoad()
+    soundLoad()
     
     #object builds
     sponsorBuild()

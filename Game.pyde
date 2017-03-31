@@ -49,6 +49,12 @@ def pngLoad():
     hand = loadImage("hand.png")
     global thumb
     thumb = loadImage("thumb.png")
+    global helpBox
+    helpBox = loadImage("Instruction.png")
+    global endMode
+    endMode = loadImage("endmode.png")
+    global instructions
+    instructions = loadImage("instructionbutton.png")
     
     # location buttons
     global bedroom
@@ -242,7 +248,8 @@ def phoneDraw(xPos, yPos):
     image(phone, xPos, yPos)
 
 # draw help screen box
-def helpBoxDraw(xPos, yPos):  
+def helpBoxDraw(xPos, yPos): 
+    imageMode(CORNER) 
     image(helpBox, xPos, yPos)
 
 # draw daily logo
@@ -285,6 +292,53 @@ def bedcafeDraw(phoneX, phoneY):
                     elif l.name == "Bedroom":
                         image(blanket, phoneX + 41, phoneY + 70)
 
+#game over splash draw
+def gameOverDraw(phoneX, phoneY):
+    imageMode(CENTER)
+    image(endMode, phoneX, phoneY)
+    textX = width / 2
+    textY = phoneY - 125
+    textSize(25)
+    fill(192, 177, 177)
+    textAlign(CENTER)
+    text("Congrats! You finished with", textX, textY)
+    textY += 35
+    for playeritem in playerList:
+        p = playeritem
+        text("$" + str(p.moneyTotal), textX, textY)
+        textY += 35
+        text(str(p.followerTotal) + " Followers", textX, textY)
+        textY += 35
+        mostPop = p.fitFollower
+        if p.hipFollower > mostPop:
+            mostPop = p.hipFollower
+        if p.lifeFollower > mostPop:
+            mostPop = p.lifeFollower
+        if p.fashFollower > mostPop:
+            mostPop = p.fashFollower
+        if mostPop == p.fitFollower:
+            text("Most popular with fitness fans", textX, textY)
+        elif mostPop == p.hipFollower:
+            text("Most popular with hipsters", textX, textY)
+        elif mostPop == p.lifeFollower:
+            text("Most popular with lifestyle fans", textX, textY)
+        elif mostPop == p.fashFollower:
+            text("Most popular with fashionistas", textX, textY)
+        textY += 35
+        sponsorCount = 0
+        for sponsoritem in sponsorList:
+            s = sponsoritem
+            if s.sponsoring:
+                sponsorCount += 1
+        text(str(sponsorCount) + " Sponsors", textX, textY)
+        textY += 35
+        if sponsorCount > 0:
+            for sponsoritem in sponsorList:
+                s = sponsoritem
+                if s.sponsoring:
+                    text(str(s.name), textX, textY)
+                    textY += 35
+    
 
 #PLAYER STUFF
 
@@ -463,17 +517,17 @@ def audienceCheck():
         for locationitem in locationList:
             l = locationitem
             if l.name in a.goodThings:
-                a.amount += randomNormal(0, 200)
+                a.amount += randomNormal(0, 100)
             elif l.name in a.badThings:
-                a.amount -= randomNormal(0, 200)
+                a.amount -= randomNormal(0, 100)
             else:
                 continue
         for inventoryitem in itemList:
             i = inventoryitem
             if i.name in a.goodThings:
-                a.amount += randomNormal(0, 200)
+                a.amount += randomNormal(0, 100)
             elif i.name in a.badThings:
-                a.amount -= randomNormal(0, 200)
+                a.amount -= randomNormal(0, 100)
             else:
                 continue
         if a.name == "Fitness":
@@ -743,7 +797,7 @@ class gameMode(object):
 class button(object):  # class defenition
 
     def __init__(self, xPos, yPos, buttonWidth, buttonHeight, strokeColour, buttonLabel, buttonResult, buttonType):
-        self.buttonOn = True
+        self.buttonOn = False
         self.yPos = yPos
         self.xPos = xPos
         self.buttonType = buttonType
@@ -783,6 +837,33 @@ def buttonHittest():
             if b.buttonType == "gameStateButton" and b.buttonOn:
                 global gameState
                 gameState = b.buttonResult
+            elif b.buttonType == "gameOverButton" and b.buttonOn:
+                if b.buttonLabel == "CONTINUE":
+                    for playeritem in playerList:
+                        p = playeritem
+                        p.turnsLeft = 500
+                        global gameState
+                        gameState = b.buttonResult
+                elif b.buttonLabel == "RESTART":
+                    global gameState
+                    gameState = b.buttonResult
+                    for playeritem in playerList:
+                        p = playeritem
+                        p.fitFollower = 0
+                        p.hipFollower = 0
+                        p.lifeFollower = 0
+                        p.fashFollower = 0
+                        p.followerTotal = 0
+                        p.turnsLeft = 20
+                        p.moneyTotal = 200
+                    for sponsor in sponsorList:
+                        s = sponsor
+                        s.sponsoring = False
+                        s.mood = -(randomNormal(0, 50))
+                        s.moodThreshold = randomNormal(0, s.moodThresholdMax)
+                        s.bonusAmount = randomNormal(10, s.bonusMax)
+                        s.bonusFreq = randomNormal(1, 5)
+                        s.turnsSinceBonus = 0
             elif b.buttonType == "locationButton" and b.buttonOn:
                 for locationobject in locationList:
                     l = locationobject
@@ -791,6 +872,15 @@ def buttonHittest():
                             cash -= l.cost
                             l.locationOn = True
                             cashUpdate(cash)
+                            if l.name == "Cafe" or l.name == "Bedroom":
+                                for item in itemList:
+                                    if item.itemType == "Shoes":
+                                        if item.bought:
+                                            item.itemOn = False
+                                        elif item.itemOn:
+                                            cash += item.cost
+                                            item.itemOn = False
+                                            cashUpdate(cash)
                             for modeitem in modeList:
                                 m = modeitem
                                 m.locationOn = True
@@ -846,10 +936,14 @@ def buttonHittest():
                             i = itemobject
                             if i.name == b.buttonLabel:
                                 if i.bought:
-                                    i.itemOn = True
+                                    i.itemOn = not i.itemOn
                                 elif i.cost < cash and i.itemOn == False:
                                     cash -= i.cost
                                     i.itemOn = True
+                                    cashUpdate(cash)
+                                elif i.bought == False and i.itemOn == True:
+                                    cash += i.cost
+                                    i.itemOn = False
                                     cashUpdate(cash)
                             elif i.name != b.buttonLabel and i.itemType == "Shoes":
                                 if i.itemOn:
@@ -1005,6 +1099,7 @@ def buttonMouseOver():
                         mood = s.moodThreshold - s.mood
                         textAlign(LEFT)
                         textSize(12)
+                        fill(192, 177, 177)
                         if s.sponsoring:
                             text(str(s.name) + " - " + "Sponsored", sponsorX, sponsorY)
                         else:
@@ -1023,16 +1118,17 @@ def buttonMouseOver():
                         total = p.followerTotal
                         textAlign(LEFT)
                         textSize(12)
+                        fill(192, 177, 177)
                         if total > 0:
                             text("Total Followers - " + str(total), followerX, followerY)
                             followerY += 13
-                            text("Fitness Fans - " + str((p.fitFollower / total) * 100) + "%" + "//" + str(p.fitFollower), followerX, followerY)
+                            text("Fitness Fans - " + str(int((float(p.fitFollower) / float(total)) * 100)) + "%", followerX, followerY)
                             followerY += 13
-                            text("Hipsters - " + str((float(p.hipFollower) / float(total)) * 100) + "%" + "//" + str(p.hipFollower), followerX, followerY)
+                            text("Hipsters - " + str(int((float(p.hipFollower) / float(total)) * 100)) + "%", followerX, followerY)
                             followerY += 13
-                            text("Lifestyle Fans - " + str((p.lifeFollower / total) * 100) + "%" + "//" + str(p.lifeFollower), followerX, followerY)
+                            text("Lifestyle Fans - " + str(int((float(p.lifeFollower) / float(total)) * 100)) + "%", followerX, followerY)
                             followerY += 13
-                            text("Fashionistas - " + str((p.fashFollower / total) * 100) + "%" + "//" + str(p.fashFollower), followerX, followerY)
+                            text("Fashionistas - " + str(int((float(p.fashFollower) / float(total)) * 100)) + "%", followerX, followerY)
                         else:
                             text("No Followers", followerX, followerY) 
                 elif b.buttonLabel == "TurnsLeft":
@@ -1047,6 +1143,12 @@ def buttonMouseOver():
         else:
             continue  
 
+
+def buttonKill():
+    for buttonitem in buttonList:
+        b = buttonitem
+        if b.buttonOn:
+            b.buttonOn = False
 
 def snapButtonBuild():
     buttonX = 0
@@ -1063,6 +1165,7 @@ def snapButtonDisplay(phoneX, phoneY):
         if b.buttonLabel == "SNAP":
             b.xPos = buttonX
             b.yPos = buttonY
+            b.buttonOn = True
             fill(200, 200, 200)
             ellipse(b.xPos, b.yPos, 49, 49)
             buttonColour = color(255, 255, 255)
@@ -1110,6 +1213,7 @@ def turnsLeftButtonDisplay(phoneX, phoneY):
         if b.buttonLabel == "TurnsLeft":
             b.xPos = phoneX + 78
             b.yPos = phoneY + 322
+            b.buttonOn = True
             b.display()
             for playeritem in playerList:
                 p = playeritem
@@ -1132,6 +1236,7 @@ def handModeButtonDisplay(phoneX, phoneY):
         if b.buttonLabel == "Handmode":
             b.xPos = phoneX + 200
             b.yPos = phoneY + 320
+            b.buttonOn = True
             b.display()
             image(selfie, b.xPos, b.yPos)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
                         
@@ -1150,6 +1255,7 @@ def sponsorButtonDisplay(phoneX, phoneY):
         if b.buttonLabel == "Sponsor":
             b.xPos = phoneX + 501
             b.yPos = phoneY + 445
+            b.buttonOn = True
             b.display()
 
 
@@ -1167,47 +1273,96 @@ def followerButtonDisplay(phoneX, phoneY):
         if b.buttonLabel == "Follower":
             b.xPos = phoneX + 630
             b.yPos = phoneY + 445
+            b.buttonOn = True
             b.display()
 
 
 def introMenuButtonBuild():
     # set up and display play and help buttons buttons
-    buttonColour = color(200, 200, 200)
+    buttonColour = color(200, 200, 200, 5)
     buttonX = 0
     buttonY = 0
     helpLabel = "HELP"
     helpButton = button(
         buttonX, buttonY, 76, 23, buttonColour, helpLabel, 1, "gameStateButton")
 
-def introMenuButtonDisplay(phoneX, phoneY):
+def introMenuButtonDisplay(phoneX, phoneY, gameState):
     for buttonitem in buttonList:
         b = buttonitem
-        if b.buttonLabel == "HELP":
+        if b.buttonLabel == "HELP" and gameState == 0:
             b.xPos = phoneX + phone.width / 2
             b.yPos = phoneY + 268
+            b.buttonOn = True
+            imageMode(CENTER)
+            image(instructions, b.xPos, b.yPos)
+            b.display()
+        elif b.buttonLabel == "HELP" and gameState == 3:
+            b.xPos = phoneX + 58
+            b.yPos = phoneY + 63
+            b.buttonOn = True
+            b.buttonWidth = 30
+            b.buttonHeight = 15
             b.display()
             text(str(b.buttonLabel), b.xPos, b.yPos)
 
 
 def helpMenuButtonBuild():
     # set up and display play and help buttons buttons
-    buttonColour = color(200, 200, 200)
+    buttonColour = color(200, 200, 200, 5)
     buttonX = 0
     buttonY = 0
     playLabel = "PLAY"
     playButton = button(
-        buttonX, buttonY, 76, 23, buttonColour, playLabel, 3, "gameStateButton")
+        buttonX, buttonY, 220, 35, buttonColour, playLabel, 3, "gameStateButton")
 
 def helpMenuButtonDisplay(phoneX, phoneY):
     for buttonitem in buttonList:
         b = buttonitem
         if b.buttonLabel == "PLAY":
-            b.xPos = phoneX + phone.width / 2
-            b.yPos = phoneY + 200
+            b.xPos = width / 2
+            b.yPos = height - 60
+            b.buttonOn = True
             b.display()
-            text(str(b.buttonLabel), b.xPos, b.yPos)
+        
             
+def restartButtonBuild():
+    # set up and display restart button
+    buttonColour = color(200, 200, 200, 0)
+    buttonX = 0
+    buttonY = 0
+    playLabel = "RESTART"
+    restartButton = button(
+        buttonX, buttonY, 220, 35, buttonColour, playLabel, 0, "gameOverButton")
+    
+def restartButtonDisplay():
+    for buttonitem in buttonList:
+        b = buttonitem
+        if b.buttonLabel == "RESTART":
+            b.xPos = 260
+            b.yPos = height - 125
+            b.buttonOn = True
+            b.display()
 
+    
+def continueButtonBuild():
+    # set up and display restart button
+    buttonColour = color(200, 200, 200, 0)
+    buttonX = 0
+    buttonY = 0
+    continueLabel = "CONTINUE"
+    restartButton = button(
+        buttonX, buttonY, 220, 35, buttonColour, continueLabel, 3, "gameOverButton")
+    
+def continueButtonDisplay():
+    for buttonitem in buttonList:
+        b = buttonitem
+        if b.buttonLabel == "CONTINUE":
+            b.xPos = 530
+            b.yPos = height - 125
+            b.buttonOn = True
+            b.display()
+                        
+    
 def locationButtonBuild():
     # set up location buttons
     buttonColour = color(200, 200, 200, 10)
@@ -1240,6 +1395,7 @@ def locationButtonDisplay(phoneX, phoneY):
         if b.buttonType == "locationButton":
             b.xPos = buttonX
             b.yPos = buttonY
+            b.buttonOn = True
             imageMode(CENTER)
             if b.buttonLabel == "Cafe":
                 image(cafe, b.xPos, b.yPos)
@@ -1283,12 +1439,13 @@ def foodButtonBuild():
 
 def foodButtonDisplay(phoneX, phoneY):
     buttonX = phoneX + 350
-    buttonY = phoneY + 291
+    buttonY = phoneY + 333
     for buttonitem in buttonList:
         b = buttonitem
         if b.buttonType == "foodButton":
             b.xPos = buttonX
             b.yPos = buttonY
+            b.buttonOn = True
             imageMode(CENTER)
             if b.buttonLabel == "Coffee":
                 image(coffee, b.xPos, b.yPos)
@@ -1332,12 +1489,13 @@ def itemButtonBuild():
 
 def itemButtonDisplay(phoneX, phoneY):
     buttonX = phoneX + 350
-    buttonY = phoneY + 224
+    buttonY = phoneY + 252
     for buttonitem in buttonList:
         b = buttonitem
         if b.buttonType == "itemButton":
             b.xPos = buttonX
             b.yPos = buttonY
+            b.buttonOn = True
             imageMode(CENTER)
             if b.buttonLabel == "Gadget":
                 image(gadget, b.xPos, b.yPos)
@@ -1381,12 +1539,13 @@ def outfitButtonBuild():
     
 def outfitButtonDisplay(phoneX, phoneY):
     buttonX = phoneX + 350
-    buttonY = phoneY + 157
+    buttonY = phoneY + 171
     for buttonitem in buttonList:
         b = buttonitem
         if b.buttonType == "outfitButton" or b.buttonType == "shoeButton":
             b.xPos = buttonX
             b.yPos = buttonY
+            b.buttonOn = True
             imageMode(CENTER)
             if b.buttonLabel == "Shirt":
                 image(shirts, b.xPos, b.yPos)
@@ -1405,15 +1564,15 @@ def outfitButtonDisplay(phoneX, phoneY):
     
 def itemButtonLabels(phoneX, phoneY):
     textX = phoneX + 329
-    textY = phoneY + 53
+    textY = phoneY + 45
     textSize(14)
     textAlign(LEFT, TOP)
     text("Location", textX, textY)
-    textY += 67
+    textY += 81
     text("Outfit", textX, textY)
-    textY += 67
+    textY += 81
     text("Items", textX, textY)
-    textY += 67
+    textY += 81
     text("Food", textX, textY)
     
             
@@ -1430,23 +1589,29 @@ def gameOverCheck():
 
 def gameStateControl(stateValue):
     if stateValue == 0:
+        buttonKill()
+        gameState = 0
         phoneX = width / 2 - phone.width / 2
         phoneY = 46
         phoneDraw(phoneX, phoneY)
         logoDraw(phoneX, phoneY)
-        introMenuButtonDisplay(phoneX, phoneY)
+        introMenuButtonDisplay(phoneX, phoneY, gameState)
         
 
     elif stateValue == 1:
-        phoneX = width / 2 - phone.width / 2
-        phoneY = 46
-        phoneDraw(phoneX, phoneY)
+        buttonKill()
+        phoneX = 0
+        phoneY = 0
+        helpBoxDraw(phoneX, phoneY)
+        #phoneDraw(phoneX, phoneY)
         helpMenuButtonDisplay(phoneX, phoneY)
 
     elif stateValue == 2:
         gameState = 3
 
     elif stateValue == 3:
+        buttonKill()
+        gameState = 3
         phoneX = 29
         phoneY = 46
         #main phone draw
@@ -1463,6 +1628,7 @@ def gameStateControl(stateValue):
         followerButtonDisplay(phoneX, phoneY)
         handModeButtonDisplay(phoneX, phoneY)
         turnsLeftButtonDisplay(phoneX, phoneY)
+        introMenuButtonDisplay(phoneX, phoneY, gameState)
         buttonMouseOver()
         
         #draw game things and snaps
@@ -1479,11 +1645,25 @@ def gameStateControl(stateValue):
         gameOverCheck()
 
     elif stateValue == 4:
-        gameState = 0
+        buttonKill()
+        phoneX = width / 2
+        phoneY = height / 2
+        gameOverDraw(phoneX, phoneY)
+        restartButtonDisplay()
+        continueButtonDisplay()
 
 def mouseClicked():
     buttonHittest()
-    
+
+def keyPressed():
+    if key == "E" or key == "e":
+        global gameState
+        gameState = 4
+        return(gameState)
+    elif key == "R" or key == "r":
+        global gameState
+        gameState = 0
+        return(gameState)    
 
 def setup():
     size(800, 600)
@@ -1515,6 +1695,8 @@ def setup():
     followerButtonBuild()
     handModeButtonBuild()
     turnsLeftButtonBuild()
+    restartButtonBuild()
+    continueButtonBuild()
 
 
 

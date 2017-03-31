@@ -1591,6 +1591,14 @@ def itemButtonLabels(phoneX, phoneY):
     textY += 81
     text("Food", textX, textY)
     
+def credits():
+    textX = width - 10
+    textY = height - 10
+    textAlign(RIGHT)
+    textSize(15)
+    text("Developer: Jeff Towers // Visual Designer: Alexandria Won // Concept Designer: Kate Mcleary", textX, textY)
+    
+    
             
 
 #ALL OF THE BUTTON THINGS ARE FINISHED        
@@ -1665,6 +1673,7 @@ def gameStateControl(stateValue):
         phoneX = width / 2
         phoneY = height / 2
         gameOverDraw(phoneX, phoneY)
+        credits()
         restartButtonDisplay()
         continueButtonDisplay()
 

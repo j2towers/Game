@@ -352,7 +352,7 @@ class player(object):
         self.lifeFollower = 0
         self.fashFollower = 0
         self.followerTotal = 0
-        self.turnsLeft = 20
+        self.turnsLeft = 10
         self.moneyTotal = 200
         playerList.append(self)
 
@@ -853,7 +853,7 @@ def buttonHittest():
                         p.lifeFollower = 0
                         p.fashFollower = 0
                         p.followerTotal = 0
-                        p.turnsLeft = 20
+                        p.turnsLeft = 10
                         p.moneyTotal = 200
                     for sponsor in sponsorList:
                         s = sponsor
@@ -863,6 +863,18 @@ def buttonHittest():
                         s.bonusAmount = randomNormal(10, s.bonusMax)
                         s.bonusFreq = randomNormal(1, 5)
                         s.turnsSinceBonus = 0
+                    for modeitem in modeList:
+                        m = modeitem
+                        m.handMode = False
+                        m.bedcafeMode = False
+                        m.locationOn = False
+                        m.outfitOn = False
+                        m.itemOn = False
+                        m.foodOn = False
+                    for item in itemList:
+                        i = item
+                        i.itemOn = False
+                        i.bought = False
             elif b.buttonType == "locationButton" and b.buttonOn:
                 for locationobject in locationList:
                     l = locationobject
@@ -979,10 +991,12 @@ def buttonHittest():
                                     i.itemOn = True
                                     cashUpdate(cash)
                             elif i.name != b.buttonLabel and i.itemType == "Item" and m.handMode == False:
-                                if i.itemOn:
+                                if i.itemOn and i.bought:
+                                    i.itemOn = False 
+                                elif i.itemOn:
                                     cash += i.cost
                                     i.itemOn = False
-                                    cashUpdate(cash) 
+                                    cashUpdate(cash)
                             elif i.name == b.buttonLabel and m.handMode:
                                 if i.bought:
                                     i.itemOn = True
@@ -991,7 +1005,9 @@ def buttonHittest():
                                     i.itemOn = True
                                     cashUpdate(cash)
                             elif i.name != b.buttonLabel and m.handMode:
-                                if i.itemOn:
+                                if i.itemOn and i.bought:
+                                    i.itemOn = False
+                                elif i.itemOn:
                                     cash += i.cost
                                     i.itemOn = False
                                     cashUpdate(cash)
@@ -1029,18 +1045,19 @@ def buttonHittest():
             elif b.buttonType == "handmodeButton" and b.buttonOn:
                 for modeitem in modeList:
                     m = modeitem
-                    if m.handMode:
-                        m.handMode = False
-                        m.outfitOn = False
-                        for item in itemList:
-                            i = item
-                            i.itemOn = False
-                    else:
-                        m.handMode = True
-                        m.outfitOn = True
-                        for item in itemList:
-                            i = item
-                            i.itemOn = False
+                    if m.locationOn:
+                        if m.handMode:
+                            m.handMode = False
+                            m.outfitOn = False
+                            for item in itemList:
+                                i = item
+                                i.itemOn = False
+                        else:
+                            m.handMode = True
+                            m.outfitOn = True
+                            for item in itemList:
+                                i = item
+                                i.itemOn = False
             elif b.buttonType == "snapButton" and b.buttonOn:
                 for modeitem in modeList:
                     m = modeitem
@@ -1662,7 +1679,11 @@ def keyPressed():
     elif key == "R" or key == "r":
         global gameState
         gameState = 0
-        return(gameState)    
+        return(gameState)
+    elif key == "C" or key == "c":
+        for playeritem in playerList:
+            p = playeritem
+            p.moneyTotal += 1000    
 
 def setup():
     size(800, 600)

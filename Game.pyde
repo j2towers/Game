@@ -395,7 +395,7 @@ def cashUpdate(cash):
 #SPONSOR STUFF
 
 class sponsor(object):  # sponsor class
-    moodThresholdMax = 500  # max mood for a sponsor to bring you on
+    moodThresholdMax = 300  # max mood for a sponsor to bring you on
     bonusMax = 500  # max sponsor bonus
     # object constructor
 
@@ -433,8 +433,7 @@ def sponsorBuild():
     println("sponsors built")
     sportscoGood = [
         "City Scape", "Nature", "Sneakers", "Shirts", "Workout", "Shades"]
-    sportscoBad = ["Art Gallery", "Wall", "Casual", "Heels",
-                   "Gadget", "Camera", "Stationary", "Manicure", "Bag", "Car"]
+    sportscoBad = ["Casual", "Heels", "Bagel", "Pastry", "Ice Cream", "Car"]
     coffeeGood = ["Cafe", "Coffee", "Bagel", "Pastry"]
     coffeeBad = ["Sandwich", "Ice Cream", "Tea"]
     tourismGood = ["Art Gallery", "Nature", "City Scape", "Camera"]

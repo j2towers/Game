@@ -1,0 +1,1 @@
+# This game is a school project for our client Mediasmarts, designed to encourage discussion about the nature of social media 'celebrity' accounts being constructed realities with the goal of engaging a specific audience or pleasing a sponsor. Concept Designer: Kate Mcleary // Visual Designer: Alexandria Won // Developer: Jeff Towers
